@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/29 15:52:41 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 00:20:36 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,14 +15,14 @@
 ##
 
 # name of the binary to make
-NAME =		nibbler-test
+NAME =		test_nibbler
 
 # file-names of the sources
-SRCS =      main.cpp			\
-			test_dummy.cpp
+SRCS =      test_main.cpp			\
+			test_parse_argv.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src:src/dummy
+VPATH =		src:src/argv_parser
 
 # where is the tested project?
 ROOT_DIR =	..
@@ -47,7 +47,7 @@ MIN =		$(MIN_DIR)/minunit.h
 MIN_LIB =
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
@@ -66,7 +66,7 @@ TEST_OBJS =	$(shell find $(ROOT_DIR)/obj -name \*.o 2>/dev/null | grep -v main) 
 
 # specify flags for commands used in the following rules
 RM =		rm -f
-RMDIR =		rmdir
+RMDIR =		rmdir -p
 MKDIR =		mkdir -p
 MAKE =		make
 MAKEFLAGS =	-j 4
@@ -106,11 +106,6 @@ else
   endif
 endif
 
-# store the previous CPPFLAGS used, so it can recompiles everything if needed
-FLAGS =			"CPPFLAGS = $(CPPFLAGS)"
-COOKIE_FLAGS =	$(O_DIR)/.previous-flag
-PREV_FLAGS =	"$(shell cat "$(COOKIE_FLAGS)" 2>/dev/null || echo 'CPPFLAGS = $(CPPFLAGS)')"
-
 # some colors for pretty printing
 WHITE =		\033[37;01m
 RED =		\033[31;01m
@@ -137,12 +132,6 @@ endif
 
 # classic build
 all: $(O_DIR)
-ifeq (,$(findstring fsanitize, $(PREV_FLAGS)))
-	$(ECHO) $(FLAGS) | grep -q fsanitize && $(MAKE) -C $(ROOT_DIR) mrproper || true
-else
-	$(ECHO) $(FLAGS) | grep -qv fsanitize && $(MAKE) -C $(ROOT_DIR) mrproper || true
-endif
-	$(ECHO) $(FLAGS) > $(COOKIE_FLAGS)
 	$(MAKE) -C $(ROOT_DIR) $(FLAGS)
 	$(MAKE) $(NAME) $(FLAGS)
 	./$(NAME)
@@ -175,7 +164,7 @@ fclean: clean
 # just clean everything this Makefile could have generated
 mrproper: fclean
 	$(RM) $(COOKIE_FLAGS)
-	$(RMDIR) $(O_DIR)
+	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
 	$(MAKE) -C $(ROOT_DIR) fclean
 
 
