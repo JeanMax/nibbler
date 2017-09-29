@@ -6,9 +6,13 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 20:36:16 by mc               ###   ########.fr       //
+//   Updated: 2017/09/29 21:18:46 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
+
+/*
+** helper functions used by parse_flag() in parse_argv.cpp
+*/
 
 #include "argv_parser.hpp"
 

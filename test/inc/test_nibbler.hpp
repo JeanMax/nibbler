@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 15:28:01 by mc                #+#    #+#             */
-/*   Updated: 2017/09/29 15:47:09 by mc               ###   ########.fr       */
+//   Updated: 2017/09/29 23:28:06 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define TEST_NIBBLER
 
 # include "minunit.h"
-
-# include "nibbler.hpp"
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -26,9 +24,9 @@
 
 
 /*
-** dummy
+** argv_parser
 */
-void test_dummy(void);
+void test_parse_argv(void);
 
 
 #endif // TEST_NIBBLER

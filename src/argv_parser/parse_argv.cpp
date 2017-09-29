@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 20:44:08 by mc               ###   ########.fr       //
+//   Updated: 2017/09/29 21:12:38 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -65,6 +65,12 @@ static bool parse_flag(const char *s)
     return false;
 }
 
+
+/**
+** parse command-line argument and fill the global struct 'g_parsed_args'
+** @param av  the argument to parse
+** @return    false if something went wrong
+*/
 bool        parse_argv(const char **av)
 {
     if (!*av) {

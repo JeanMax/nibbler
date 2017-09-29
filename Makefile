@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/29 19:12:56 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 00:21:07 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -101,11 +101,6 @@ else
   endif
 endif
 
-# store the previous CPPFLAGS used, so it can recompiles everything if needed
-FLAGS =			"CPPFLAGS = $(CPPFLAGS)"
-COOKIE_FLAGS =	$(O_DIR)/.previous-flag
-PREV_FLAGS =	"$(shell cat "$(COOKIE_FLAGS)" 2>/dev/null || echo 'CPPFLAGS = $(CPPFLAGS)')"
-
 # some colors for pretty printing
 WHITE =		\033[37;01m
 RED =		\033[31;01m
@@ -132,12 +127,6 @@ endif
 
 # classic build
 all: $(O_DIR)
-ifeq (,$(findstring fsanitize, $(PREV_FLAGS)))
-	$(ECHO) $(FLAGS) | grep -q fsanitize && $(MAKE) fclean || true
-else
-	$(ECHO) $(FLAGS) | grep -qv fsanitize && $(MAKE) fclean || true
-endif
-	$(ECHO) $(FLAGS) > $(COOKIE_FLAGS)
 #	$(MAKE) sdl
 #	$(MAKE) -C $(LFT_DIR) $(FLAGS)
 	$(MAKE) $(NAME) $(FLAGS)
