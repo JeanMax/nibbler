@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/29 15:52:57 by mc               ###   ########.fr        #
+#    Updated: 2017/09/29 19:12:56 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,10 +18,13 @@
 NAME =		nibbler
 
 # file-names of the sources
-SRCS =      main.cpp
+SRCS =      main.cpp			\
+								\
+			parse_argv.cpp		\
+			flag_parsers.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src
+VPATH =		src:src/argv_parser
 
 # where are your tests?
 TEST_DIR =	test
@@ -40,7 +43,7 @@ TEST_DIR =	test
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc		#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-Iinc/argv_parser	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		#$(SDL_LIB)		$(LFT_LIB)		-lm
@@ -58,7 +61,7 @@ DEPS =		$(OBJS:%.o=%.d)
 
 # specify flags for commands used in the following rules
 RM =		rm -f
-RMDIR =		rmdir
+RMDIR =		rmdir -p
 MKDIR =		mkdir -p
 MAKE =		make
 MAKEFLAGS =	-j 4
@@ -174,8 +177,8 @@ fclean: clean
 # just clean everything this Makefile could have generated
 mrproper: fclean
 	$(RM) $(COOKIE_FLAGS)
-	$(RMDIR) $(O_DIR)
-	$(MAKE) -C $(TEST_DIR) mrproper || true
+	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
+	$(MAKE) -C $(TEST_DIR) mrproper
 #	$(MAKE) -C $(SDL_DIR) distclean || true
 #	$(MAKE) -C $(LFT_DIR) fclean
 

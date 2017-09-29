@@ -6,11 +6,11 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 11:32:38 by mcanal            #+#    #+#             */
-//   Updated: 2017/09/29 15:48:38 by mc               ###   ########.fr       //
+//   Updated: 2017/09/29 19:15:01 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test_nibbler.h"
+#include "test_nibbler.hpp"
 
 static void all_suites(char *search)
 {

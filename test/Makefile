@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/29 15:52:41 by mc               ###   ########.fr        #
+#    Updated: 2017/09/29 19:15:54 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,10 +15,10 @@
 ##
 
 # name of the binary to make
-NAME =		nibbler-test
+NAME =		test_nibbler
 
 # file-names of the sources
-SRCS =      main.cpp			\
+SRCS =      test_main.cpp			\
 			test_dummy.cpp
 
 # folder-names of the sources (':' separated list)
@@ -66,7 +66,7 @@ TEST_OBJS =	$(shell find $(ROOT_DIR)/obj -name \*.o 2>/dev/null | grep -v main) 
 
 # specify flags for commands used in the following rules
 RM =		rm -f
-RMDIR =		rmdir
+RMDIR =		rmdir -p
 MKDIR =		mkdir -p
 MAKE =		make
 MAKEFLAGS =	-j 4
@@ -175,7 +175,7 @@ fclean: clean
 # just clean everything this Makefile could have generated
 mrproper: fclean
 	$(RM) $(COOKIE_FLAGS)
-	$(RMDIR) $(O_DIR)
+	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
 	$(MAKE) -C $(ROOT_DIR) fclean
 
 
