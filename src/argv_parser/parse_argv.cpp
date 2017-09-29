@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 19:09:01 by mc               ###   ########.fr       //
+//   Updated: 2017/09/29 20:44:08 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -20,11 +20,11 @@ t_args g_parsed_args = {
 };
 
 
-static int  usage_msg(bool verbose)
+static bool usage_msg(bool verbose)
 {
     if (!verbose) {
         ERROR("usage: " << g_parsed_args.bin_name << " [--help] [-w] [-h] [-l]");
-        return EXIT_FAILURE;
+        return false;
     }
 
     MSG(
@@ -39,7 +39,7 @@ static int  usage_msg(bool verbose)
         << "  -l, --library=STR    choose a graphical library (default: "
             << DEFAULT_LIB_NAME << " - available: " << AVAILABLE_LIB_NAMES << ")"
     );
-    return EXIT_SUCCESS;
+    return true;
 }
 
 static bool parse_flag(const char *s)
@@ -61,7 +61,8 @@ static bool parse_flag(const char *s)
         }
     }
 
-    return false; //TODO: specific error msg
+    ERROR("error: '" << s << "': invalid option");
+    return false;
 }
 
 bool        parse_argv(const char **av)

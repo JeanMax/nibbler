@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 19:06:58 by mc               ###   ########.fr       //
+//   Updated: 2017/09/29 20:36:16 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,23 +14,38 @@
 
 static bool only_digits(const char *s)
 {
-    while (*s) {
-        if (!isdigit(*s))
-            return false;
-        s++;
+    if (!*s) {
+        return true;
     }
-    return true;
+    if (!isdigit(*s)) {
+        return false;
+    }
+
+    return only_digits(s + 1);
 }
 
 bool        parse_width(const char *s)
 {
-    if (!only_digits(s)) {
-        return false; //TODO: specific error msg
+    if (!*s || !only_digits(s)) {
+        ERROR("error: '" << s << "': non numerical");
+        return false;
     }
 
     g_parsed_args.width = atoi(s);
-    if (g_parsed_args.width < MIN_WIDTH || g_parsed_args.width > MAX_WIDTH) {
-        return false; //TODO: specific error msg
+
+    if (g_parsed_args.width < MIN_WIDTH) {
+        ERROR(
+            "error: '" << g_parsed_args.width
+            << "': under width limit (" << MIN_WIDTH << ")"
+        );
+        return false;
+    }
+    if (g_parsed_args.width > MAX_WIDTH) {
+        ERROR(
+            "error: '" << g_parsed_args.width
+            << "': over width limit (" << MAX_WIDTH << ")"
+        );
+        return false;
     }
 
     return true;
@@ -38,13 +53,26 @@ bool        parse_width(const char *s)
 
 bool        parse_height(const char *s)
 {
-    if (!only_digits(s)) {
-        return false; //TODO: specific error msg
+    if (!*s || !only_digits(s)) {
+        ERROR("error: '" << s << "': non numerical");
+        return false;
     }
 
     g_parsed_args.height = atoi(s);
-    if (g_parsed_args.height < MIN_HEIGHT || g_parsed_args.height > MAX_HEIGHT) {
-        return false; //TODO: specific error msg
+
+    if (g_parsed_args.height < MIN_HEIGHT) {
+        ERROR(
+            "error: '" << g_parsed_args.height
+            << "': under height limit (" << MIN_HEIGHT << ")"
+        );
+        return false;
+    }
+    if (g_parsed_args.height > MAX_HEIGHT) {
+        ERROR(
+            "error: '" << g_parsed_args.height
+            << "': over height limit (" << MAX_HEIGHT << ")"
+        );
+        return false;
     }
 
     return true;
@@ -53,7 +81,9 @@ bool        parse_height(const char *s)
 bool        parse_library(const char *s)
 {
     const char *libs[] = {
-        LIB_NAME_A, LIB_NAME_B, LIB_NAME_C,
+        LIB_NAME_A,
+        LIB_NAME_B,
+        LIB_NAME_C,
     };
     int i;
 
@@ -64,5 +94,9 @@ bool        parse_library(const char *s)
         }
     }
 
-    return false; //TODO: specific error msg
+    ERROR(
+        "error: '" << s
+        << "': library not found (available: " << AVAILABLE_LIB_NAMES << ")"
+     );
+    return false;
 }
