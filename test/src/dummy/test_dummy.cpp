@@ -1,23 +1,19 @@
 // ************************************************************************** //
 //                                                                            //
 //                                                        :::      ::::::::   //
-//   main.cpp                                           :+:      :+:    :+:   //
+//   test_dummy.cpp                                     :+:      :+:    :+:   //
 //                                                    +:+ +:+         +:+     //
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
-//   Created: 2017/09/29 14:34:19 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 14:34:32 by mc               ###   ########.fr       //
+//   Created: 2017/09/29 15:31:46 by mc                #+#    #+#             //
+//   Updated: 2017/09/29 15:56:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
-/*
-** just a main... this is important to keep this file the lightest possible,
-** because it won't be linked in the test executable
-*/
+#include "test_nibbler.h"
 
-int		main(int ac, char **av)
+void test_dummy()
 {
-    (void)ac;
-    (void)av;
-    return 0;
+    MU_ASSERT(42 == 21 + 21, "This is basic maths for a computer, really...");
+    MU_ASSERT_FATAL(TRUE, "Damn! I was pretty sure of that one.");
 }

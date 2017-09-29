@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/29 15:52:57 by mc               ###   ########.fr        #
+#    Updated: 2017/09/29 15:52:41 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,35 +15,42 @@
 ##
 
 # name of the binary to make
-NAME =		nibbler
+NAME =		nibbler-test
 
 # file-names of the sources
-SRCS =      main.cpp
+SRCS =      main.cpp			\
+			test_dummy.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src
+VPATH =		src:src/dummy
 
-# where are your tests?
-TEST_DIR =	test
+# where is the tested project?
+ROOT_DIR =	..
 
 # # sdl
-# SDL_DIR =	SDL
+# SDL_DIR =	$(ROOT_DIR)/SDL
 # SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
 # SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
 # SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
 # SDL =		$(SDL_DIR)/build/libSDL2.la
 
 # # libft
-# LFT_DIR =	libft
+# LFT_DIR =	$(ROOT_DIR)/libft
 # LFT_I_DIR = -I$(LFT_DIR)/inc
 # LFT =		$(LFT_DIR)/libft.a
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
+# minunit "framework"
+MIN_DIR =	minunit
+MIN_I_DIR = -I$(MIN_DIR)
+MIN =		$(MIN_DIR)/minunit.h
+MIN_LIB =
+
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc		#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		#$(SDL_LIB)		$(LFT_LIB)		-lm
+LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
 
 
 
@@ -55,6 +62,7 @@ LIBS =		#$(SDL_LIB)		$(LFT_LIB)		-lm
 O_DIR =		obj
 OBJS =		$(SRCS:%.cpp=$(O_DIR)/%.o)
 DEPS =		$(OBJS:%.o=%.d)
+TEST_OBJS =	$(shell find $(ROOT_DIR)/obj -name \*.o 2>/dev/null | grep -v main) #TODO
 
 # specify flags for commands used in the following rules
 RM =		rm -f
@@ -66,7 +74,7 @@ CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
 LDFLAGS =	$(CPPFLAGS)
-LDLIBS =	$(LIBS)
+LDLIBS =	-Wl,--whole-archive $(LIBS) -Wl,--no-whole-archive
 
 # guess os and architecture
 ifeq ($(OS), Windows_NT)
@@ -125,19 +133,19 @@ endif
 ##
 
 # just to avoid conflicts between rules and files/folders names
-.PHONY: all debug sanitize me_cry re clean fclean mrproper test
+.PHONY: all debug sanitize me_cry re clean fclean mrproper
 
 # classic build
 all: $(O_DIR)
 ifeq (,$(findstring fsanitize, $(PREV_FLAGS)))
-	$(ECHO) $(FLAGS) | grep -q fsanitize && $(MAKE) fclean || true
+	$(ECHO) $(FLAGS) | grep -q fsanitize && $(MAKE) -C $(ROOT_DIR) mrproper || true
 else
-	$(ECHO) $(FLAGS) | grep -qv fsanitize && $(MAKE) fclean || true
+	$(ECHO) $(FLAGS) | grep -qv fsanitize && $(MAKE) -C $(ROOT_DIR) mrproper || true
 endif
 	$(ECHO) $(FLAGS) > $(COOKIE_FLAGS)
-#	$(MAKE) sdl
-#	$(MAKE) -C $(LFT_DIR) $(FLAGS)
+	$(MAKE) -C $(ROOT_DIR) $(FLAGS)
 	$(MAKE) $(NAME) $(FLAGS)
+	./$(NAME)
 
 # build for gdb/valgrind debugging
 debug: FLAGS = "CPPFLAGS = -g -ggdb"
@@ -155,13 +163,6 @@ me_cry: all
 re: FLAGS = $(PREV_FLAGS)
 re: fclean all
 
-# run tests on project
-test: all
-	$(MAKE) -C $(TEST_DIR) #TODO: handle flags
-
-# install sdl
-# sdl: $(SDL)
-
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJS)
@@ -175,9 +176,7 @@ fclean: clean
 mrproper: fclean
 	$(RM) $(COOKIE_FLAGS)
 	$(RMDIR) $(O_DIR)
-	$(MAKE) -C $(TEST_DIR) mrproper || true
-#	$(MAKE) -C $(SDL_DIR) distclean || true
-#	$(MAKE) -C $(LFT_DIR) fclean
+	$(MAKE) -C $(ROOT_DIR) fclean
 
 
 
@@ -190,8 +189,8 @@ mrproper: fclean
 
 # create binary (link)
 $(NAME): $(OBJS)
-	@$(ECHO) "$(BLUE)$(OBJS) $(LIBS) $(WHITE)->$(RED) $@ $(BASIC)"
-	$(CXX) $(LDFLAGS) $(I_DIR) $(OBJS) $(LDLIBS) -o $@
+	@$(ECHO) "$(BLUE)$(OBJS) $(TEST_OBJS) $(LIBS) $(WHITE)->$(RED) $@ $(BASIC)"
+	$(CXX) $(LDFLAGS) $(I_DIR) $(OBJS) $(TEST_OBJS) $(LDLIBS) -o $@
 	@$(ECHO) "$(WHITE)cppflags:$(BASIC) $(CPPFLAGS)"
 	@$(ECHO) "$(WHITE)ccflags:$(BASIC) $(CCFLAGS)"
 	@$(ECHO) "$(WHITE)compi:$(BASIC) $(CXX)"
@@ -204,10 +203,3 @@ $(O_DIR)/%.o: %.cpp
 # create directory for compilation sub-products
 $(O_DIR):
 	$(MKDIR) $(O_DIR)
-
-# # install sdl
-# $(SDL):
-# 	$(MKDIR) $(SDL_INSTALL_DIR)
-# 	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
-# 	$(MAKE) -C $(SDL_DIR)
-# 	$(MAKE) -C $(SDL_DIR) install
