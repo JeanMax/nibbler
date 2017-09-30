@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 14:14:10 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 15:08:13 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -22,7 +22,7 @@ SRCS =      test_main.cpp			\
 			test_parse_argv.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src:src/argv_parser
+VPATH =		src:src/argv_parser:src/map
 
 # where is the tested project?
 ROOT_DIR =	..
@@ -47,7 +47,7 @@ MIN =		$(MIN_DIR)/minunit.h
 MIN_LIB =
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	-I$(ROOT_DIR)/inc/map	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
