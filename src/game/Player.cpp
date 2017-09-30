@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 23:05:36 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 23:46:31 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,7 +16,7 @@
 ** constructor
 */
 Player::Player(const std::string &name) :
-    _name(name), _body({}), _score(0)
+    _name(name), _body({}), _score(0), _direction(NONE)
 {
     DEBUG("Player constructor");
 }
@@ -66,9 +66,50 @@ bool               Player::isAlive() const
     return !this->_body.empty();
 }
 
+enum direction     Player::getDirection() const
+{
+    return this->_direction;
+}
+
+enum direction     Player::setDirection(enum direction direction)
+{
+    this->_direction = direction;
+
+    return this->_direction;
+}
+
 void               Player::die()
 {
-    this->_body.clear(); //TODO: be sure it won't fuck up the Map
+    if (this->isAlive()) {
+        this->_body.clear(); //TODO: be sure it won't fuck up the Map
+    }
+}
+
+void               Player::eat(game_entity *entity)
+{
+    if (!this->isAlive()) {
+        return;
+    }
+
+    if (*entity == FRUIT) {
+        this->_score += FRUIT_SCORE;
+    } else if (*entity == BONUS) {
+        this->_score += BONUS_SCORE;
+    } else if (*entity != EMPTY) {
+        this->die();
+        return;
+    }
+
+    *entity = SNAKE;
+    this->_body.push_front(entity);
+}
+
+void               Player::poop()
+{
+    if (this->isAlive()) {
+        *this->_body.back() = EMPTY;
+        this->_body.pop_back();
+    }
 }
 
 
