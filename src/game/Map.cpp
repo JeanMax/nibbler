@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 22:22:22 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 22:30:52 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -63,6 +63,15 @@ Map const  &Map::operator=(Map const &copy)
 /*
 ** public
 */
+map_entity  Map::get(t_uint x, t_uint y) const
+{
+    if (x > this->_width || y > this->_height) {
+        return OUTER_WALL;
+    }
+
+    return this->_area[y][x];
+}
+
 map_entity **Map::getArea() const
 {
     return this->_area;
@@ -102,7 +111,6 @@ bool        Map::_allocArea()
         memset(this->_area[y], EMPTY, this->_width);
         this->_area[y][this->_width] = OUTER_WALL;
     }
-
 
     return true;
 }
