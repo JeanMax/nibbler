@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 00:21:07 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 00:44:45 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -165,7 +165,6 @@ fclean: clean
 
 # just clean everything this Makefile could have generated
 mrproper: fclean
-	$(RM) $(COOKIE_FLAGS)
 	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
 	$(MAKE) -C $(TEST_DIR) mrproper
 #	$(MAKE) -C $(SDL_DIR) distclean || true
