@@ -6,14 +6,14 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 22:29:05 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 22:49:34 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include "log.hpp"
+# include "game.hpp"
 # include <cstdlib>
 # include <cstring>
 
@@ -25,17 +25,6 @@
 # define MAX_HEIGHT     1000
 # define DEFAULT_HEIGHT 16
 
-enum map_entity : char {
-    OUTER_WALL = '\0',
-    INNER_WALL = 'w',
-    FRUIT = 'f',
-    BONUS = 'b',
-    SNAKE = 's',
-    EMPTY = ' ',
-};
-
-typedef unsigned int t_uint;
-
 class Map {
     public:
         Map(
@@ -46,18 +35,18 @@ class Map {
         ~Map(void);
         Map const &operator=(Map const &copy);
 
-        map_entity   get(t_uint x, t_uint y) const;
-        map_entity **getArea() const;
-        t_uint       getWidth() const;
-        t_uint       getHeight() const;
+        game_entity   get(t_uint x, t_uint y) const;
+        game_entity **getArea() const;
+        t_uint        getWidth() const;
+        t_uint        getHeight() const;
         //TODO: next_frame()
 
     private:
         bool        _allocArea();
 
-        map_entity  **_area;
-        const t_uint _width;
-        const t_uint _height;
+        game_entity **_area;
+        const t_uint  _width;
+        const t_uint  _height;
         //TODO: players
 };
 

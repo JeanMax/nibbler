@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 20:17:28 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 22:37:11 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,7 +23,8 @@ SRCS =      main.cpp			\
 			parse_argv.cpp		\
 			flag_parsers.cpp	\
 								\
-			Map.cpp
+			Map.cpp				\
+			Player.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src:src/argv_parser:src/game
