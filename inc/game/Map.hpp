@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 20:54:44 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 22:15:34 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -24,6 +24,8 @@
 # define MIN_HEIGHT     9
 # define MAX_HEIGHT     1000
 # define DEFAULT_HEIGHT 16
+
+# define FIRST_ROW
 
 enum map_entity : char {
     OUTER_WALL = '\0',
@@ -46,13 +48,15 @@ class Map {
         ~Map(void);
         Map const &operator=(Map const &copy);
 
-        map_entity *getArea() const;
-        t_uint         getWidth() const;
-        t_uint         getHeight() const;
+        map_entity **getArea() const;
+        t_uint       getWidth() const;
+        t_uint       getHeight() const;
         //TODO: next_frame()
 
     private:
-        map_entity  *_area;
+        bool        _allocArea();
+
+        map_entity  **_area;
         const t_uint _width;
         const t_uint _height;
         //TODO: players
