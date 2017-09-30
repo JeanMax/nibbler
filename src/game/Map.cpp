@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 22:30:52 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 22:50:19 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -53,7 +53,7 @@ Map::~Map(void)
 /*
 ** operator overload
 */
-Map const  &Map::operator=(Map const &copy)
+Map const      &Map::operator=(Map const &copy)
 {
     (void)copy;
     return *this;
@@ -63,7 +63,7 @@ Map const  &Map::operator=(Map const &copy)
 /*
 ** public
 */
-map_entity  Map::get(t_uint x, t_uint y) const
+game_entity     Map::get(t_uint x, t_uint y) const
 {
     if (x > this->_width || y > this->_height) {
         return OUTER_WALL;
@@ -72,17 +72,17 @@ map_entity  Map::get(t_uint x, t_uint y) const
     return this->_area[y][x];
 }
 
-map_entity **Map::getArea() const
+game_entity   **Map::getArea() const
 {
     return this->_area;
 }
 
-t_uint      Map::getWidth() const
+t_uint          Map::getWidth() const
 {
     return this->_width;
 }
 
-t_uint      Map::getHeight() const
+t_uint          Map::getHeight() const
 {
     return this->_height;
 }
@@ -91,10 +91,10 @@ t_uint      Map::getHeight() const
 /*
 ** private
 */
-bool        Map::_allocArea()
+bool            Map::_allocArea()
 {
-    this->_area = static_cast<map_entity **>(
-        malloc(sizeof(map_entity *) * (this->_height + 1))
+    this->_area = static_cast<game_entity **>(
+        malloc(sizeof(game_entity *) * (this->_height + 1))
     );
     if (!this->_area) {
         return false;
@@ -102,8 +102,8 @@ bool        Map::_allocArea()
     this->_area[this->_height] = NULL;
 
     for (t_uint y = 0; y < this->_height; y++) {
-        this->_area[y] = static_cast<map_entity *>(
-            malloc(sizeof(map_entity) * (this->_width + 1))
+        this->_area[y] = static_cast<game_entity *>(
+            malloc(sizeof(game_entity) * (this->_width + 1))
         );
         if (!this->_area) {
             return false;
