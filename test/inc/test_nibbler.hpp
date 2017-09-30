@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 15:28:01 by mc                #+#    #+#             */
-//   Updated: 2017/09/30 21:00:46 by mc               ###   ########.fr       //
+//   Updated: 2017/10/01 00:16:23 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void test_parse_argv(void);
 ** game
 */
 void test_map(void);
+void test_player(void);
 
 
 #endif // TEST_NIBBLER
