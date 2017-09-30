@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 00:21:07 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 20:17:28 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,10 +21,12 @@ NAME =		nibbler
 SRCS =      main.cpp			\
 								\
 			parse_argv.cpp		\
-			flag_parsers.cpp
+			flag_parsers.cpp	\
+								\
+			Map.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src:src/argv_parser
+VPATH =		src:src/argv_parser:src/game
 
 # where are your tests?
 TEST_DIR =	test
@@ -43,7 +45,7 @@ TEST_DIR =	test
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-Iinc/argv_parser	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		#$(SDL_LIB)		$(LFT_LIB)		-lm
@@ -164,9 +166,8 @@ fclean: clean
 	$(RM) $(NAME)
 
 # just clean everything this Makefile could have generated
-mrproper: fclean
-	$(RM) $(COOKIE_FLAGS)
-	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
+mrproper: fclean $(O_DIR)
+	$(RMDIR) $(O_DIR)
 	$(MAKE) -C $(TEST_DIR) mrproper
 #	$(MAKE) -C $(SDL_DIR) distclean || true
 #	$(MAKE) -C $(LFT_DIR) fclean

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:37:01 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 19:18:19 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 20:53:44 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,7 +14,9 @@
 # define NIBBLER_HPP
 
 # include "log.hpp"
+# include "Map.hpp"
 # include <iostream>
+# include <cstring>
 
 # ifndef EXIT_SUCCESS
 #  define EXIT_SUCCESS 0

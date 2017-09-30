@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 00:20:36 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 20:58:28 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,10 +19,11 @@ NAME =		test_nibbler
 
 # file-names of the sources
 SRCS =      test_main.cpp			\
-			test_parse_argv.cpp
+			test_parse_argv.cpp		\
+			test_map.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src:src/argv_parser
+VPATH =		src:src/argv_parser:src/game
 
 # where is the tested project?
 ROOT_DIR =	..
@@ -47,7 +48,7 @@ MIN =		$(MIN_DIR)/minunit.h
 MIN_LIB =
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	-I$(ROOT_DIR)/inc/game	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
@@ -162,9 +163,8 @@ fclean: clean
 	$(RM) $(NAME)
 
 # just clean everything this Makefile could have generated
-mrproper: fclean
-	$(RM) $(COOKIE_FLAGS)
-	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
+mrproper: fclean $(O_DIR)
+	$(RMDIR) $(O_DIR)
 	$(MAKE) -C $(ROOT_DIR) fclean
 
 
