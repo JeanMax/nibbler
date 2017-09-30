@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:27:44 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 15:17:39 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 20:43:33 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,7 +15,6 @@
 
 # include "nibbler.hpp"
 # include "Map.hpp" // for map limits
-# include <string.h>
 
 # define LIB_NAME_A "sdl"
 # define LIB_NAME_B "sdl" //TODO

@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 15:25:57 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 20:47:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,15 +15,34 @@
 /*
 ** constructor
 */
-Map::Map(const int width, const int height) :  _width(width), _height(height)
+Map::Map(const int width, const int height) :
+    _area(NULL), _width(width), _height(height)
 {
     DEBUG("Map constructor");
+
+    this->_area = static_cast<map_entity *>(
+        malloc(sizeof(map_entity) * width * height)
+    );
+    if (!this->_area) {
+        ERROR("error: malloc bjorked"); //TODO
+    }
 }
 
-Map::Map(Map const &copy) :  _width(copy.getWidth()), _height(copy.getHeight())
+Map::Map(Map const &copy) :
+    _area(NULL), _width(copy.getWidth()), _height(copy.getHeight())
 {
-    *this = copy;
     DEBUG("Map copy");
+
+    if (copy.getArea()) {
+        int len = sizeof(map_entity) * this->_width * this->_height;
+
+        this->_area = static_cast<map_entity *>(malloc(len));
+        if (this->_area) {
+            memcpy(this->_area, copy.getArea(), len); //TODO: test
+        } else {
+            ERROR("error: malloc bjorked"); //TODO
+        }
+    }
 }
 
 
@@ -33,6 +52,10 @@ Map::Map(Map const &copy) :  _width(copy.getWidth()), _height(copy.getHeight())
 Map::~Map(void)
 {
     DEBUG("Map destructor");
+
+    if (this->_area) {
+        free(this->_area);
+    }
 }
 
 
@@ -47,13 +70,9 @@ Map const &Map::operator=(Map const &copy)
 
 
 /*
-** private
-*/
-
-/*
 ** public
 */
-char *Map::getArea() const
+map_entity *Map::getArea() const
 {
     return this->_area;
 }
@@ -67,3 +86,8 @@ int   Map::getHeight() const
 {
     return this->_height;
 }
+
+
+/*
+** private
+*/
