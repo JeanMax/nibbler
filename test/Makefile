@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 00:44:59 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 14:14:10 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -162,8 +162,8 @@ fclean: clean
 	$(RM) $(NAME)
 
 # just clean everything this Makefile could have generated
-mrproper: fclean
-	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
+mrproper: fclean $(O_DIR)
+	$(RMDIR) $(O_DIR)
 	$(MAKE) -C $(ROOT_DIR) fclean
 
 
