@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 20:43:51 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 20:54:44 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -34,22 +34,27 @@ enum map_entity : char {
     EMPTY = ' ',
 };
 
+typedef unsigned int t_uint;
+
 class Map {
     public:
-        Map(const int width = DEFAULT_WIDTH, const int height = DEFAULT_HEIGHT);
+        Map(
+            const t_uint width = DEFAULT_WIDTH,
+            const t_uint height = DEFAULT_HEIGHT
+        );
         Map(Map const &copy);
         ~Map(void);
         Map const &operator=(Map const &copy);
 
         map_entity *getArea() const;
-        int         getWidth() const;
-        int         getHeight() const;
+        t_uint         getWidth() const;
+        t_uint         getHeight() const;
         //TODO: next_frame()
 
     private:
-        map_entity *_area;
-        const int   _width;
-        const int   _height;
+        map_entity  *_area;
+        const t_uint _width;
+        const t_uint _height;
         //TODO: players
 };
 
