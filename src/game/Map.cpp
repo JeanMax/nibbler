@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 22:50:19 by mc               ###   ########.fr       //
+//   Updated: 2017/10/01 01:20:36 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,19 +16,23 @@
 ** constructor
 */
 Map::Map(const t_uint width, const t_uint height) :
-    _area(NULL), _width(width), _height(height)
+    _area(NULL),
+    _width(width),
+    _height(height)
 {
     DEBUG("Map constructor");
 
     if (!this->_allocArea()) {
-        ERROR("error: malloc bjorked");
+        ERROR("error: map malloc bjorked");
         delete this;
         return;
     }
 }
 
 Map::Map(Map const &copy) :
-    _area(NULL), _width(copy.getWidth()), _height(copy.getHeight())
+    _area(NULL),
+    _width(copy.getWidth()),
+    _height(copy.getHeight())
 {
     DEBUG("Map copy");
 

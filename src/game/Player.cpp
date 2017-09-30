@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 23:46:31 by mc               ###   ########.fr       //
+//   Updated: 2017/10/01 01:58:25 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,8 +15,12 @@
 /*
 ** constructor
 */
-Player::Player(const std::string &name) :
-    _name(name), _body({}), _score(0), _direction(NONE)
+Player::Player(const std::string &name, enum player player) :
+    _name(name),
+    _body({}),
+    _score(0),
+    _direction(NONE),
+    _player(player)
 {
     DEBUG("Player constructor");
 }
@@ -100,7 +104,7 @@ void               Player::eat(game_entity *entity)
         return;
     }
 
-    *entity = SNAKE;
+    *entity = static_cast<enum game_entity>(SNAKE_A + this->_player);
     this->_body.push_front(entity);
 }
 

@@ -6,14 +6,14 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 22:49:34 by mc               ###   ########.fr       //
+//   Updated: 2017/10/01 00:38:01 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include "game.hpp"
+# include "game_util.hpp"
 # include <cstdlib>
 # include <cstring>
 
@@ -39,7 +39,6 @@ class Map {
         game_entity **getArea() const;
         t_uint        getWidth() const;
         t_uint        getHeight() const;
-        //TODO: next_frame()
 
     private:
         bool        _allocArea();
@@ -47,7 +46,6 @@ class Map {
         game_entity **_area;
         const t_uint  _width;
         const t_uint  _height;
-        //TODO: players
 };
 
 #endif // MAP_HPP
