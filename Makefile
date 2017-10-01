@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/01 16:51:54 by mcanal           ###   ########.fr        #
+#    Updated: 2017/10/01 22:40:57 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -36,10 +36,19 @@ TEST_DIR =	test
 SDL_DIR =	SDL2-2.0.6
 SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
 SDL_ARCHIVE = SDL2-2.0.6.tar.gz
-SDL_URL =	'https://www.libsdl.org/release/'$(SDL_ARCHIVE)
+SDL_URL =	https://www.libsdl.org/release/$(SDL_ARCHIVE)
 SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
 SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
-SDL =		$(SDL_DIR)/build/libSDL2.la
+SDL =		$(SDL_INSTALL_DIR)/lib/libSDL2.la
+
+# sfml
+SFML_DIR =	SFML-2.4.2
+SFML_INSTALL_DIR = $(PWD)/$(SFML_DIR)/install
+SFML_ARCHIVE = SFML-2.4.2-sources.zip
+SFML_URL =	 https://www.sfml-dev.org/files/$(SFML_ARCHIVE)
+SFML_I_DIR = -I$(SFML_DIR)/include/SMFL
+SFML_LIB =	-L$(SFML_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
+SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
 
 # # libft
 # LFT_DIR =	libft
@@ -48,10 +57,10 @@ SDL =		$(SDL_DIR)/build/libSDL2.la
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	$(SDL_I_DIR)	#$(LFT_I_DIR)
+I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	$(SDL_I_DIR)	$(SFML_I_DIR)	#$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		$(SDL_LIB)		#$(LFT_LIB)		-lm
+LIBS =		$(SDL_LIB)		$(SFML_LIB)		#$(LFT_LIB)		-lm
 
 
 
@@ -68,8 +77,9 @@ DEPS =		$(OBJS:%.o=%.d)
 RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
-WGET =		curl -O
+CURL =		curl -LO
 UNTAR =		tar -xvf
+UNZIP =		unzip
 MAKE =		make
 MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
@@ -130,12 +140,13 @@ endif
 ##
 
 # just to avoid conflicts between rules and files/folders names
-.PHONY: all debug sanitize me_cry re clean fclean mrproper test
+.PHONY: all debug sanitize me_cry re clean fclean mrproper test sdl sfml
 
 # classic build
 all: $(O_DIR)
 #	$(MAKE) -C $(LFT_DIR) $(FLAGS)
 	$(MAKE) sdl
+	$(MAKE) sfml
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
@@ -161,20 +172,27 @@ test: all
 # install sdl
 sdl: $(SDL)
 
+# install sfml
+sfml: $(SFML)
+
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(DEPS)
-	test -e $(SDL_ARCHIVE) && $(RM) $(SDL_ARCHIVE) || true
+	$(RM) $(SDL_ARCHIVE)
+	$(RM) $(SFML_ARCHIVE)
 
 # remove the generated binary, and all .o and .d
 fclean: clean
 	$(RM) $(NAME)
+#	test -e $(SDL_DIR) && $(MAKE) -C $(SDL_DIR) distclean || true
+#	test -e $(SFML_DIR) && $(MAKE) -C $(SFML_DIR) clean || true
 
 # just clean everything this Makefile could have generated
 mrproper: fclean
-	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
-	test -e $(SDL_DIR) && $(MAKE) -C $(SDL_DIR) distclean || true
+	test -d $(O_DIR) && $(RMDIR) $(O_DIR) || true
+	$(RM) -r $(SDL_DIR)
+	$(RM) -r $(SFML_DIR)
 	$(MAKE) -C $(TEST_DIR) mrproper
 #	$(MAKE) -C $(LFT_DIR) fclean
 
@@ -205,15 +223,18 @@ $(O_DIR):
 	$(MKDIR) $(O_DIR)
 
 # install sdl
-$(SDL): $(SDL_DIR)
+$(SDL):
+	test -d $(SDL_DIR) || $(CURL) $(SDL_URL)
+	test -d $(SDL_DIR) || $(UNTAR) $(SDL_ARCHIVE)
 	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
 	$(MAKE) -C $(SDL_DIR)
 	$(MAKE) -C $(SDL_DIR) install
 
-# extract sdl
-$(SDL_DIR): $(SDL_ARCHIVE)
-	$(UNTAR) $(SDL_ARCHIVE)
-
-# download sdl
-$(SDL_ARCHIVE):
-	$(WGET) $(SDL_URL)
+# install sfml
+$(SFML):
+	test -d $(SFML_DIR) || $(CURL) $(SFML_URL)
+	test -d $(SFML_DIR) || $(UNZIP) $(SFML_ARCHIVE)
+	$(MKDIR) $(SFML_INSTALL_DIR)
+	cd $(SFML_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(SFML_INSTALL_DIR) .
+	$(MAKE) -C $(SFML_DIR)
+	$(MAKE) -C $(SFML_DIR) install
