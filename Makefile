@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 22:37:11 by mc               ###   ########.fr        #
+#    Updated: 2017/10/01 16:51:54 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -32,12 +32,14 @@ VPATH =		src:src/argv_parser:src/game
 # where are your tests?
 TEST_DIR =	test
 
-# # sdl
-# SDL_DIR =	SDL
-# SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
-# SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
-# SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
-# SDL =		$(SDL_DIR)/build/libSDL2.la
+# sdl
+SDL_DIR =	SDL2-2.0.6
+SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
+SDL_ARCHIVE = SDL2-2.0.6.tar.gz
+SDL_URL =	'https://www.libsdl.org/release/'$(SDL_ARCHIVE)
+SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
+SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
+SDL =		$(SDL_DIR)/build/libSDL2.la
 
 # # libft
 # LFT_DIR =	libft
@@ -46,10 +48,10 @@ TEST_DIR =	test
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	$(SDL_I_DIR)	#$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		#$(SDL_LIB)		$(LFT_LIB)		-lm
+LIBS =		$(SDL_LIB)		#$(LFT_LIB)		-lm
 
 
 
@@ -66,8 +68,10 @@ DEPS =		$(OBJS:%.o=%.d)
 RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
+WGET =		curl -O
+UNTAR =		tar -xvf
 MAKE =		make
-MAKEFLAGS =	-j 4
+MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
@@ -130,8 +134,8 @@ endif
 
 # classic build
 all: $(O_DIR)
-#	$(MAKE) sdl
 #	$(MAKE) -C $(LFT_DIR) $(FLAGS)
+	$(MAKE) sdl
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
@@ -155,22 +159,23 @@ test: all
 	$(MAKE) -C $(TEST_DIR) #TODO: handle flags
 
 # install sdl
-# sdl: $(SDL)
+sdl: $(SDL)
 
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(DEPS)
+	test -e $(SDL_ARCHIVE) && $(RM) $(SDL_ARCHIVE) || true
 
 # remove the generated binary, and all .o and .d
 fclean: clean
 	$(RM) $(NAME)
 
 # just clean everything this Makefile could have generated
-mrproper: fclean $(O_DIR)
-	$(RMDIR) $(O_DIR)
+mrproper: fclean
+	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
+	test -e $(SDL_DIR) && $(MAKE) -C $(SDL_DIR) distclean || true
 	$(MAKE) -C $(TEST_DIR) mrproper
-#	$(MAKE) -C $(SDL_DIR) distclean || true
 #	$(MAKE) -C $(LFT_DIR) fclean
 
 
@@ -199,9 +204,16 @@ $(O_DIR)/%.o: %.cpp
 $(O_DIR):
 	$(MKDIR) $(O_DIR)
 
-# # install sdl
-# $(SDL):
-# 	$(MKDIR) $(SDL_INSTALL_DIR)
-# 	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
-# 	$(MAKE) -C $(SDL_DIR)
-# 	$(MAKE) -C $(SDL_DIR) install
+# install sdl
+$(SDL): $(SDL_DIR)
+	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
+	$(MAKE) -C $(SDL_DIR)
+	$(MAKE) -C $(SDL_DIR) install
+
+# extract sdl
+$(SDL_DIR): $(SDL_ARCHIVE)
+	$(UNTAR) $(SDL_ARCHIVE)
+
+# download sdl
+$(SDL_ARCHIVE):
+	$(WGET) $(SDL_URL)
