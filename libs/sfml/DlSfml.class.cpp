@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:03:03 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 20:03:24 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/01 21:14:35 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,23 @@ e_key		DlSfml::keyEvent(void) const
 
 	std::cout << "DlSfml keyEvent" << std::endl;//_DEBUG_//
 	return e;
+}
+
+void			close(IDl *dl)
+{
+	std::cout << "I close DlSfml" << std::endl;//_DEBUG_//
+	delete (dl);
+}
+
+IDl				*init(void)
+{
+	IDl			*dl;
+
+	dl = dynamic_cast<IDl*>(new DlSfml());
+	if (!dl)
+	{
+		std::cout << "Error : dl" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	return (dl);
 }

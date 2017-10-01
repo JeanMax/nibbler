@@ -1,3 +1,4 @@
 nibbler
 obj
 .*.sw*
+*.so

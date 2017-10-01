@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:32:57 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 19:50:14 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/01 21:22:10 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ class		IDl
 	virtual e_key	keyEvent(void) const = 0;
 };
 
-extern "C" IDl			*init(e_type e);
+//those functions must be implemented for each library
+extern "C" IDl			*init(void);
 extern "C" void			close(IDl *dl);
 
 #endif

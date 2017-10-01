@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:58:17 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 19:58:57 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/01 21:22:09 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,23 @@ e_key		DlSdl::keyEvent(void) const
 
 	std::cout << "DlSdl keyEvent" << std::endl;//_DEBUG_//
 	return e;
+}
+
+void			close(IDl *dl)
+{
+	std::cout << "I close DlSdl" << std::endl;//_DEBUG_//
+	delete (dl);
+}
+
+IDl				*init(void)
+{
+	IDl			*dl;
+
+	dl = dynamic_cast<IDl*>(new DlSdl());
+	if (!dl)
+	{
+		std::cout << "Error : dl" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	return (dl);
 }
