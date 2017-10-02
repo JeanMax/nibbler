@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:59 by mc                #+#    #+#             //
-//   Updated: 2017/10/01 01:55:00 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 14:50:26 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,15 +28,14 @@ class Game {
         ~Game(void);
         Game const &operator=(Game const &copy);
 
-        bool       nextFrame();
-        void       sleepFrame();
+        void       nextFrame();
+        void       sleepFrame() const;
         void       handleEvent(enum direction direction, enum player player);
+        bool       isOver() const;
 
         const Map     &getMap() const;
         const Player  &getPlayer(enum player player) const;
-        Player       **getPlayers() const;
         t_uint         getNumberOfPlayers() const;
-        bool           isOver() const;
 
 
     private:

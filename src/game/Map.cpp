@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/01 01:20:36 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 15:01:08 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -27,6 +27,8 @@ Map::Map(const t_uint width, const t_uint height) :
         delete this;
         return;
     }
+
+    //TODO: add fruits and bonus
 }
 
 Map::Map(Map const &copy) :

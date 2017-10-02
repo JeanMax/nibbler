@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/01 01:55:16 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 15:17:54 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,6 +25,7 @@ Game::Game(const t_uint width, const t_uint height, const char **players_names) 
         delete this;
         return;
     }
+    //TODO: init players position
 }
 
 Game::Game(Game const &copy)
@@ -57,20 +58,25 @@ Game const      &Game::operator=(Game const &copy)
 /*
 ** public
 */
-bool       Game::nextFrame()
+void       Game::nextFrame()
 {
-    //TODO
-    return true;
+    for (t_uint i = 0; i < this->_number_of_players; i++) {
+        this->_players[this->_number_of_players]->moveForward();
+    }
 }
 
-void       Game::sleepFrame()
+void       Game::sleepFrame() const
 {
     //TODO
 }
 
 void       Game::handleEvent(enum direction direction, enum player player)
 {
-    this->_players[player]->setDirection(direction);
+    (void)direction;
+    (void)player;
+    // this->_players[player]->setDirection(direction);
+    //TODO: turn instead of direction
+    //TODO: take a key enum as parameter instead
 }
 
 const Map       &Game::getMap() const
@@ -85,11 +91,6 @@ const Player    &Game::getPlayer(enum player player) const
     }
 
     return *this->_players[player];
-}
-
-Player         **Game::getPlayers() const
-{
-    return this->_players;
 }
 
 t_uint           Game::getNumberOfPlayers() const
@@ -134,7 +135,8 @@ bool            Game::_allocPlayers(const char **players_names)
     while (*names_swap) {
         *players_swap = new Player(
             *names_swap,
-            static_cast<enum player>(names_swap - players_names)
+            static_cast<enum player>(names_swap - players_names),
+            &this->_map
         );
 
         players_swap++;

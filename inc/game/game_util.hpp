@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:46:24 by mc                #+#    #+#             //
-//   Updated: 2017/10/01 01:15:43 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 00:11:55 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,6 +14,8 @@
 # define GAME_UTIL_HPP
 
 # include "log.hpp"
+
+# define ABS(x) ((x) > 0 ? (x) : (-x))
 
 typedef unsigned int t_uint;
 
@@ -31,9 +33,9 @@ enum game_entity : char {
 
 enum direction {
     UP,
+    RIGHT,
     DOWN,
     LEFT,
-    RIGHT,
     NONE,
 };
 

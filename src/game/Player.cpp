@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/01 01:58:25 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 15:16:54 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,12 +15,15 @@
 /*
 ** constructor
 */
-Player::Player(const std::string &name, enum player player) :
+Player::Player(const std::string &name, enum player player, const Map *map) :
     _name(name),
     _body({}),
     _score(0),
     _direction(NONE),
-    _player(player)
+    _player(player),
+    _x(UINT_MAX),
+    _y(UINT_MAX),
+    _map(map)
 {
     DEBUG("Player constructor");
 }
@@ -75,21 +78,60 @@ enum direction     Player::getDirection() const
     return this->_direction;
 }
 
-enum direction     Player::setDirection(enum direction direction)
+void               Player::turn(enum direction direction)
 {
-    this->_direction = direction;
-
-    return this->_direction;
-}
-
-void               Player::die()
-{
-    if (this->isAlive()) {
-        this->_body.clear(); //TODO: be sure it won't fuck up the Map
+    if (direction == RIGHT) {
+        this->_direction = static_cast<enum direction>(
+            (this->_direction + 1) % NONE
+        );
+    } else if (direction == LEFT) {
+        this->_direction = static_cast<enum direction>(
+            ABS(this->_direction - 1) % NONE
+        );
     }
 }
 
-void               Player::eat(game_entity *entity)
+void               Player::moveForward()
+{
+    if (!this->isAlive()) {
+        return;
+    }
+
+    this->_move(this->_direction);
+    this->_eat(*(this->_map->getArea() + this->_y) + this->_x);
+    this->_poop();
+}
+
+
+
+/*
+** private
+*/
+void               Player::_move(enum direction direction)
+{
+    if (!this->isAlive()) {
+        return;
+    }
+
+    if (direction == UP) {
+        this->_y++;
+    } else if (direction == DOWN) {
+        this->_y--;
+    } else if (direction == RIGHT) {
+        this->_x++;
+    } else if (direction == LEFT) {
+        this->_x--;
+    }
+
+    if (this->_map->get(this->_x, this->_y) == OUTER_WALL) {
+        this->_die();
+        return;
+    }
+
+    //TODO: loop when outside of map
+}
+
+void               Player::_eat(game_entity *entity)
 {
     if (!this->isAlive()) {
         return;
@@ -100,7 +142,7 @@ void               Player::eat(game_entity *entity)
     } else if (*entity == BONUS) {
         this->_score += BONUS_SCORE;
     } else if (*entity != EMPTY) {
-        this->die();
+        this->_die();
         return;
     }
 
@@ -108,15 +150,21 @@ void               Player::eat(game_entity *entity)
     this->_body.push_front(entity);
 }
 
-void               Player::poop()
+void               Player::_poop()
 {
-    if (this->isAlive()) {
-        *this->_body.back() = EMPTY;
-        this->_body.pop_back();
+    if (!this->isAlive()) {
+        return;
     }
+
+    *this->_body.back() = EMPTY;
+    this->_body.pop_back();
 }
 
+void               Player::_die()
+{
+    if (!this->isAlive()) {
+        return;
+    }
 
-/*
-** private
-*/
+    this->_body.clear(); //TODO: be sure it won't fuck up the Map
+}
