@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:34:19 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 21:15:06 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 00:25:07 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,7 +28,7 @@ int             main(int unused, const char **av)
 
     // launch_lib(g_parsed_args.lib); //TODO
 
-    if (!launch_game(g_parsed_args.width, g_parsed_args.height)) { //TODO: players names
+    if (!launch_game(g_parsed_args.width, g_parsed_args.height, g_parsed_args.players_names)) { //TODO: players names
         return EXIT_FAILURE;
     }
 
