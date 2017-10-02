@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:17:54 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 15:34:48 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -70,13 +70,15 @@ void       Game::sleepFrame() const
     //TODO
 }
 
-void       Game::handleEvent(enum direction direction, enum player player)
+void       Game::handleEvent(enum key key)
 {
-    (void)direction;
-    (void)player;
-    // this->_players[player]->setDirection(direction);
-    //TODO: turn instead of direction
-    //TODO: take a key enum as parameter instead
+    enum player player = static_cast<enum player>(key / MAX_PLAYERS);
+
+    if (player > this->_number_of_players - 1) {
+        return;
+    }
+
+    this->_players[player]->turn(key % 2 ? RIGHT : LEFT);
 }
 
 const Map       &Game::getMap() const

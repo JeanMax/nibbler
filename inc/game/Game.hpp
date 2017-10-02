@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:59 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 14:50:26 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 15:24:12 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -30,7 +30,7 @@ class Game {
 
         void       nextFrame();
         void       sleepFrame() const;
-        void       handleEvent(enum direction direction, enum player player);
+        void       handleEvent(enum key key);
         bool       isOver() const;
 
         const Map     &getMap() const;
