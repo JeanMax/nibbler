@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/02 21:49:42 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 22:58:47 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -39,8 +39,8 @@ SDL_DIR =	SDL2-2.0.6
 SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
 SDL_ARCHIVE = SDL2-2.0.6.tar.gz
 SDL_URL =	https://www.libsdl.org/release/$(SDL_ARCHIVE)
-SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
-SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
+SDL_I_DIR =	$(shell ./$(SDL_DIR)/sdl2-config --cflags)
+SDL_LIB =	$(shell ./$(SDL_DIR)/sdl2-config --libs)
 SDL =		$(SDL_INSTALL_DIR)/lib/libSDL2.la
 
 # sfml
@@ -48,8 +48,8 @@ SFML_DIR =	SFML-2.4.2
 SFML_INSTALL_DIR = $(PWD)/$(SFML_DIR)/install
 SFML_ARCHIVE = SFML-2.4.2-sources.zip
 SFML_URL =	 https://www.sfml-dev.org/files/$(SFML_ARCHIVE)
-SFML_I_DIR = -I$(SFML_DIR)/include/SMFL
-SFML_LIB =	-L$(SFML_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
+SFML_I_DIR = -I$(SFML_INSTALL_DIR)/include/SFML
+SFML_LIB =	-rpath $(SFML_INSTALL_DIR)/lib -L$(SFML_INSTALL_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
 SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
 
 # # libft
