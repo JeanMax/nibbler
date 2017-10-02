@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:58:17 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 19:19:43 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/02 19:50:56 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ e_key		DlSdl::keyEvent(void) const
 	e_key	e;
 
 	SDL_PollEvent(this->event);
-	// Ca c'est temporaire
+	// Temp 
 	if (this->event->window.event == SDL_WINDOWEVENT_CLOSE)//_DEBUG_//
 		exit(EXIT_SUCCESS);//_DEBUG_//
 	std::cout << "DlSdl keyEvent" << std::endl;//_DEBUG_//
