@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:21:28 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:49:57 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -151,7 +151,8 @@ bool               Player::_eat(game_entity *entity)
         return false;
     }
 
-    *entity = static_cast<enum game_entity>(SNAKE_A + this->_player);
+    *this->_body.front() = static_cast<enum game_entity>(SNAKE_A + this->_player);
+    *entity = static_cast<enum game_entity>(HEAD_A + this->_player);
     this->_body.push_front(entity);
 
     return ate;

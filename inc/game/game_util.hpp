@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:46:24 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:13:03 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:48:41 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -21,13 +21,17 @@ typedef unsigned int t_uint;
 
 enum game_entity : char {
     OUTER_WALL = '\0',
-    INNER_WALL = 'w',
-    FOOD = 'f',
-    BONUS = 'b',
-    SNAKE_A = '1',
-    SNAKE_B = '2',
-    SNAKE_C = '3',
-    SNAKE_D = '4',
+    INNER_WALL = 'X',
+    FOOD = '0',
+    BONUS = 'o',
+    SNAKE_A = 'a',
+    SNAKE_B = 'b',
+    SNAKE_C = 'c',
+    SNAKE_D = 'd',
+    HEAD_A = 'A',
+    HEAD_B = 'B',
+    HEAD_C = 'C',
+    HEAD_D = 'D',
     EMPTY = ' ',
 };
 
