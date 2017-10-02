@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 18:03:20 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 19:21:32 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -26,6 +26,12 @@
 # define MAX_HEIGHT     1000
 # define DEFAULT_HEIGHT 16
 
+# ifdef VERBOSE
+#  define DEBUG_MAP(map) (map).print()
+# else
+#  define DEBUG_MAP(map) do {} while(0)
+# endif
+
 class Map {
     public:
         Map(
@@ -36,6 +42,7 @@ class Map {
         ~Map(void);
         Map const &operator=(Map const &copy);
 
+        void          print() const;
         game_entity   get(t_uint x, t_uint y) const;
         game_entity **getArea() const;
         t_uint        getWidth() const;

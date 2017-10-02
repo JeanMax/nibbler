@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 18:32:03 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 19:41:35 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -108,6 +108,17 @@ bool            Map::growFood(game_entity food)
 
     return true;
 }
+
+void            Map::print() const
+{
+    DEBUG('+' << std::string(this->_width, '-') << '+');
+    for (t_uint y = 0; y < this->_height; y++) {
+        DEBUG('|' << reinterpret_cast<const char *>(this->_area[y]) << '|');
+    }
+    DEBUG('+' << std::string(this->_width, '-') << '+');
+}
+
+
 
 /*
 ** private

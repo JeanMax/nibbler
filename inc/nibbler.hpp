@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:37:01 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:52:18 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 19:43:11 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -40,18 +40,26 @@ enum lib { //TODO
 typedef struct s_args       t_args;
 struct                      s_args
 {
-    int         width;
-    int         height;
+    t_uint      width;
+    t_uint      height;
     enum lib    lib;
     const char *bin_name;
 };
 extern t_args g_parsed_args;
 
 
+
+/*
+** BASE
+** game_loop.cpp
+*/
+bool launch_game(const t_uint width, const t_uint height);
+
 /*
 ** ARGV_PARSER
 ** argv_parser.cpp
 */
 bool     parse_argv(const char **av);
+
 
 #endif // NIBBLER_HPP
