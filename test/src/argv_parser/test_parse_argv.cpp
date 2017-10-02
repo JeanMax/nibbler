@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 15:31:46 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 00:40:18 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 00:37:34 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,7 +25,8 @@ static void reset_args()
         DEFAULT_WIDTH,
         DEFAULT_HEIGHT,
         DEFAULT_LIB,
-        NULL
+        NULL,
+        {0}
     };
 }
 
@@ -93,16 +94,16 @@ void test_parse_argv()
         true,
     };
     const t_args parsed_args[NUMBER_OF_INPUTS] = {
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {42, DEFAULT_HEIGHT, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, 42, DEFAULT_LIB, NULL},
-        {DEFAULT_WIDTH, DEFAULT_HEIGHT, LIB_A, NULL},
-        {42, 42, LIB_A, NULL},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {42, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, 42, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, DEFAULT_HEIGHT, LIB_A, NULL, {0}},
+        {42, 42, LIB_A, NULL, {0}},
     };
     bool test;
 

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:37:01 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 19:43:11 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 00:27:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -44,6 +44,7 @@ struct                      s_args
     t_uint      height;
     enum lib    lib;
     const char *bin_name;
+    const char *players_names[MAX_PLAYERS + 1];
 };
 extern t_args g_parsed_args;
 
@@ -53,7 +54,9 @@ extern t_args g_parsed_args;
 ** BASE
 ** game_loop.cpp
 */
-bool launch_game(const t_uint width, const t_uint height);
+bool launch_game(const t_uint width,
+                 const t_uint height,
+                 const char **players_names);
 
 /*
 ** ARGV_PARSER

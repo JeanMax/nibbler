@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 19:32:22 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 00:24:06 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -109,6 +109,25 @@ bool        parse_library(const char *s)
     ERROR(
         "error: '" << s
         << "': library not found (available: " << AVAILABLE_LIB_NAMES << ")"
-     );
+    );
     return false;
+}
+
+bool        parse_player_name(const char *s)
+{
+    int i = 0;
+
+    while (g_parsed_args.players_names[i]) {
+        i++;
+    }
+    if (i == MAX_PLAYERS) {
+        ERROR(
+            "error: '" << s
+            << "': too many players (max: " << MAX_PLAYERS << ")"
+        );
+        return false;
+    }
+
+    g_parsed_args.players_names[i] = s;
+    return true;
 }
