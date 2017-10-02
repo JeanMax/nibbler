@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 00:20:36 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 21:49:55 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,10 +19,13 @@ NAME =		test_nibbler
 
 # file-names of the sources
 SRCS =      test_main.cpp			\
-			test_parse_argv.cpp
+			test_parse_argv.cpp		\
+			test_map.cpp			\
+			test_player.cpp			\
+			test_game.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src:src/argv_parser
+VPATH =		src:src/argv_parser:src/game
 
 # where is the tested project?
 ROOT_DIR =	..
@@ -47,7 +50,7 @@ MIN =		$(MIN_DIR)/minunit.h
 MIN_LIB =
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	-I$(ROOT_DIR)/inc/game	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
@@ -69,12 +72,11 @@ RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
 MAKE =		make
-MAKEFLAGS =	-j 4
+MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
 LDFLAGS =	$(CPPFLAGS)
-LDLIBS =	-Wl,--whole-archive $(LIBS) -Wl,--no-whole-archive
 
 # guess os and architecture
 ifeq ($(OS), Windows_NT)
@@ -89,9 +91,11 @@ else
   ifeq ($(UNAME_S), Linux)
     ECHO = echo -e
     CCFLAGS += -D LINUX
+    LDLIBS = -Wl,--whole-archive $(LIBS) -Wl,--no-whole-archive
   else ifeq ($(UNAME_S), Darwin)
     ECHO = echo
     CCFLAGS += -D OSX
+    LDLIBS = -Wl,-all_load $(LIBS) -Wl
   endif
   UNAME_P = $(shell uname -p)
   ifeq ($(UNAME_P), unknown)
@@ -162,9 +166,8 @@ fclean: clean
 	$(RM) $(NAME)
 
 # just clean everything this Makefile could have generated
-mrproper: fclean
-	$(RM) $(COOKIE_FLAGS)
-	test -e $(O_DIR) && $(RMDIR) $(O_DIR) || true
+mrproper: fclean $(O_DIR)
+	$(RMDIR) $(O_DIR)
 	$(MAKE) -C $(ROOT_DIR) fclean
 
 

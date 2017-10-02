@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 21:18:46 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 19:32:22 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -30,54 +30,62 @@ static bool only_digits(const char *s)
 
 bool        parse_width(const char *s)
 {
+    int w;
+
     if (!*s || !only_digits(s)) {
         ERROR("error: '" << s << "': non numerical");
         return false;
     }
 
-    g_parsed_args.width = atoi(s);
+    w = atoi(s);
 
-    if (g_parsed_args.width < MIN_WIDTH) {
+    if (w < MIN_WIDTH) {
         ERROR(
-            "error: '" << g_parsed_args.width
+            "error: '" << w
             << "': under width limit (" << MIN_WIDTH << ")"
         );
         return false;
     }
-    if (g_parsed_args.width > MAX_WIDTH) {
+    if (w > MAX_WIDTH) {
         ERROR(
-            "error: '" << g_parsed_args.width
+            "error: '" << w
             << "': over width limit (" << MAX_WIDTH << ")"
         );
         return false;
     }
+
+    g_parsed_args.width = static_cast<t_uint>(w);
 
     return true;
 }
 
 bool        parse_height(const char *s)
 {
+    int h;
+
     if (!*s || !only_digits(s)) {
         ERROR("error: '" << s << "': non numerical");
         return false;
     }
 
-    g_parsed_args.height = atoi(s);
+    h = atoi(s);
 
-    if (g_parsed_args.height < MIN_HEIGHT) {
+    if (h < MIN_HEIGHT) {
         ERROR(
-            "error: '" << g_parsed_args.height
+            "error: '" << h
             << "': under height limit (" << MIN_HEIGHT << ")"
         );
         return false;
     }
-    if (g_parsed_args.height > MAX_HEIGHT) {
+    if (h > MAX_HEIGHT) {
         ERROR(
-            "error: '" << g_parsed_args.height
+            "error: '" << h
             << "': over height limit (" << MAX_HEIGHT << ")"
         );
         return false;
     }
+
+    g_parsed_args.height = static_cast<t_uint>(h);
 
     return true;
 }

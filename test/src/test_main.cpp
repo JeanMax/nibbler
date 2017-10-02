@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 11:32:38 by mcanal            #+#    #+#             */
-//   Updated: 2017/09/29 21:14:46 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:34:21 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,18 @@ static void all_suites(char *search)
 	MU_TEST_SUITE suite_argv_parser = {
 		{test_parse_argv, "parse_argv"},
 	};
+	MU_TEST_SUITE suite_game = {
+		{test_map, "map"},
+		{test_player, "player"},
+		{test_game, "game"},
+	};
 
 
 	if (search) {
 		int test_run_before = g_tests_run; //hmmm...
 
 		MU_RUN_TEST_FROM_SUITE(search, suite_argv_parser);
+		MU_RUN_TEST_FROM_SUITE(search, suite_game);
 
 		if (test_run_before == g_tests_run) {
 			fprintf(stderr, "+ Test %s: " CLR_RED "not found", search);
@@ -30,6 +36,7 @@ static void all_suites(char *search)
 		}
 	} else {
 		MU_RUN_SUITE(suite_argv_parser, "argv_parser");
+		MU_RUN_SUITE(suite_game, "game");
 	}
 }
 

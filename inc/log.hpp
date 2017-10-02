@@ -6,12 +6,14 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/27 13:43:17 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 14:42:22 by mc               ###   ########.fr       //
+//   Updated: 2017/09/30 20:32:47 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef LOG_HPP
 # define LOG_HPP
+
+# include <iostream>
 
 # define CLR_BLACK   "\033[30;01m"
 # define CLR_RED     "\033[31;01m"
