@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 16:56:46 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 18:32:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,7 +28,8 @@ Map::Map(const t_uint width, const t_uint height) :
         return;
     }
 
-    //TODO: add fruits and bonus
+    this->growFood(FOOD);
+    //TODO: add bonus
 }
 
 Map::Map(Map const &copy) :
@@ -90,6 +91,23 @@ t_uint          Map::getHeight() const
     return this->_height;
 }
 
+bool            Map::growFood(game_entity food)
+{
+    game_entity *empty_spot;
+
+    if (food != FOOD && food != BONUS) {
+        return false;
+    }
+
+    empty_spot = this->_findEmptySpot();
+    if (!empty_spot) {
+        return false;
+    }
+
+    *empty_spot = food;
+
+    return true;
+}
 
 /*
 ** private
@@ -124,4 +142,41 @@ void            Map::_freeArea()
         free(this->_area[y]);
     }
     free(this->_area);
+}
+
+game_entity    *Map::_findEmptySpot()
+{
+    t_uint        x;
+    t_uint        y;
+    t_uint        rdm;
+
+    std::srand(static_cast<t_uint>(time(NULL)));
+    rdm = static_cast<t_uint>(rand()) % (this->_width * this->_height);
+    x = rdm % this->_width;
+    y = rdm / this->_width;
+
+    if (this->_area[y][x] == EMPTY) {
+        return *(this->_area + y) + x;
+    }
+
+    while (y < this->_height) {
+        while (x < this->_width) {
+            if (this->_area[y][x] == EMPTY) {
+                return *(this->_area + y) + x;
+            }
+            x++;
+        }
+        x = 0;
+        y++;
+    }
+
+    for (y = 0; y < this->_height; y++) {
+        for (x = 0; x < this->_width; x++) {
+            if (this->_area[y][x] == EMPTY) {
+                return *(this->_area + y) + x;
+            }
+        }
+    }
+
+    return NULL;
 }

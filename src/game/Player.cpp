@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:49:57 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 18:30:23 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,7 +15,7 @@
 /*
 ** constructor
 */
-Player::Player(const std::string &name, enum player player, const Map *map) :
+Player::Player(const std::string &name, enum player player, Map * const map) :
     _name(name),
     _body({}),
     _score(0),
@@ -28,7 +28,7 @@ Player::Player(const std::string &name, enum player player, const Map *map) :
     DEBUG("Player constructor");
 }
 
-Player::Player(Player const &copy)
+Player::Player(Player const &copy) : _map(copy._map)
 {
     DEBUG("Player copy");
 
@@ -143,6 +143,7 @@ bool               Player::_eat(game_entity *entity)
     if (*entity == FOOD) {
         this->_score += FOOD_SCORE;
         ate = true;
+        this->_map->growFood(FOOD);
     } else if (*entity == BONUS) {
         this->_score += BONUS_SCORE;
         ate = true;

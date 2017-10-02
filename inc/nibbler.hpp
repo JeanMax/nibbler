@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:37:01 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 20:53:44 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:52:18 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,11 +28,11 @@
 
 
 # define NUMBER_OF_LIBS  3
-enum lib {
+enum lib { //TODO
     LIB_A = 0,
     LIB_B = 1,
     LIB_C = 2,
-}; //TODO
+};
 
 /*
 ** this struct will hold the parsed command-line arguments

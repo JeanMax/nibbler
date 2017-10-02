@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:38:00 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:13:08 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 18:29:53 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -27,7 +27,7 @@ class Player {
         Player(
             const std::string &name = "SnakeMan",
             enum player player = PLAYER_A,
-            const Map *map = NULL
+            Map * const map = NULL
         );
         Player(Player const &copy);
         ~Player(void);
@@ -54,7 +54,7 @@ class Player {
         enum player              _player;
         t_uint                   _x;
         t_uint                   _y;
-        const Map               *_map;
+        Map              * const _map;
 };
 
 #endif // PLAYER_HPP

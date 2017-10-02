@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:39:43 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:53:26 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -101,7 +101,7 @@ void            Game::handleEvent(enum key key)
     enum player player = static_cast<enum player>(key / MAX_PLAYERS);
 
     if (key >= KEY_EXIT) {
-        return; //TODO
+        return; //TODO: handle other events
     }
 
     if (player > this->_number_of_players - 1) {
