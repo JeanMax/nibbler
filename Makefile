@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/02 22:58:47 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 00:59:32 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -29,7 +29,7 @@ SRCS =      main.cpp			\
 			Game.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		src:src/argv_parser:src/game
+VPATH =		core/src:core/src/argv_parser:core/src/game
 
 # where are your tests?
 TEST_DIR =	test
@@ -59,7 +59,7 @@ SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	$(SDL_I_DIR)	$(SFML_I_DIR)	#$(LFT_I_DIR)
+I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	$(SDL_I_DIR)	$(SFML_I_DIR)	#$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(SDL_LIB)		$(SFML_LIB)		#$(LFT_LIB)		-lm

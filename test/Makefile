@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/02 21:49:55 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 01:00:42 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -50,7 +50,7 @@ MIN =		$(MIN_DIR)/minunit.h
 MIN_LIB =
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-I$(ROOT_DIR)/inc	-I$(ROOT_DIR)/inc/argv_parser	-I$(ROOT_DIR)/inc/game	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-I$(ROOT_DIR)/core/inc	-I$(ROOT_DIR)/core/inc/argv_parser	-I$(ROOT_DIR)/core/inc/game	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
