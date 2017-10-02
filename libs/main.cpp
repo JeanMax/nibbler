@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 17:20:20 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 19:06:17 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/02 19:15:01 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void		load(int i)
 	}
 	dl = dl_init();
 
-	//main loop
+	//game loop
 	while (42)
 	{
 		dl->keyEvent();
