@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/02 21:34:00 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 21:49:55 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -72,12 +72,11 @@ RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
 MAKE =		make
-MAKEFLAGS =	-j 4
+MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
 LDFLAGS =	$(CPPFLAGS)
-LDLIBS =	-Wl,--whole-archive $(LIBS) -Wl,--no-whole-archive
 
 # guess os and architecture
 ifeq ($(OS), Windows_NT)
@@ -92,9 +91,11 @@ else
   ifeq ($(UNAME_S), Linux)
     ECHO = echo -e
     CCFLAGS += -D LINUX
+    LDLIBS = -Wl,--whole-archive $(LIBS) -Wl,--no-whole-archive
   else ifeq ($(UNAME_S), Darwin)
     ECHO = echo
     CCFLAGS += -D OSX
+    LDLIBS = -Wl,-all_load $(LIBS) -Wl
   endif
   UNAME_P = $(shell uname -p)
   ifeq ($(UNAME_P), unknown)

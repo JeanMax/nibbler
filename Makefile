@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/02 19:28:20 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 21:49:42 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -34,12 +34,23 @@ VPATH =		src:src/argv_parser:src/game
 # where are your tests?
 TEST_DIR =	test
 
-# # sdl
-# SDL_DIR =	SDL
-# SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
-# SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
-# SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
-# SDL =		$(SDL_DIR)/build/libSDL2.la
+# sdl
+SDL_DIR =	SDL2-2.0.6
+SDL_INSTALL_DIR = $(PWD)/$(SDL_DIR)/install
+SDL_ARCHIVE = SDL2-2.0.6.tar.gz
+SDL_URL =	https://www.libsdl.org/release/$(SDL_ARCHIVE)
+SDL_I_DIR =	`./$(SDL_DIR)/sdl2-config --cflags`
+SDL_LIB =	`./$(SDL_DIR)/sdl2-config --libs`
+SDL =		$(SDL_INSTALL_DIR)/lib/libSDL2.la
+
+# sfml
+SFML_DIR =	SFML-2.4.2
+SFML_INSTALL_DIR = $(PWD)/$(SFML_DIR)/install
+SFML_ARCHIVE = SFML-2.4.2-sources.zip
+SFML_URL =	 https://www.sfml-dev.org/files/$(SFML_ARCHIVE)
+SFML_I_DIR = -I$(SFML_DIR)/include/SMFL
+SFML_LIB =	-L$(SFML_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
+SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
 
 # # libft
 # LFT_DIR =	libft
@@ -48,10 +59,10 @@ TEST_DIR =	test
 # LFT_LIB =	-L$(LFT_DIR) -lft
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	#$(SDL_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	-Iinc/argv_parser	-Iinc/game	$(SDL_I_DIR)	$(SFML_I_DIR)	#$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		#$(SDL_LIB)		$(LFT_LIB)		-lm
+LIBS =		$(SDL_LIB)		$(SFML_LIB)		#$(LFT_LIB)		-lm
 
 
 
@@ -68,8 +79,11 @@ DEPS =		$(OBJS:%.o=%.d)
 RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
+CURL =		curl -LO
+UNTAR =		tar -xvf
+UNZIP =		unzip
 MAKE =		make
-MAKEFLAGS =	-j 4
+MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
@@ -128,12 +142,13 @@ endif
 ##
 
 # just to avoid conflicts between rules and files/folders names
-.PHONY: all debug sanitize me_cry re clean fclean mrproper test
+.PHONY: all debug sanitize me_cry re clean fclean mrproper test sdl sfml
 
 # classic build
 all: $(O_DIR)
-#	$(MAKE) sdl
 #	$(MAKE) -C $(LFT_DIR) $(FLAGS)
+	$(MAKE) sdl
+	$(MAKE) sfml
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
@@ -157,22 +172,30 @@ test: all
 	$(MAKE) -C $(TEST_DIR) #TODO: handle flags
 
 # install sdl
-# sdl: $(SDL)
+sdl: $(SDL)
+
+# install sfml
+sfml: $(SFML)
 
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(DEPS)
+	$(RM) $(SDL_ARCHIVE)
+	$(RM) $(SFML_ARCHIVE)
 
 # remove the generated binary, and all .o and .d
 fclean: clean
 	$(RM) $(NAME)
+#	test -e $(SDL_DIR) && $(MAKE) -C $(SDL_DIR) distclean || true
+#	test -e $(SFML_DIR) && $(MAKE) -C $(SFML_DIR) clean || true
 
 # just clean everything this Makefile could have generated
-mrproper: fclean $(O_DIR)
-	$(RMDIR) $(O_DIR)
+mrproper: fclean
+	test -d $(O_DIR) && $(RMDIR) $(O_DIR) || true
+	$(RM) -r $(SDL_DIR)
+	$(RM) -r $(SFML_DIR)
 	$(MAKE) -C $(TEST_DIR) mrproper
-#	$(MAKE) -C $(SDL_DIR) distclean || true
 #	$(MAKE) -C $(LFT_DIR) fclean
 
 
@@ -201,9 +224,19 @@ $(O_DIR)/%.o: %.cpp
 $(O_DIR):
 	$(MKDIR) $(O_DIR)
 
-# # install sdl
-# $(SDL):
-# 	$(MKDIR) $(SDL_INSTALL_DIR)
-# 	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
-# 	$(MAKE) -C $(SDL_DIR)
-# 	$(MAKE) -C $(SDL_DIR) install
+# install sdl
+$(SDL):
+	test -d $(SDL_DIR) || $(CURL) $(SDL_URL)
+	test -d $(SDL_DIR) || $(UNTAR) $(SDL_ARCHIVE)
+	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
+	$(MAKE) -C $(SDL_DIR)
+	$(MAKE) -C $(SDL_DIR) install
+
+# install sfml
+$(SFML):
+	test -d $(SFML_DIR) || $(CURL) $(SFML_URL)
+	test -d $(SFML_DIR) || $(UNZIP) $(SFML_ARCHIVE)
+	$(MKDIR) $(SFML_INSTALL_DIR)
+	cd $(SFML_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(SFML_INSTALL_DIR) .
+	$(MAKE) -C $(SFML_DIR)
+	$(MAKE) -C $(SFML_DIR) install
