@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:34:48 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:39:43 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,7 +16,10 @@
 ** constructor
 */
 Game::Game(const t_uint width, const t_uint height, const char **players_names) :
-    _map(Map(width, height))
+    _map(Map(width, height)),
+    _fps(DEFAULT_FPS),
+    _tick(0),
+    _start_time(time(NULL))
 {
     DEBUG("Game constructor");
 
@@ -25,10 +28,10 @@ Game::Game(const t_uint width, const t_uint height, const char **players_names) 
         delete this;
         return;
     }
-    //TODO: init players position
+    //TODO: init players position (body.len == 4) (at the center)
 }
 
-Game::Game(Game const &copy)
+Game::Game(Game const &copy) : _start_time(time(NULL))
 {
     DEBUG("Game copy");
 
@@ -42,13 +45,15 @@ Game::Game(Game const &copy)
 Game::~Game(void)
 {
     DEBUG("Game destructor");
+
+    this->_freePlayers();
 }
 
 
 /*
 ** operator overload
 */
-Game const      &Game::operator=(Game const &copy)
+Game const     &Game::operator=(Game const &copy)
 {
     (void)copy;
     return *this;
@@ -58,21 +63,46 @@ Game const      &Game::operator=(Game const &copy)
 /*
 ** public
 */
-void       Game::nextFrame()
+void            Game::nextFrame()
 {
     for (t_uint i = 0; i < this->_number_of_players; i++) {
         this->_players[this->_number_of_players]->moveForward();
     }
+
+    // assuming this function would be called at least once per second
+    if (!(this->getEllapsedSeconds() % INCREASE_FPS_SECONDS_INTERVAL)) {
+        this->_increaseFps();
+    }
 }
 
-void       Game::sleepFrame() const
+void            Game::sleepFrame()
 {
-    //TODO
+    time_t tack = time(NULL);
+    double frame_useconds = difftime(tack, this->_tick) * 1e6;
+    double tosleep_useconds = FPS_TO_US(this->_fps) - frame_useconds;
+
+    if (tosleep_useconds > 0) {
+        usleep(static_cast<__useconds_t>(tosleep_useconds));
+    } else {
+        WARNING(
+            "Game: frame took too long to sleep (extra time: "
+            << static_cast<int>(
+                   frame_useconds / FPS_TO_US(this->_fps) * 100. - 100.
+               )
+            << "%)"
+        );
+    }
+
+    this->_tick = tack;
 }
 
-void       Game::handleEvent(enum key key)
+void            Game::handleEvent(enum key key)
 {
     enum player player = static_cast<enum player>(key / MAX_PLAYERS);
+
+    if (key >= KEY_EXIT) {
+        return; //TODO
+    }
 
     if (player > this->_number_of_players - 1) {
         return;
@@ -81,12 +111,12 @@ void       Game::handleEvent(enum key key)
     this->_players[player]->turn(key % 2 ? RIGHT : LEFT);
 }
 
-const Map       &Game::getMap() const
+const Map      &Game::getMap() const
 {
     return this->_map;
 }
 
-const Player    &Game::getPlayer(enum player player) const
+const Player   &Game::getPlayer(enum player player) const
 {
     if (player > this->_number_of_players - 1) {
         return *this->_players[this->_number_of_players - 1];
@@ -95,12 +125,12 @@ const Player    &Game::getPlayer(enum player player) const
     return *this->_players[player];
 }
 
-t_uint           Game::getNumberOfPlayers() const
+t_uint          Game::getNumberOfPlayers() const
 {
     return this->_number_of_players;
 }
 
-bool             Game::isOver() const
+bool            Game::isOver() const
 {
     for (t_uint i = 0; i < this->_number_of_players; i++) {
         if (this->_players[i]->isAlive()) {
@@ -109,6 +139,16 @@ bool             Game::isOver() const
     }
 
     return true;
+}
+
+t_uint          Game::getFps() const
+{
+    return this->_fps;
+}
+
+t_uint          Game::getEllapsedSeconds() const
+{
+    return static_cast<t_uint>(difftime(time(NULL), this->_start_time));
 }
 
 
@@ -146,4 +186,21 @@ bool            Game::_allocPlayers(const char **players_names)
     }
 
     return true;
+}
+
+void            Game::_freePlayers()
+{
+    for (t_uint i = 0; i < this->_number_of_players; i++) {
+        delete this->_players[i];
+    }
+    free(this->_players);
+}
+
+t_uint          Game::_increaseFps()
+{
+    if (this->_fps < MAX_FPS) {
+        this->_fps++; //TODO: percent increase instead?
+    }
+
+    return this->_fps;
 }

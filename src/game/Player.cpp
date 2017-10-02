@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:16:54 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:21:28 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -98,8 +98,9 @@ void               Player::moveForward()
     }
 
     this->_move(this->_direction);
-    this->_eat(*(this->_map->getArea() + this->_y) + this->_x);
-    this->_poop();
+    if (!this->_eat(*(this->_map->getArea() + this->_y) + this->_x)) {
+        this->_poop();
+    }
 }
 
 
@@ -131,23 +132,29 @@ void               Player::_move(enum direction direction)
     //TODO: loop when outside of map
 }
 
-void               Player::_eat(game_entity *entity)
+bool               Player::_eat(game_entity *entity)
 {
+    bool ate = false;
+
     if (!this->isAlive()) {
-        return;
+        return false;
     }
 
-    if (*entity == FRUIT) {
-        this->_score += FRUIT_SCORE;
+    if (*entity == FOOD) {
+        this->_score += FOOD_SCORE;
+        ate = true;
     } else if (*entity == BONUS) {
         this->_score += BONUS_SCORE;
+        ate = true;
     } else if (*entity != EMPTY) {
         this->_die();
-        return;
+        return false;
     }
 
     *entity = static_cast<enum game_entity>(SNAKE_A + this->_player);
     this->_body.push_front(entity);
+
+    return ate;
 }
 
 void               Player::_poop()
@@ -166,5 +173,8 @@ void               Player::_die()
         return;
     }
 
-    this->_body.clear(); //TODO: be sure it won't fuck up the Map
+    while (!this->_body.empty()) {
+        *this->_body.front() = EMPTY;
+        this->_body.pop_front();
+    }
 }

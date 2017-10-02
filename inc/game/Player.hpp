@@ -6,21 +6,21 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:38:00 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:10:20 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:13:08 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef PLAYER_HPP
 # define PLAYER_HPP
 
-# define FRUIT_SCORE 3
-# define BONUS_SCORE 7 //TODO: this is supposed to be a timer
-
 # include "game_util.hpp"
 # include "Map.hpp"
 # include <string>
 # include <list>
 # include <climits>
+
+# define FOOD_SCORE 3
+# define BONUS_SCORE 7 //TODO: this is supposed to be a timer
 
 class Player {
     public:
@@ -43,7 +43,7 @@ class Player {
 
     private:
         void               _move(enum direction direction);
-        void               _eat(game_entity *entity);
+        bool               _eat(game_entity *entity);
         void               _poop();
         void               _die();
 

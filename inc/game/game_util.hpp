@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:46:24 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:25:00 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 17:13:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -22,7 +22,7 @@ typedef unsigned int t_uint;
 enum game_entity : char {
     OUTER_WALL = '\0',
     INNER_WALL = 'w',
-    FRUIT = 'f',
+    FOOD = 'f',
     BONUS = 'b',
     SNAKE_A = '1',
     SNAKE_B = '2',
@@ -48,14 +48,18 @@ enum player {
 # define MAX_PLAYERS 4
 
 enum key {
-    KEY_LEFT_A =  0,
-    KEY_RIGHT_A = 1,
-    KEY_LEFT_B =  2,
-    KEY_RIGHT_B = 3,
-    KEY_LEFT_C =  4,
-    KEY_RIGHT_C = 5,
-    KEY_LEFT_D =  6,
-    KEY_RIGHT_D = 7,
+    KEY_LEFT_A =   0,
+    KEY_RIGHT_A =  1,
+    KEY_LEFT_B =   2,
+    KEY_RIGHT_B =  3,
+    KEY_LEFT_C =   4,
+    KEY_RIGHT_C =  5,
+    KEY_LEFT_D =   6,
+    KEY_RIGHT_D =  7,
+    KEY_EXIT =     8,
+    KEY_LIB_A =    9,
+    KEY_LIB_B =   10,
+    KEY_LIB_C =   11,
 };
 
 #endif // GAME_UTIL_HPP

@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:01:08 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 16:56:46 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -49,10 +49,7 @@ Map::~Map(void)
 {
     DEBUG("Map destructor");
 
-    for (t_uint y = 0; y < this->_height; y++) {
-        free(this->_area[y]);
-    }
-    free(this->_area);
+    this->_freeArea();
 }
 
 
@@ -119,4 +116,12 @@ bool            Map::_allocArea()
     }
 
     return true;
+}
+
+void            Map::_freeArea()
+{
+    for (t_uint y = 0; y < this->_height; y++) {
+        free(this->_area[y]);
+    }
+    free(this->_area);
 }
