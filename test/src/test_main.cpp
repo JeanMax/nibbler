@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 11:32:38 by mcanal            #+#    #+#             */
-//   Updated: 2017/10/01 00:16:28 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:34:21 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void all_suites(char *search)
 	MU_TEST_SUITE suite_game = {
 		{test_map, "map"},
 		{test_player, "player"},
+		{test_game, "game"},
 	};
 
 

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 20:52:07 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:47:33 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,7 +25,6 @@ Game::Game(const t_uint width, const t_uint height, const char **players_names) 
 
     if (!this->_allocPlayers(players_names)) {
         ERROR("error: players malloc bjorked");
-        delete this;
         return;
     }
 }
@@ -192,6 +191,10 @@ bool            Game::_allocPlayers(const char **players_names)
 
 void            Game::_freePlayers()
 {
+    if (!this->_players) {
+        return;
+    }
+
     for (t_uint i = 0; i < this->_number_of_players; i++) {
         delete this->_players[i];
     }

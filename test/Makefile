@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/01 00:16:58 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 21:34:00 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,7 +21,8 @@ NAME =		test_nibbler
 SRCS =      test_main.cpp			\
 			test_parse_argv.cpp		\
 			test_map.cpp			\
-			test_player.cpp
+			test_player.cpp			\
+			test_game.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src:src/argv_parser:src/game

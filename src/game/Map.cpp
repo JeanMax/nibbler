@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 20:56:17 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:45:24 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -24,7 +24,6 @@ Map::Map(const t_uint width, const t_uint height) :
 
     if (!this->_allocArea()) {
         ERROR("error: map malloc bjorked");
-        delete this;
         return;
     }
 
