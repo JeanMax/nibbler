@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 17:53:26 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 20:52:07 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,12 +28,11 @@ Game::Game(const t_uint width, const t_uint height, const char **players_names) 
         delete this;
         return;
     }
-    //TODO: init players position (body.len == 4) (at the center)
 }
 
 Game::Game(Game const &copy) : _start_time(time(NULL))
 {
-    DEBUG("Game copy");
+    WARNING("Game copy constructor : don't expect this to be useful");
 
     *this = copy;
 }
@@ -55,6 +54,8 @@ Game::~Game(void)
 */
 Game const     &Game::operator=(Game const &copy)
 {
+    WARNING("Game operator= : don't expect this to be useful");
+
     (void)copy;
     return *this;
 }
@@ -66,7 +67,7 @@ Game const     &Game::operator=(Game const &copy)
 void            Game::nextFrame()
 {
     for (t_uint i = 0; i < this->_number_of_players; i++) {
-        this->_players[this->_number_of_players]->moveForward();
+        this->_players[i]->moveForward();
     }
 
     // assuming this function would be called at least once per second
@@ -83,7 +84,7 @@ void            Game::sleepFrame()
 
     if (tosleep_useconds > 0) {
         usleep(static_cast<__useconds_t>(tosleep_useconds));
-    } else {
+    } else if (this->_tick) {
         WARNING(
             "Game: frame took too long to sleep (extra time: "
             << static_cast<int>(
@@ -180,6 +181,7 @@ bool            Game::_allocPlayers(const char **players_names)
             static_cast<enum player>(names_swap - players_names),
             &this->_map
         );
+        (*players_swap)->init(this->_number_of_players);
 
         players_swap++;
         names_swap++;

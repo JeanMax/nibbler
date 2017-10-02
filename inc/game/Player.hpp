@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:38:00 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 18:29:53 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 20:23:20 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -18,6 +18,8 @@
 # include <string>
 # include <list>
 # include <climits>
+
+# define INITIAL_BODY_LENGTH 4
 
 # define FOOD_SCORE 3
 # define BONUS_SCORE 7 //TODO: this is supposed to be a timer
@@ -38,6 +40,7 @@ class Player {
         t_uint             getScore() const;
         enum direction     getDirection() const;
 
+        void               init(t_uint number_of_players);
         void               turn(enum direction direction);
         void               moveForward();
 

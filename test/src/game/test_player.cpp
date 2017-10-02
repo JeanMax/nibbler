@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:15:26 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 15:09:21 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:17:05 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -18,7 +18,6 @@ void test_player()
     Player *test_player = new Player();
 
     MU_ASSERT(test_player != NULL, "test is null :/");
-    MU_ASSERT(test_player->getScore() == 0, "uh?");
 
     delete test_player;
 

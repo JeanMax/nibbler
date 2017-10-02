@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 19:41:35 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 20:56:17 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -37,7 +37,7 @@ Map::Map(Map const &copy) :
     _width(copy.getWidth()),
     _height(copy.getHeight())
 {
-    DEBUG("Map copy");
+    WARNING("Map copy constructor : don't expect this to be useful");
 
     *this = copy;
 }
@@ -59,6 +59,8 @@ Map::~Map(void)
 */
 Map const      &Map::operator=(Map const &copy)
 {
+    WARNING("Map operator= : don't expect this to be useful");
+
     (void)copy;
     return *this;
 }
@@ -69,7 +71,7 @@ Map const      &Map::operator=(Map const &copy)
 */
 game_entity     Map::get(t_uint x, t_uint y) const
 {
-    if (x > this->_width || y > this->_height) {
+    if (x >= this->_width || y >= this->_height) {
         return OUTER_WALL;
     }
 

@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 19:21:32 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:13:16 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -18,11 +18,11 @@
 # include <cstring>
 # include <ctime>
 
-# define MIN_WIDTH      9
+# define MIN_WIDTH      16
 # define MAX_WIDTH      1000
-# define DEFAULT_WIDTH  16
+# define DEFAULT_WIDTH  32
 
-# define MIN_HEIGHT     9
+# define MIN_HEIGHT     16
 # define MAX_HEIGHT     1000
 # define DEFAULT_HEIGHT 16
 

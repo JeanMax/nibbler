@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 18:30:23 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:09:09 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -18,19 +18,17 @@
 Player::Player(const std::string &name, enum player player, Map * const map) :
     _name(name),
     _body({}),
-    _score(0),
-    _direction(NONE),
     _player(player),
-    _x(UINT_MAX),
-    _y(UINT_MAX),
     _map(map)
 {
     DEBUG("Player constructor");
+
+    // this->init(1);
 }
 
 Player::Player(Player const &copy) : _map(copy._map)
 {
-    DEBUG("Player copy");
+    WARNING("Player copy constructor : don't expect this to be useful");
 
     *this = copy;
 }
@@ -50,6 +48,8 @@ Player::~Player(void)
 */
 Player const  &Player::operator=(Player const &copy)
 {
+    WARNING("Player operator= : don't expect this to be useful");
+
     (void)copy;
     return *this;
 }
@@ -98,11 +98,32 @@ void               Player::moveForward()
     }
 
     this->_move(this->_direction);
-    if (!this->_eat(*(this->_map->getArea() + this->_y) + this->_x)) {
+    if (!this->isAlive()) {
+        return;
+    }
+
+    if (!this->_eat(*(this->_map->getArea() + this->_y) + this->_x)
+        && this->isAlive()) {
         this->_poop();
     }
 }
 
+void               Player::init(t_uint number_of_players)
+{
+    // this->_die();
+
+    this->_y = this->_map->getHeight() / 2 - INITIAL_BODY_LENGTH;
+    this->_x = this->_map->getWidth() / (number_of_players + 1)
+        * static_cast<t_uint>(this->_player + 1);
+    this->_direction = DOWN;
+
+    for (int i = INITIAL_BODY_LENGTH; i >= 0; i--) {
+        this->_move(this->_direction);
+        this->_eat(*(this->_map->getArea() + this->_y) + this->_x);
+    }
+
+    this->_score = 0;
+}
 
 
 /*
@@ -110,14 +131,10 @@ void               Player::moveForward()
 */
 void               Player::_move(enum direction direction)
 {
-    if (!this->isAlive()) {
-        return;
-    }
-
     if (direction == UP) {
-        this->_y++;
-    } else if (direction == DOWN) {
         this->_y--;
+    } else if (direction == DOWN) {
+        this->_y++;
     } else if (direction == RIGHT) {
         this->_x++;
     } else if (direction == LEFT) {
@@ -136,10 +153,6 @@ bool               Player::_eat(game_entity *entity)
 {
     bool ate = false;
 
-    if (!this->isAlive()) {
-        return false;
-    }
-
     if (*entity == FOOD) {
         this->_score += FOOD_SCORE;
         ate = true;
@@ -152,7 +165,9 @@ bool               Player::_eat(game_entity *entity)
         return false;
     }
 
-    *this->_body.front() = static_cast<enum game_entity>(SNAKE_A + this->_player);
+    if (this->isAlive()) {
+        *this->_body.front() = static_cast<enum game_entity>(SNAKE_A + this->_player);
+    }
     *entity = static_cast<enum game_entity>(HEAD_A + this->_player);
     this->_body.push_front(entity);
 
@@ -161,19 +176,13 @@ bool               Player::_eat(game_entity *entity)
 
 void               Player::_poop()
 {
-    if (!this->isAlive()) {
-        return;
-    }
-
     *this->_body.back() = EMPTY;
     this->_body.pop_back();
 }
 
 void               Player::_die()
 {
-    if (!this->isAlive()) {
-        return;
-    }
+    DEBUG("RIP " << this->_name);
 
     while (!this->_body.empty()) {
         *this->_body.front() = EMPTY;

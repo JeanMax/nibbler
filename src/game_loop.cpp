@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/02 19:04:44 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 19:35:06 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:09:54 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -37,9 +37,9 @@ bool launch_game(const t_uint width, const t_uint height)
 {
     const char *players_names[5] = { //TODO: parse names from argv or something
         "player1",
-        // "player2",
-        // "player3",
-        // "player4",
+        "player2",
+        "player3",
+        "player4",
         NULL
     };
     Game game = Game(width, height, players_names);

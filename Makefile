@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/02 14:38:56 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 19:28:20 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,6 +19,7 @@ NAME =		nibbler
 
 # file-names of the sources
 SRCS =      main.cpp			\
+			game_loop.cpp		\
 								\
 			parse_argv.cpp		\
 			flag_parsers.cpp	\
