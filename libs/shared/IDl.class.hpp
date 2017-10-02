@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:32:57 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 21:22:10 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/02 18:52:34 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class		IDl
 };
 
 //those functions must be implemented for each library
-extern "C" IDl			*init(void);
-extern "C" void			close(IDl *dl);
+extern "C" IDl			*dl_init(void);
+extern "C" void			dl_close(IDl *dl);
 
 #endif

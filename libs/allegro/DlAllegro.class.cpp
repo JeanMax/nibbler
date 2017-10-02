@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:06:39 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 21:20:51 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/02 18:54:49 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ e_key		DlAllegro::keyEvent(void) const
 	return e;
 }
 
-void			close(IDl *dl)
+void			dl_close(IDl *dl)
 {
 	std::cout << "I close DlAllegro" << std::endl;//_DEBUG_//
 	delete (dl);
 }
 
-IDl				*init(void)
+IDl				*dl_init(void)
 {
 	IDl			*dl;
 

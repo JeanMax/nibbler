@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:03:03 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 21:14:35 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/02 18:53:24 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ e_key		DlSfml::keyEvent(void) const
 	return e;
 }
 
-void			close(IDl *dl)
+void			dl_close(IDl *dl)
 {
 	std::cout << "I close DlSfml" << std::endl;//_DEBUG_//
 	delete (dl);
 }
 
-IDl				*init(void)
+IDl				*dl_init(void)
 {
 	IDl			*dl;
 

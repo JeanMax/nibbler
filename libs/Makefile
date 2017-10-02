@@ -6,7 +6,7 @@
 #    By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/01 20:33:18 by bmbarga           #+#    #+#              #
-#    Updated: 2017/10/01 21:16:03 by bmbarga          ###   ########.fr        #
+#    Updated: 2017/10/02 15:13:28 by bmbarga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,10 @@ INCS = -I $(addprefix $(INCPATH), $(SHARED_DIR)) \
 
 FLAGS = -Wall -Werror -Wextra
 
+SDL_LIB_DIR = ../SDL2-2.0.6
+SDL_LIB = `./$(SDL_LIB_DIR)/sdl2-config --libs`
+SDL_I_DIR = `./$(SDL_LIB_DIR)/sdl2-config --cflags`
+
 FLAGLIB = -fPIC -shared
 
 CC = g++
@@ -59,7 +63,7 @@ $(NAME) : libs
 libs: $(LIBSDL) $(LIBSFML) $(LIBALLEGRO)
 
 $(LIBSDL):
-	$(CC) $(FLAGS) $(FLAGLIB) $(INCS) -o $(LIBSDL) $(SHAREDS) $(SDLS)
+	$(CC) $(FLAGS) $(FLAGLIB) $(INCS) $(SDL_I_DIR) -o $(LIBSDL) $(SHAREDS) $(SDLS) $(SDL_LIB)
 
 $(LIBSFML):
 	$(CC) $(FLAGS) $(FLAGLIB) $(INCS) -o $(LIBSFML) $(SHAREDS) $(SFMLS)
