@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 22:50:19 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:45:24 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,21 +16,27 @@
 ** constructor
 */
 Map::Map(const t_uint width, const t_uint height) :
-    _area(NULL), _width(width), _height(height)
+    _area(NULL),
+    _width(width),
+    _height(height)
 {
     DEBUG("Map constructor");
 
     if (!this->_allocArea()) {
-        ERROR("error: malloc bjorked");
-        delete this;
+        ERROR("error: map malloc bjorked");
         return;
     }
+
+    this->growFood(FOOD);
+    //TODO: add bonus
 }
 
 Map::Map(Map const &copy) :
-    _area(NULL), _width(copy.getWidth()), _height(copy.getHeight())
+    _area(NULL),
+    _width(copy.getWidth()),
+    _height(copy.getHeight())
 {
-    DEBUG("Map copy");
+    WARNING("Map copy constructor : don't expect this to be useful");
 
     *this = copy;
 }
@@ -43,10 +49,7 @@ Map::~Map(void)
 {
     DEBUG("Map destructor");
 
-    for (t_uint y = 0; y < this->_height; y++) {
-        free(this->_area[y]);
-    }
-    free(this->_area);
+    this->_freeArea();
 }
 
 
@@ -55,6 +58,8 @@ Map::~Map(void)
 */
 Map const      &Map::operator=(Map const &copy)
 {
+    WARNING("Map operator= : don't expect this to be useful");
+
     (void)copy;
     return *this;
 }
@@ -65,7 +70,7 @@ Map const      &Map::operator=(Map const &copy)
 */
 game_entity     Map::get(t_uint x, t_uint y) const
 {
-    if (x > this->_width || y > this->_height) {
+    if (x >= this->_width || y >= this->_height) {
         return OUTER_WALL;
     }
 
@@ -86,6 +91,34 @@ t_uint          Map::getHeight() const
 {
     return this->_height;
 }
+
+bool            Map::growFood(game_entity food)
+{
+    game_entity *empty_spot;
+
+    if (food != FOOD && food != BONUS) {
+        return false;
+    }
+
+    empty_spot = this->_findEmptySpot();
+    if (!empty_spot) {
+        return false;
+    }
+
+    *empty_spot = food;
+
+    return true;
+}
+
+void            Map::print() const
+{
+    DEBUG('+' << std::string(this->_width, '-') << '+');
+    for (t_uint y = 0; y < this->_height; y++) {
+        DEBUG('|' << reinterpret_cast<const char *>(this->_area[y]) << '|');
+    }
+    DEBUG('+' << std::string(this->_width, '-') << '+');
+}
+
 
 
 /*
@@ -113,4 +146,49 @@ bool            Map::_allocArea()
     }
 
     return true;
+}
+
+void            Map::_freeArea()
+{
+    for (t_uint y = 0; y < this->_height; y++) {
+        free(this->_area[y]);
+    }
+    free(this->_area);
+}
+
+game_entity    *Map::_findEmptySpot()
+{
+    t_uint        x;
+    t_uint        y;
+    t_uint        rdm;
+
+    std::srand(static_cast<t_uint>(time(NULL)));
+    rdm = static_cast<t_uint>(rand()) % (this->_width * this->_height);
+    x = rdm % this->_width;
+    y = rdm / this->_width;
+
+    if (this->_area[y][x] == EMPTY) {
+        return *(this->_area + y) + x;
+    }
+
+    while (y < this->_height) {
+        while (x < this->_width) {
+            if (this->_area[y][x] == EMPTY) {
+                return *(this->_area + y) + x;
+            }
+            x++;
+        }
+        x = 0;
+        y++;
+    }
+
+    for (y = 0; y < this->_height; y++) {
+        for (x = 0; x < this->_width; x++) {
+            if (this->_area[y][x] == EMPTY) {
+                return *(this->_area + y) + x;
+            }
+        }
+    }
+
+    return NULL;
 }

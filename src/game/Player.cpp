@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 23:46:31 by mc               ###   ########.fr       //
+//   Updated: 2017/10/02 21:09:09 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,15 +15,20 @@
 /*
 ** constructor
 */
-Player::Player(const std::string &name) :
-    _name(name), _body({}), _score(0), _direction(NONE)
+Player::Player(const std::string &name, enum player player, Map * const map) :
+    _name(name),
+    _body({}),
+    _player(player),
+    _map(map)
 {
     DEBUG("Player constructor");
+
+    // this->init(1);
 }
 
-Player::Player(Player const &copy)
+Player::Player(Player const &copy) : _map(copy._map)
 {
-    DEBUG("Player copy");
+    WARNING("Player copy constructor : don't expect this to be useful");
 
     *this = copy;
 }
@@ -43,6 +48,8 @@ Player::~Player(void)
 */
 Player const  &Player::operator=(Player const &copy)
 {
+    WARNING("Player operator= : don't expect this to be useful");
+
     (void)copy;
     return *this;
 }
@@ -71,48 +78,114 @@ enum direction     Player::getDirection() const
     return this->_direction;
 }
 
-enum direction     Player::setDirection(enum direction direction)
+void               Player::turn(enum direction direction)
 {
-    this->_direction = direction;
-
-    return this->_direction;
-}
-
-void               Player::die()
-{
-    if (this->isAlive()) {
-        this->_body.clear(); //TODO: be sure it won't fuck up the Map
+    if (direction == RIGHT) {
+        this->_direction = static_cast<enum direction>(
+            (this->_direction + 1) % NONE
+        );
+    } else if (direction == LEFT) {
+        this->_direction = static_cast<enum direction>(
+            ABS(this->_direction - 1) % NONE
+        );
     }
 }
 
-void               Player::eat(game_entity *entity)
+void               Player::moveForward()
 {
     if (!this->isAlive()) {
         return;
     }
 
-    if (*entity == FRUIT) {
-        this->_score += FRUIT_SCORE;
-    } else if (*entity == BONUS) {
-        this->_score += BONUS_SCORE;
-    } else if (*entity != EMPTY) {
-        this->die();
+    this->_move(this->_direction);
+    if (!this->isAlive()) {
         return;
     }
 
-    *entity = SNAKE;
-    this->_body.push_front(entity);
+    if (!this->_eat(*(this->_map->getArea() + this->_y) + this->_x)
+        && this->isAlive()) {
+        this->_poop();
+    }
 }
 
-void               Player::poop()
+void               Player::init(t_uint number_of_players)
 {
-    if (this->isAlive()) {
-        *this->_body.back() = EMPTY;
-        this->_body.pop_back();
+    // this->_die();
+
+    this->_y = this->_map->getHeight() / 2 - INITIAL_BODY_LENGTH;
+    this->_x = this->_map->getWidth() / (number_of_players + 1)
+        * static_cast<t_uint>(this->_player + 1);
+    this->_direction = DOWN;
+
+    for (int i = INITIAL_BODY_LENGTH; i >= 0; i--) {
+        this->_move(this->_direction);
+        this->_eat(*(this->_map->getArea() + this->_y) + this->_x);
     }
+
+    this->_score = 0;
 }
 
 
 /*
 ** private
 */
+void               Player::_move(enum direction direction)
+{
+    if (direction == UP) {
+        this->_y--;
+    } else if (direction == DOWN) {
+        this->_y++;
+    } else if (direction == RIGHT) {
+        this->_x++;
+    } else if (direction == LEFT) {
+        this->_x--;
+    }
+
+    if (this->_map->get(this->_x, this->_y) == OUTER_WALL) {
+        this->_die();
+        return;
+    }
+
+    //TODO: loop when outside of map
+}
+
+bool               Player::_eat(game_entity *entity)
+{
+    bool ate = false;
+
+    if (*entity == FOOD) {
+        this->_score += FOOD_SCORE;
+        ate = true;
+        this->_map->growFood(FOOD);
+    } else if (*entity == BONUS) {
+        this->_score += BONUS_SCORE;
+        ate = true;
+    } else if (*entity != EMPTY) {
+        this->_die();
+        return false;
+    }
+
+    if (this->isAlive()) {
+        *this->_body.front() = static_cast<enum game_entity>(SNAKE_A + this->_player);
+    }
+    *entity = static_cast<enum game_entity>(HEAD_A + this->_player);
+    this->_body.push_front(entity);
+
+    return ate;
+}
+
+void               Player::_poop()
+{
+    *this->_body.back() = EMPTY;
+    this->_body.pop_back();
+}
+
+void               Player::_die()
+{
+    DEBUG("RIP " << this->_name);
+
+    while (!this->_body.empty()) {
+        *this->_body.front() = EMPTY;
+        this->_body.pop_front();
+    }
+}

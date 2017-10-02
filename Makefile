@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/01 22:40:57 by mc               ###   ########.fr        #
+#    Updated: 2017/10/02 21:49:42 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,12 +19,14 @@ NAME =		nibbler
 
 # file-names of the sources
 SRCS =      main.cpp			\
+			game_loop.cpp		\
 								\
 			parse_argv.cpp		\
 			flag_parsers.cpp	\
 								\
 			Map.cpp				\
-			Player.cpp
+			Player.cpp			\
+			Game.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src:src/argv_parser:src/game
@@ -158,7 +160,7 @@ sanitize: FLAGS = "CPPFLAGS = -g -ggdb -fsanitize=address,undefined -ferror-limi
 sanitize: all
 
 # masochist build
-me_cry: FLAGS = "CPPFLAGS = -Wall -Werror -Wextra -Wpedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline" #-Wcast-qual
+me_cry: FLAGS = "CPPFLAGS = -Wall -Werror -Wextra -Wpedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -Wunreachable-code" #-Wcast-qual
 me_cry: all
 
 # clean build and recompile with previous flags
