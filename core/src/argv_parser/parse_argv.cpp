@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/09/29 21:12:38 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 00:34:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,28 +16,38 @@ t_args g_parsed_args = {
     DEFAULT_WIDTH,
     DEFAULT_HEIGHT,
     DEFAULT_LIB,
-    NULL
+    NULL,
+    {0},
 };
 
 
 static bool usage_msg(bool verbose)
 {
     if (!verbose) {
-        ERROR("usage: " << g_parsed_args.bin_name << " [--help] [-w] [-h] [-l]");
+        ERROR(
+            "usage: " << g_parsed_args.bin_name
+                << " [--help] [-w] [-h] [-l] [-p]"
+        );
         return false;
     }
 
     MSG(
-        "usage: " << g_parsed_args.bin_name << " [--help] [-w] [-h] [-l]" << std::endl
+        "usage: " << g_parsed_args.bin_name
+            << " [--help] [-w] [-h] [-l] [-p]" << std::endl
         << std::endl
         << "optional arguments:" << std::endl
         << "  --help               show this help message and exit" << std::endl
-        << "  -w, --width=NUM      specify the game area width (default: "
-            << DEFAULT_WIDTH << ")" << std::endl
-        << "  -h, --height=NUM     specify the game area height (default: "
-            << DEFAULT_HEIGHT << ")" << std::endl
-        << "  -l, --library=STR    choose a graphical library (default: "
-            << DEFAULT_LIB_NAME << " - available: " << AVAILABLE_LIB_NAMES << ")"
+        << "  -w, --width=NUM      specify the game area width "
+           "(default: " << DEFAULT_WIDTH << ")" << std::endl
+        << "  -h, --height=NUM     specify the game area height "
+           "(default: " << DEFAULT_HEIGHT << ")" << std::endl
+        << "  -l, --library=STR    choose a graphical library "
+           "(default: " DEFAULT_LIB_NAME
+           " - available: " AVAILABLE_LIB_NAMES ")" << std::endl
+        << "  -p, --player=STR     specify player name "
+           "(default: " DEFAULT_PLAYER_NAME ") " << std::endl
+        << "                       repeat to indicate mutiples players "
+           "(max: " << MAX_PLAYERS << " - default: 1)"
     );
     return true;
 }
@@ -45,11 +55,11 @@ static bool usage_msg(bool verbose)
 static bool parse_flag(const char *s)
 {
     const char *flags[] = {
-        "--width=", "--height=", "--library=",
-        "-w=",      "-h=",       "-l=",
+        "--width=", "--height=", "--library=", "--player=",
+        "-w=",      "-h=",       "-l=",        "-p=",
     };
     bool (*flag_parser[NUMBER_OF_FLAGS])(const char *s) = {
-        parse_width, parse_height, parse_library,
+        parse_width, parse_height, parse_library, parse_player_name,
     };
     int    i;
     size_t len;
@@ -74,6 +84,9 @@ static bool parse_flag(const char *s)
 bool        parse_argv(const char **av)
 {
     if (!*av) {
+        if (!*g_parsed_args.players_names) {
+            *g_parsed_args.players_names = DEFAULT_PLAYER_NAME;
+        }
         return !!g_parsed_args.bin_name;
     }
 

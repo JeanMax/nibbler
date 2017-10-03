@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 17:20:20 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 19:46:24 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/02 21:48:11 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ static void		load(int i)
 
 int			main(int ac, char **av)
 {
-	load(0);
-// 	load(1);
+// 	load(0);
+	load(1);
 // 	load(2);
 	(void)ac;
 	(void)av;
