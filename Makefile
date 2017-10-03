@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 02:14:13 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 02:33:58 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -44,19 +44,19 @@ TEST_DIR =	test
 SDL_DIR =	sdl
 SDL_I_DIR = -I$(SDL_DIR)/inc
 SDL =		libdlsdl.so
-SDL_LIB =	-L$(SDL_DIR) -ldlsdl
+SDL_LIB =	-rpath $(SDL_DIR) -L$(SDL_DIR) -ldlsdl
 
 # sfml
 SFML_DIR =	sfml
 SFML_I_DIR = -I$(SFML_DIR)/inc
 SFML =		libdlsfml.so
-SFML_LIB =	-L$(SFML_DIR) -ldlsfml
+SFML_LIB =	-rpath $(SFML_DIR) -L$(SFML_DIR) -ldlsfml
 
 # allegro
 ALLEGRO_DIR =	allegro
 ALLEGRO_I_DIR = -I$(ALLEGRO_DIR)/inc
 ALLEGRO =		libdlallegro.so
-ALLEGRO_LIB =	-L$(ALLEGRO_DIR) -ldlallegro
+ALLEGRO_LIB =	-rpath $(ALLEGRO_DIR) -L$(ALLEGRO_DIR) -ldlallegro
 
 # folder-names containing headers files (prefix them with "-I")
 I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
