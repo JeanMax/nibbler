@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 15:23:47 by bmbarga          ###   ########.fr        #
+#    Updated: 2017/10/03 21:31:15 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,8 +20,6 @@ NAME =		nibbler
 # file-names of the sources
 SRCS =      main.cpp			\
 			game_loop.cpp		\
-								\
-			IDl.class.cpp		\
 								\
 			parse_argv.cpp		\
 			flag_parsers.cpp	\
@@ -61,7 +59,7 @@ ALLEGRO =		libdlallegro.so
 ALLEGRO_LIB =	-rpath $(ALLEGRO_DIR) -L$(ALLEGRO_DIR) -ldlallegro
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-I../core/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
@@ -86,38 +84,39 @@ UNLINK =	unlink
 MAKE =		make
 MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
-CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
-LDFLAGS =	$(CPPFLAGS)
+CPPFLAGS =
+CXXFLAGS =	-Wall -Wextra -Werror -O2
+LDFLAGS =
 LDLIBS =	$(LIBS)
 
 # guess os and architecture
 ifeq ($(OS), Windows_NT)
-  CCFLAGS += -D WIN32
+  CPPFLAGS += -D WIN32
   ifeq ($(PROCESSOR_ARCHITECTURE), AMD64)
-    CCFLAGS += -D AMD64
+    CPPFLAGS += -D AMD64
   else ifeq ($(PROCESSOR_ARCHITECTURE), x86)
-    CCFLAGS += -D IA32
+    CPPFLAGS += -D IA32
   endif
 else
   UNAME_S = $(shell uname -s)
   ifeq ($(UNAME_S), Linux)
     ECHO = echo -e
-    CCFLAGS += -D LINUX
+    CPPFLAGS += -D LINUX
   else ifeq ($(UNAME_S), Darwin)
     ECHO = echo
-    CCFLAGS += -D OSX
+    CPPFLAGS += -D OSX
   endif
   UNAME_P = $(shell uname -p)
   ifeq ($(UNAME_P), unknown)
     UNAME_P = $(shell uname -m)
   endif
   ifeq ($(UNAME_P), x86_64)
-    CCFLAGS += -D AMD64
+    CPPFLAGS += -D AMD64
   else ifneq ($(filter %86, $(UNAME_P)), )
-    CCFLAGS += -D IA32
+    CPPFLAGS += -D IA32
   else ifneq ($(filter arm%, $(UNAME_P)), )
-    CCFLAGS += -D ARM
+    CPPFLAGS += -D ARM
   endif
 endif
 
@@ -131,7 +130,7 @@ BASIC =		\033[0m
 
 # default to silent Makefile, but you can run ´VERBOSE=t make´
 ifdef VERBOSE
-CCFLAGS += -D VERBOSE
+CPPFLAGS += -D VERBOSE
 else
 .SILENT:
 endif
@@ -157,15 +156,15 @@ all: $(O_DIR)
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
-debug: FLAGS = "CPPFLAGS = -g -ggdb"
+debug: FLAGS = "CXXFLAGS = -g -ggdb"
 debug: all
 
 # build for clang runtime debugging (fsanitize)
-sanitize: FLAGS = "CPPFLAGS = -g -ggdb -fsanitize=address,undefined -ferror-limit=5"
+sanitize: FLAGS = "CXXFLAGS = -g -ggdb -fsanitize=address,undefined -ferror-limit=5"
 sanitize: all
 
 # masochist build
-me_cry: FLAGS = "CPPFLAGS = -Wall -Werror -Wextra -Wpedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -Wunreachable-code" #-Wcast-qual
+me_cry: FLAGS = "CXXFLAGS = -Wall -Werror -Wextra -Wpedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline -Wunreachable-code" #-Wcast-qual
 me_cry: all
 
 # clean build and recompile with previous flags
@@ -210,16 +209,17 @@ mrproper: fclean
 
 # create binary (link)
 $(NAME): $(OBJS)
-	@$(ECHO) "$(BLUE)$(OBJS) $(LIBS) $(WHITE)->$(RED) $@ $(BASIC)"
-	$(CXX) $(LDFLAGS) $(I_DIR) $(OBJS) $(LDLIBS) -o $@
+	@$(ECHO) "$(BLUE)$(OBJS) $(LDLIBS) $(WHITE)->$(RED) $@ $(BASIC)"
+	$(CXX) $(CXXFLAGS) $(I_DIR) $(OBJS) $(LDLIBS) -o $@ $(LDFLAGS)
+	@$(ECHO) "$(WHITE)ldflags:$(BASIC) $(LDFLAGS)"
+	@$(ECHO) "$(WHITE)cxxflags:$(BASIC) $(CXXFLAGS)"
 	@$(ECHO) "$(WHITE)cppflags:$(BASIC) $(CPPFLAGS)"
-	@$(ECHO) "$(WHITE)ccflags:$(BASIC) $(CCFLAGS)"
 	@$(ECHO) "$(WHITE)compi:$(BASIC) $(CXX)"
 
 # create object files (compile)
 $(O_DIR)/%.o: %.cpp
 	@$(ECHO) "$(WHITE)$<\t->$(BLUE) $@ $(BASIC)"
-	$(CXX) $(CCFLAGS) $(CPPFLAGS) $(I_DIR) -MMD -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(I_DIR) -MMD -c $< -o $@
 
 # create directory for compilation sub-products
 $(O_DIR):

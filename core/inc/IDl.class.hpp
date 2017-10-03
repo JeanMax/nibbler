@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:32:57 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 11:30:25 by bmbarga          ###   ########.fr       */
+//   Updated: 2017/10/03 21:43:13 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ class		IDl
 {
 	public:
 
-//constructors
-	IDl(void);
-	IDl(IDl const &rhs);
-
 //operator overload
 	IDl	&operator=(IDl const &rhs);
 
 //destructors
-	virtual ~IDl(void);
+	virtual ~IDl(void) {};
 
 //actions
  	virtual void	print(Map const map) const = 0;
