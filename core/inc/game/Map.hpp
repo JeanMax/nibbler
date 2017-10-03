@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-/*   Updated: 2017/10/03 19:33:39 by bmbarga          ###   ########.fr       */
+//   Updated: 2017/10/03 22:38:00 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -26,7 +26,7 @@
 # define MAX_HEIGHT     30
 # define DEFAULT_HEIGHT 16
 
-# ifdef VERBOSE
+# ifdef DEBUG_MODE
 #  define DEBUG_MAP(map) (map).print()
 # else
 #  define DEBUG_MAP(map) do {} while(0)

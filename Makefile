@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 22:26:58 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 22:36:57 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -157,11 +157,11 @@ all: $(O_DIR)
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
-debug: FLAGS = "CXXFLAGS = -g -ggdb"
+debug: FLAGS = "CXXFLAGS = -g -ggdb -D DEBUG_MODE"
 debug: all
 
 # build for clang runtime debugging (fsanitize)
-sanitize: FLAGS = "CXXFLAGS = -g -ggdb -fsanitize=address,undefined -ferror-limit=5"
+sanitize: FLAGS = "CXXFLAGS = -g -ggdb -D DEBUG_MODE -fsanitize=address,undefined -ferror-limit=5"
 sanitize: all
 
 # masochist build
