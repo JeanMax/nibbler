@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 17:20:20 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 21:48:11 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:49:10 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ static void		load(int i)
 	//game loop
 	while (42)
 	{
+		std::cout << "BUG 1" << std::endl;//_DEBUG_//
 		dl->keyEvent();
-	 	dl->print(m);
+ 	 	dl->print(m);
+		std::cout << "BUG 2" << std::endl;//_DEBUG_//
 	}
 
 	//clode dynamic library
@@ -73,8 +75,8 @@ static void		load(int i)
 int			main(int ac, char **av)
 {
 // 	load(0);
-	load(1);
-// 	load(2);
+// 	load(1);
+	load(2);
 	(void)ac;
 	(void)av;
 	return (0);

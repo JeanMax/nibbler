@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:03:03 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 18:53:24 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:20:02 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ DlSfml::~DlSfml(void)
 	std::cout << "DlSfml destructor called" << std::endl;//_DEBUG_//
 }
 
-void		DlSfml::print(Map map) const
+void		DlSfml::print(Map const map) const
 {
 	(void)map;
 	std::cout << "DlSfml I print map" << std::endl;//_DEBUG_//
 }
 
-e_key		DlSfml::keyEvent(void) const
+key			DlSfml::keyEvent(void) const
 {
-	e_key	e;
+	key	e = (key)-1;
 
 	std::cout << "DlSfml keyEvent" << std::endl;//_DEBUG_//
-	return e;
+	return (e);
 }
 
 void			dl_close(IDl *dl)

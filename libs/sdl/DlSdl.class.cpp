@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:58:17 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 19:56:32 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:31:50 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ DlSdl::~DlSdl(void)
 	std::cout << "DlSdl destructor called" << std::endl;//_DEBUG_//
 }
 
-void		DlSdl::print(Map map) const
+void		DlSdl::print(Map const map) const
 {
 	(void)map;
 	std::cout << "DlSdl I print map" << std::endl;//_DEBUG_//
 }
 
-e_key		DlSdl::keyEvent(void) const
+key			DlSdl::keyEvent(void) const
 {
-	e_key	e;
+	key		e = (key)-1;
 
 	SDL_PollEvent(this->event);
 	// Temp 
 	if (this->event->window.event == SDL_WINDOWEVENT_CLOSE)//_DEBUG_//
 		exit(EXIT_SUCCESS);//_DEBUG_//
 	std::cout << "DlSdl keyEvent" << std::endl;//_DEBUG_//
-	return e;
+	return (e);
 }
 
 void			dl_close(IDl *dl)

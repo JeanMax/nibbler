@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:06:27 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 20:07:15 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:17:09 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ class		DlAllegro : public IDl
 	DlAllegro	&operator=(DlAllegro const &rhs);
 
 //actions
- 	virtual void	print(Map map) const;
-	virtual e_key	keyEvent(void) const;
+ 	virtual void	print(Map const map) const;
+	virtual key		keyEvent(void) const;
 };
 
 #endif

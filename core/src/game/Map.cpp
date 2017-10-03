@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 21:45:24 by mc               ###   ########.fr       //
+/*   Updated: 2017/10/03 11:46:08 by bmbarga          ###   ########.fr       */
 //                                                                            //
 // ************************************************************************** //
 
@@ -150,6 +150,8 @@ bool            Map::_allocArea()
 
 void            Map::_freeArea()
 {
+	if (!this->_area)
+		return ;
     for (t_uint y = 0; y < this->_height; y++) {
         free(this->_area[y]);
     }

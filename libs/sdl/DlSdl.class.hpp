@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:34:16 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 19:54:00 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:15:08 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ class		DlSdl : public IDl
 	DlSdl	&operator=(DlSdl const &rhs);
 
 //actions
- 	virtual void	print(Map map) const;
-	virtual e_key	keyEvent(void) const;
+ 	virtual void	print(Map const map) const;
+	virtual key		keyEvent(void) const;
 };
 
 #endif

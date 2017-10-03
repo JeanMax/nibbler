@@ -6,7 +6,7 @@
 #    By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/01 20:33:18 by bmbarga           #+#    #+#              #
-#    Updated: 2017/10/02 15:13:28 by bmbarga          ###   ########.fr        #
+#    Updated: 2017/10/03 11:46:42 by bmbarga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,11 +43,13 @@ INCPATH = ./
 INCS = -I $(addprefix $(INCPATH), $(SHARED_DIR)) \
 		-I $(addprefix $(INCPATH), $(SDL_DIR)) \
 		-I $(addprefix $(INCPATH), $(SFML_DIR)) \
-		-I $(addprefix $(INCPATH), $(ALLEGRO_DIR))
+		-I $(addprefix $(INCPATH), $(ALLEGRO_DIR)) \
+		-I ../core/inc \
+		-I ../core/inc/game
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -std=c++11
 
-SDL_LIB_DIR = ../SDL2-2.0.6
+SDL_LIB_DIR = ../sdl/SDL2-2.0.6
 SDL_LIB = `./$(SDL_LIB_DIR)/sdl2-config --libs`
 SDL_I_DIR = `./$(SDL_LIB_DIR)/sdl2-config --cflags`
 
@@ -58,7 +60,7 @@ CC = g++
 all : $(NAME)
 
 $(NAME) : libs
-	$(CC) $(FLAG) $(INCS) $(LIBPATH) -o $(NAME) $(MAINS)
+	$(CC) $(FLAGS) $(INCS) $(LIBPATH) -o $(NAME) $(MAINS) ../core/src/game/Map.cpp
 
 libs: $(LIBSDL) $(LIBSFML) $(LIBALLEGRO)
 

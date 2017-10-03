@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 16:32:57 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/02 18:52:34 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:30:25 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,7 @@
 # define IDL_CLASS_HPP
 
 # include <iostream>
-
-//tmp only there for debugging
-class Map{
-	public : 
-	int		e;
-};
-class e_key{
-	public :
-	int		e;
-};
-
-enum		e_type
-{
-	T_SDL,
-	T_SFML,
-	T_ALLEGRO,
-	T_NONE
-};
+# include "nibbler.hpp"
 
 class		IDl
 {
@@ -48,8 +31,8 @@ class		IDl
 	virtual ~IDl(void);
 
 //actions
- 	virtual void	print(Map map) const = 0;
-	virtual e_key	keyEvent(void) const = 0;
+ 	virtual void	print(Map const map) const = 0;
+	virtual key		keyEvent(void) const = 0;
 };
 
 //those functions must be implemented for each library

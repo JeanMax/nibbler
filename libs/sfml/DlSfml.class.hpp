@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:03:50 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/01 20:03:53 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 11:16:10 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ class		DlSfml : public IDl
 	DlSfml	&operator=(DlSfml const &rhs);
 
 //actions
- 	virtual void	print(Map map) const;
-	virtual e_key	keyEvent(void) const;
+ 	virtual void	print(Map const map) const;
+	virtual key		keyEvent(void) const;
 };
 
 #endif
