@@ -1,4 +1,5 @@
 nibbler
 libdlsdl.so
 libdlsfml.so
+libdlallegro.so
 obj

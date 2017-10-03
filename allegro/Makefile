@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 02:14:13 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 02:29:11 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,55 +14,32 @@
 ## CUSTOM CONFIG
 ##
 
-# name of the binary to make
-NAME =		nibbler
+# name of the lib to make
+NAME =		libdlallegro.so
 
 # file-names of the sources
-SRCS =      main.cpp			\
-			game_loop.cpp		\
-								\
-			parse_argv.cpp		\
-			flag_parsers.cpp	\
-								\
-			Map.cpp				\
-			Player.cpp			\
-			Game.cpp
+SRCS =		allegro_todo.cpp
 
 # folder-names of the sources (':' separated list)
-VPATH =		core/src:core/src/argv_parser:core/src/game
+VPATH =		src
 
 # where are your tests?
 TEST_DIR =	test
 
-# # libft
-# LFT_DIR =	libft
-# LFT_I_DIR = -I$(LFT_DIR)/inc
-# LFT =		$(LFT_DIR)/libft.a
-# LFT_LIB =	-L$(LFT_DIR) -lft
-
-# sdl
-SDL_DIR =	sdl
-SDL_I_DIR = -I$(SDL_DIR)/inc
-SDL =		libdlsdl.so
-SDL_LIB =	-L$(SDL_DIR) -ldlsdl
-
-# sfml
-SFML_DIR =	sfml
-SFML_I_DIR = -I$(SFML_DIR)/inc
-SFML =		libdlsfml.so
-SFML_LIB =	-L$(SFML_DIR) -ldlsfml
-
 # allegro
-ALLEGRO_DIR =	allegro
-ALLEGRO_I_DIR = -I$(ALLEGRO_DIR)/inc
-ALLEGRO =		libdlallegro.so
-ALLEGRO_LIB =	-L$(ALLEGRO_DIR) -ldlallegro
+ALLEGRO_DIR =	allegro-5.2.2.0
+ALLEGRO_INSTALL_DIR = $(shell pwd)/$(ALLEGRO_DIR)/install
+ALLEGRO_ARCHIVE = allegro-5.2.2.tar.gz
+ALLEGRO_URL =	 https://github.com/liballeg/allegro5/releases/download/5.2.2.0/$(ALLEGRO_ARCHIVE)
+ALLEGRO_I_DIR =	-I$(ALLEGRO_INSTALL_DIR)/include/allegro5
+ALLEGRO_LIB =	-rpath $(ALLEGRO_INSTALL_DIR)/lib -L$(ALLEGRO_INSTALL_DIR)/lib -lallegro -lallegro_main
+ALLEGRO =		$(ALLEGRO_INSTALL_DIR)/lib/liballegro.so
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Iinc	$(ALLEGRO_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		$(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
+LIBS =		$(ALLEGRO_LIB)
 
 
 
@@ -79,14 +56,14 @@ DEPS =		$(OBJS:%.o=%.d)
 RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
-LN =		ln -s
-UNLINK =	unlink
+CURL =		curl -LO
+UNTAR =		tar -xvf
 MAKE =		make
 MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
-LDFLAGS =	$(CPPFLAGS)
+LDFLAGS =	$(CPPFLAGS) -fPIC -shared
 LDLIBS =	$(LIBS)
 
 # guess os and architecture
@@ -141,17 +118,11 @@ endif
 ##
 
 # just to avoid conflicts between rules and files/folders names
-.PHONY: all debug sanitize me_cry re clean fclean mrproper test
+.PHONY: all debug sanitize me_cry re clean fclean mrproper test allegro
 
 # classic build
 all: $(O_DIR)
-#	$(MAKE) -C $(LFT_DIR) $(FLAGS)
-	$(MAKE) -C $(SDL_DIR) $(FLAGS)
-	$(MAKE) -C $(SFML_DIR) $(FLAGS)
-	$(MAKE) -C $(ALLEGRO_DIR) $(FLAGS)
-	test -L $(SDL) || $(LN) $(SDL_DIR)/$(SDL) $(SDL)
-	test -L $(SFML) || $(LN) $(SFML_DIR)/$(SFML) $(SFML)
-	test -L $(ALLEGRO) || $(LN) $(ALLEGRO_DIR)/$(ALLEGRO) $(ALLEGRO)
+	$(MAKE) allegro
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
@@ -172,30 +143,25 @@ re: fclean all
 
 # run tests on project
 test: all
-	$(MAKE) -C $(TEST_DIR) #TODO: handle flags
+
+# install allegro
+allegro: $(ALLEGRO)
 
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(DEPS)
+	$(RM) $(ALLEGRO_ARCHIVE)
 
 # remove the generated binary, and all .o and .d
 fclean: clean
 	$(RM) $(NAME)
-	$(MAKE) -C $(SDL_DIR) fclean
-	$(MAKE) -C $(SFML_DIR) fclean
-	$(MAKE) -C $(ALLEGRO_DIR) fclean
-	test -L $(SDL) && $(UNLINK) $(SDL) || true
-	test -L $(SFML) && $(UNLINK) $(SFML) || true
-	test -L $(ALLEGRO) && $(UNLINK) $(ALLEGRO) || true
+#	test -e $(ALLEGRO_DIR) && $(MAKE) -C $(ALLEGRO_DIR) clean || true
 
 # just clean everything this Makefile could have generated
 mrproper: fclean
 	test -d $(O_DIR) && $(RMDIR) $(O_DIR) || true
-	$(MAKE) -C $(TEST_DIR) mrproper
-	$(MAKE) -C $(SDL_DIR) mrproper
-	$(MAKE) -C $(SFML_DIR) mrproper
-#	$(MAKE) -C $(LFT_DIR) fclean
+	$(RM) -r $(ALLEGRO_DIR)
 
 
 
@@ -222,3 +188,12 @@ $(O_DIR)/%.o: %.cpp
 # create directory for compilation sub-products
 $(O_DIR):
 	$(MKDIR) $(O_DIR)
+
+# install allegro
+$(ALLEGRO):
+	test -d $(ALLEGRO_DIR) || $(CURL) $(ALLEGRO_URL)
+	test -d $(ALLEGRO_DIR) || $(UNTAR) $(ALLEGRO_ARCHIVE)
+	$(MKDIR) $(ALLEGRO_INSTALL_DIR)
+	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) .
+	$(MAKE) -C $(ALLEGRO_DIR)
+	$(MAKE) -C $(ALLEGRO_DIR) install
