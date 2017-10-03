@@ -4,6 +4,7 @@ libdlsfml.so
 libdlallegro.so
 obj
 .*.sw*
+*.sw*
 *.so
 SDL2-2.0.6.tar.gz
 SDL2-2.0.6
