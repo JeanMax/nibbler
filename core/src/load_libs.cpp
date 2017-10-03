@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   load_libs.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 17:20:20 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 17:25:16 by bmbarga          ###   ########.fr       */
+//   Updated: 2017/10/03 22:22:09 by mc               ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void		load_symbols(IDl *(**dl_init)(void), void (**dl_close)(IDl*), int i
 	}
 }
 
-static void		load(int i)
+void    		load(int i)
 {
 	Map		m;
 	IDl		*dl;
@@ -74,14 +74,4 @@ static void		load(int i)
 
 	//clode dynamic library
  	dl_close(dl);
-}
-
-int			main(int ac, char **av)
-{
-	load(0);
-// 	load(1);
-// 	load(2);
-	(void)ac;
-	(void)av;
-	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 21:31:15 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 22:26:58 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,6 +19,7 @@ NAME =		nibbler
 
 # file-names of the sources
 SRCS =      main.cpp			\
+			load_libs.cpp		\
 			game_loop.cpp		\
 								\
 			parse_argv.cpp		\
@@ -62,7 +63,7 @@ ALLEGRO_LIB =	-rpath $(ALLEGRO_DIR) -L$(ALLEGRO_DIR) -ldlallegro
 I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		$(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
+LIBS =		-ldl $(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
 
 
 

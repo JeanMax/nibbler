@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:37:01 by mc                #+#    #+#             //
-//   Updated: 2017/10/03 00:27:03 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 22:14:09 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -54,9 +54,15 @@ extern t_args g_parsed_args;
 ** BASE
 ** game_loop.cpp
 */
-bool launch_game(const t_uint width,
+bool    launch_game(const t_uint width,
                  const t_uint height,
                  const char **players_names);
+
+/*
+** load_libs.cpp
+*/
+void    load(int i);
+
 
 /*
 ** ARGV_PARSER
