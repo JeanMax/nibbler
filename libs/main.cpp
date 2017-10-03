@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 17:20:20 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 11:49:10 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 17:25:16 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void		load(int i)
 	IDl		*dl;
 	IDl		*(*dl_init)();
 	void	(*dl_close)(IDl*);
+	key		tmp;
 
 	load_symbols(&dl_init, &dl_close, i);
 
@@ -62,10 +63,13 @@ static void		load(int i)
 	//game loop
 	while (42)
 	{
-		std::cout << "BUG 1" << std::endl;//_DEBUG_//
-		dl->keyEvent();
+		if ((tmp = dl->keyEvent()) == KEY_EXIT)
+		{
+			//quit loop
+			//and close game
+			break ;
+		}
  	 	dl->print(m);
-		std::cout << "BUG 2" << std::endl;//_DEBUG_//
 	}
 
 	//clode dynamic library
@@ -74,9 +78,9 @@ static void		load(int i)
 
 int			main(int ac, char **av)
 {
-// 	load(0);
+	load(0);
 // 	load(1);
-	load(2);
+// 	load(2);
 	(void)ac;
 	(void)av;
 	return (0);

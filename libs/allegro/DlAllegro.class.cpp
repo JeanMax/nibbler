@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:06:39 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 11:20:45 by bmbarga          ###   ########.fr       */
+/*   Updated: 2017/10/03 19:18:34 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ DlAllegro::~DlAllegro(void)
 	std::cout << "DlAllegro destructor called" << std::endl;//_DEBUG_//
 }
 
-void		DlAllegro::print(Map const map) const
+void		DlAllegro::print(Map const map)
 {
 	(void)map;
 	std::cout << "DlAllegro I print map" << std::endl;//_DEBUG_//
 }
 
-key			DlAllegro::keyEvent(void) const
+key			DlAllegro::keyEvent(void)
 {
 	key		e = (key)-1;
 

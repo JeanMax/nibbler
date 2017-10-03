@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DlAllegro.class.hpp                                :+:      :+:    :+:   */
+/*   IDl.class.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/01 20:06:27 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 19:57:14 by bmbarga          ###   ########.fr       */
+/*   Created: 2017/10/01 17:08:55 by bmbarga           #+#    #+#             */
+/*   Updated: 2017/10/02 18:36:48 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DLALLEGRO_CLASS_HPP
-# define DLALLEGRO_CLASS_HPP
-
+#include <iostream>
 #include "IDl.class.hpp"
 
-class		DlAllegro : public IDl
+IDl::IDl(void)
 {
-	public:
-//constructors
-	DlAllegro(void);
-	DlAllegro(DlAllegro const &rhs);
+	std::cout << "IDl constructor called" << std::endl;//_DEBUG_//
+}
 
-//destructor
-	virtual			~DlAllegro(void);
+IDl::~IDl(void)
+{
+	std::cout << "IDl destructor called" << std::endl;//_DEBUG_//
+}
 
-//operator overload
-	DlAllegro	&operator=(DlAllegro const &rhs);
-
-//actions
- 	virtual void	print(Map const map);
-	virtual key		keyEvent(void);
-};
-
-#endif

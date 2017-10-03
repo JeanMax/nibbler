@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 02:33:58 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 15:23:47 by bmbarga          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,6 +20,8 @@ NAME =		nibbler
 # file-names of the sources
 SRCS =      main.cpp			\
 			game_loop.cpp		\
+								\
+			IDl.class.cpp		\
 								\
 			parse_argv.cpp		\
 			flag_parsers.cpp	\
@@ -59,7 +61,7 @@ ALLEGRO =		libdlallegro.so
 ALLEGRO_LIB =	-rpath $(ALLEGRO_DIR) -L$(ALLEGRO_DIR) -ldlallegro
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
+I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-I../core/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm

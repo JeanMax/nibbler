@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DlAllegro.class.hpp                                :+:      :+:    :+:   */
+/*   IDl.class.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/01 20:06:27 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 19:57:14 by bmbarga          ###   ########.fr       */
+/*   Created: 2017/10/01 16:32:57 by bmbarga           #+#    #+#             */
+/*   Updated: 2017/10/03 11:30:25 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DLALLEGRO_CLASS_HPP
-# define DLALLEGRO_CLASS_HPP
+#ifndef IDL_CLASS_HPP
+# define IDL_CLASS_HPP
 
-#include "IDl.class.hpp"
+# include <iostream>
+# include "nibbler.hpp"
 
-class		DlAllegro : public IDl
+class		IDl
 {
 	public:
-//constructors
-	DlAllegro(void);
-	DlAllegro(DlAllegro const &rhs);
 
-//destructor
-	virtual			~DlAllegro(void);
+//constructors
+	IDl(void);
+	IDl(IDl const &rhs);
 
 //operator overload
-	DlAllegro	&operator=(DlAllegro const &rhs);
+	IDl	&operator=(IDl const &rhs);
+
+//destructors
+	virtual ~IDl(void);
 
 //actions
- 	virtual void	print(Map const map);
-	virtual key		keyEvent(void);
+ 	virtual void	print(Map const map) const = 0;
+	virtual key		keyEvent(void) const = 0;
 };
+
+//those functions must be implemented for each library
+extern "C" IDl			*dl_init(void);
+extern "C" void			dl_close(IDl *dl);
 
 #endif

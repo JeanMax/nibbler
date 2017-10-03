@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 02:13:58 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 15:36:38 by bmbarga          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,7 +18,8 @@
 NAME =		libdlsfml.so
 
 # file-names of the sources
-SRCS =		sfml_todo.cpp
+SRCS =		DlSfml.class.cpp			\
+			IDl.class.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src
@@ -36,7 +37,7 @@ SFML_LIB =	-rpath $(SFML_INSTALL_DIR)/lib -L$(SFML_INSTALL_DIR)/lib -lsfml-graph
 SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	$(SFML_I_DIR)
+I_DIR =		-Iinc	-I ../core/inc ../core/inc/game $(SFML_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(SFML_LIB)

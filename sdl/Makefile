@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 02:14:04 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 15:33:59 by bmbarga          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,7 +18,8 @@
 NAME =		libdlsdl.so
 
 # file-names of the sources
-SRCS =		sdl_todo.cpp
+SRCS =		DlSdl.class.cpp			\
+			IDl.class.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src
@@ -36,7 +37,7 @@ SDL_LIB =	$(shell ./$(SDL_DIR)/sdl2-config --libs)
 SDL =		$(SDL_INSTALL_DIR)/lib/libSDL2.la
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	$(SDL_I_DIR)
+I_DIR =		-Iinc	-I ../core/inc -I../core/inc/game $(SDL_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(SDL_LIB)

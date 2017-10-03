@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DlAllegro.class.hpp                                :+:      :+:    :+:   */
+/*   DlSdl.class.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/01 20:06:27 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 19:57:14 by bmbarga          ###   ########.fr       */
+/*   Created: 2017/10/01 16:34:16 by bmbarga           #+#    #+#             */
+/*   Updated: 2017/10/03 11:15:08 by bmbarga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DLALLEGRO_CLASS_HPP
-# define DLALLEGRO_CLASS_HPP
+#ifndef DLSDL_CLASS_HPP
+# define DLSDL_CLASS_HPP
 
-#include "IDl.class.hpp"
+# include <SDL.h>
+# include "IDl.class.hpp"
 
-class		DlAllegro : public IDl
+class		DlSdl : public IDl
 {
+
 	public:
+//attributes
+	SDL_Window		*win;
+	SDL_Event		*event;
+
 //constructors
-	DlAllegro(void);
-	DlAllegro(DlAllegro const &rhs);
+	DlSdl(void);
+	DlSdl(DlSdl const &rhs);
 
 //destructor
-	virtual			~DlAllegro(void);
+	virtual			~DlSdl(void);
 
 //operator overload
-	DlAllegro	&operator=(DlAllegro const &rhs);
+	DlSdl	&operator=(DlSdl const &rhs);
 
 //actions
- 	virtual void	print(Map const map);
-	virtual key		keyEvent(void);
+ 	virtual void	print(Map const map) const;
+	virtual key		keyEvent(void) const;
 };
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 02:29:11 by mc               ###   ########.fr        #
+#    Updated: 2017/10/03 15:35:04 by bmbarga          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,7 +18,8 @@
 NAME =		libdlallegro.so
 
 # file-names of the sources
-SRCS =		allegro_todo.cpp
+SRCS =		DlAllegro.class.cpp \
+			IDl.class.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src
@@ -36,7 +37,7 @@ ALLEGRO_LIB =	-rpath $(ALLEGRO_INSTALL_DIR)/lib -L$(ALLEGRO_INSTALL_DIR)/lib -la
 ALLEGRO =		$(ALLEGRO_INSTALL_DIR)/lib/liballegro.so
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc	$(ALLEGRO_I_DIR)
+I_DIR =		-Iinc -I ../core/inc -I../core/inc/game	$(ALLEGRO_I_DIR)
 
 # extra libraries needed for linking
 LIBS =		$(ALLEGRO_LIB)
