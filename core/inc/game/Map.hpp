@@ -19,11 +19,11 @@
 # include <ctime>
 
 # define MIN_WIDTH      16
-# define MAX_WIDTH      40
+# define MAX_WIDTH      80
 # define DEFAULT_WIDTH  32
 
 # define MIN_HEIGHT     16
-# define MAX_HEIGHT     30
+# define MAX_HEIGHT     40
 # define DEFAULT_HEIGHT 16
 
 # ifdef DEBUG_MODE

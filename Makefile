@@ -63,7 +63,7 @@ ALLEGRO_LIB =	-rpath $(ALLEGRO_DIR) -L$(ALLEGRO_DIR) -ldlallegro
 I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR)	$(ALLEGRO_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		-ldl $(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
+LIBS =		-ldl #$(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
 
 
 

@@ -23,9 +23,11 @@ DlSfml::~DlSfml(void)
 	std::cout << "DlSfml destructor called" << std::endl;//_DEBUG_//
 }
 
-void		DlSfml::print(Map const map)
+ void		print(enum game_entity **map, const unsigned int width, const unsigned int height)
 {
 	(void)map;
+	(void)width;
+	(void)height;
 	std::cout << "DlSfml I print map" << std::endl;//_DEBUG_//
 }
 

@@ -53,7 +53,7 @@ MIN_LIB =
 I_DIR =		-Iinc	-I$(ROOT_DIR)/core/inc	-I$(ROOT_DIR)/core/inc/argv_parser	-I$(ROOT_DIR)/core/inc/game	$(MIN_I_DIR)	#$(SDL_I_DIR)	$(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		$(MIN_LIB)	#$(SDL_LIB)		$(LFT_LIB)		-lm
+LIBS =		$(MIN_LIB)	-ldl #$(SDL_LIB)		$(LFT_LIB)		-lm
 
 
 

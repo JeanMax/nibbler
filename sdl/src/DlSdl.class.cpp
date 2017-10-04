@@ -35,19 +35,13 @@ static void	setRect(SDL_Rect *r, int x, int y, int w, int h)
 	r->h = h;
 }
 
-void		DlSdl::print(Map const map)
+void		DlSdl::print(enum game_entity **map, const unsigned int width, const unsigned int height)
 {
 	SDL_Rect		r;
-	game_entity		**m;
 
-	if (!(m = map.getArea()))
-	{
-		std::cout << "Error : map area set to null" << std::endl;
-		exit(EXIT_FAILURE);
-	}
 	if (!this->area)
 	{
-		if (!(this->area = SDL_CreateTexture(this->ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, map.getWidth() * UNIT, map.getHeight() * UNIT)))
+		if (!(this->area = SDL_CreateTexture(this->ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width * UNIT, height * UNIT)))
 		{
 			std::cout << "Error : texture area set to null" << std::endl;
 			exit(EXIT_FAILURE);
@@ -59,17 +53,17 @@ void		DlSdl::print(Map const map)
 
 	//set map area
 	SDL_SetRenderTarget(this->ren, this->area);
-	SDL_SetRenderDrawColor(this->ren, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(this->ren, 255, 0, 0, 255);
 	SDL_RenderClear(this->ren);
 
 	//display map area
-	for (int i = 0; m[i]; i++)
+	for (int i = 0; map[i]; i++)
 	{
-		for (int j = 0; m[i][j]; j++)
+		for (int j = 0; map[i][j]; j++)
 		{
-			if (m[i][j] != EMPTY)
+			if (map[i][j] != EMPTY)
 			{
-				setRect(&r, j * UNIT, i  * UNIT, UNIT, UNIT);
+				setRect(&r, j * UNIT, i  * UNIT, (UNIT - 1), (UNIT - 1));
 
 				//set color according to m[i][j] value
 				SDL_SetRenderDrawColor(this->ren, 0, 0, 0, 255);
@@ -86,7 +80,7 @@ void		DlSdl::print(Map const map)
 	SDL_SetRenderTarget(this->ren, NULL);
 
 	//place map texture to window
-	setRect(&r, (MAX_WIDTH / 2 - map.getWidth() / 2)  * UNIT, (MAX_HEIGHT / 2 - map.getHeight() / 2)  * UNIT, 0, 0);
+	setRect(&r, (MAX_WIDTH / 2 - width / 2)  * UNIT, (MAX_HEIGHT / 2 - height / 2)  * UNIT, 0, 0);
 	SDL_QueryTexture(this->area, NULL, NULL, &r.w, &r.h);
 	SDL_RenderCopy(this->ren, this->area, NULL, &r);
 	SDL_RenderPresent(this->ren);
@@ -94,9 +88,10 @@ void		DlSdl::print(Map const map)
 
 key			DlSdl::keyEvent(void)
 {
-	key		e = (key)-1;
+	key		e = KEY_NONE;
 
-	SDL_PollEvent(this->event);
+	if (!SDL_PollEvent(this->event))
+		return (KEY_NONE);
 	if (this->event->type == SDL_QUIT)
 		return (KEY_EXIT);
 	else if (this->event->type == SDL_KEYDOWN)

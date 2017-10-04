@@ -13,10 +13,9 @@
 #ifndef IDL_CLASS_HPP
 # define IDL_CLASS_HPP
 
-# include <iostream>
-# include "nibbler.hpp"
+# include "Map.hpp"
 
-# define UNIT 20
+# define UNIT 10
 
 class		IDl
 {
@@ -29,7 +28,7 @@ class		IDl
 	virtual ~IDl(void) {};
 
 //actions
- 	virtual void	print(Map const map) = 0;
+ 	virtual void	print(enum game_entity **map, const unsigned int width, const unsigned int height) = 0;
 	virtual key		keyEvent(void) = 0;
 };
 

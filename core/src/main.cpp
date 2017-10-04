@@ -22,19 +22,16 @@ int             main(int unused, const char **av)
 {
     (void)unused;
 
-    if (!parse_argv(av)) {
+    if (!parse_argv(av)
+		|| !load_dl(g_parsed_args.lib)) {
         return EXIT_FAILURE;
     }
-
-	// load(0);
-// 	load(1);
-// 	load(2);
-
-    // launch_lib(g_parsed_args.lib); //TODO
 
     if (!launch_game(g_parsed_args.width, g_parsed_args.height, g_parsed_args.players_names)) { //TODO: players names
         return EXIT_FAILURE;
     }
+
+	close_dl();
 
     return EXIT_SUCCESS;
 }

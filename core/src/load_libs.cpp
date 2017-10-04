@@ -12,13 +12,15 @@
 
 #include <dlfcn.h>
 #include <iostream>
-#include "IDl.class.hpp"
+#include "nibbler.hpp"
 
-#define PATH_SDL		"libdlsdl.so"
-#define PATH_SFML		"libdlsfml.so"
-#define PATH_ALLEGRO	"libdlallegro.so"
+#define PATH_SDL		"./libdlsdl.so"
+#define PATH_SFML		"./libdlsfml.so"
+#define PATH_ALLEGRO	"./libdlallegro.so"
 
-static std::string	paths[3] = {\
+t_dl				g_dl = {NULL, NULL, NULL};
+
+static std::string	paths[3] = {
 								PATH_SDL,\
 								PATH_SFML,\
 								PATH_ALLEGRO,\
@@ -47,31 +49,20 @@ static void		load_symbols(IDl *(**dl_init)(void), void (**dl_close)(IDl*), int i
 	}
 }
 
-void    		load(int i)
+bool    		load_dl(enum lib i)
 {
-	Map		m;
-	IDl		*dl;
-	IDl		*(*dl_init)();
-	void	(*dl_close)(IDl*);
-	key		tmp;
-
-	load_symbols(&dl_init, &dl_close, i);
+	load_symbols(&g_dl.dl_init, &g_dl.dl_close, i);
 
 	//get dynamic library
-	dl = dl_init();
+	g_dl.lib = g_dl.dl_init();
 
-	//game loop
-	while (42)
-	{
-		if ((tmp = dl->keyEvent()) == KEY_EXIT)
-		{
-			//quit loop
-			//and close game
-			break ;
-		}
- 	 	dl->print(m);
-	}
+	return (true);
+}
 
+bool			close_dl(void)
+{
 	//clode dynamic library
- 	dl_close(dl);
+ 	g_dl.dl_close(g_dl.lib);
+
+	return (true);
 }

@@ -22,10 +22,11 @@ DlAllegro::~DlAllegro(void)
 {
 	std::cout << "DlAllegro destructor called" << std::endl;//_DEBUG_//
 }
-
-void		DlAllegro::print(Map const map)
+void		print(enum game_entity **map, const unsigned int width, const unsigned int height)
 {
 	(void)map;
+	(void)width;
+	(void)height;
 	std::cout << "DlAllegro I print map" << std::endl;//_DEBUG_//
 }
 

@@ -15,18 +15,25 @@
 
 static bool        game_loop(Game &game)
 {
+    enum key	key;
+
     DEBUG_MAP(game.getMap());
 
     if (game.isOver()) {
         return true;
     }
 
-    //lib.print(game.getMap()); // TODO: this...
-    //game.print(lib.print_function) // TODO: ...or this?
+	g_dl.lib->print(game.getMap().getArea(),
+					game.getMap().getWidth(),
+					game.getMap().getHeight());
 
-    // enum key key = lib.getEvent(); //TODO
-    // game.handleEvent(key);
-
+	while ((key = g_dl.lib->keyEvent()) != KEY_NONE)
+	{
+		if (key == KEY_EXIT)
+			return true;
+    	game.handleEvent(key);
+	}
+	
     game.nextFrame();
     game.sleepFrame();
 

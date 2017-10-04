@@ -15,6 +15,7 @@
 
 # include "log.hpp"
 # include "Map.hpp"
+# include "IDl.class.hpp"
 # include <iostream>
 # include <cstring>
 
@@ -48,6 +49,14 @@ struct                      s_args
 };
 extern t_args g_parsed_args;
 
+typedef struct s_dl			t_dl;
+struct						s_dl
+{
+	IDl		*lib;
+	IDl		*(*dl_init)();
+	void	(*dl_close)(IDl*);
+};
+extern t_dl					g_dl;
 
 
 /*
@@ -61,7 +70,8 @@ bool    launch_game(const t_uint width,
 /*
 ** load_libs.cpp
 */
-void    load(int i);
+bool    load_dl(enum lib i);
+bool    close_dl(void);
 
 
 /*

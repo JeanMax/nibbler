@@ -29,7 +29,7 @@ class		DlAllegro : public IDl
 	DlAllegro	&operator=(DlAllegro const &rhs);
 
 //actions
- 	virtual void	print(Map const map);
+ 	virtual void	print(enum game_entity **map, const unsigned int width, const unsigned int height);
 	virtual key		keyEvent(void);
 };
 
