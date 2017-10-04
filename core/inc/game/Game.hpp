@@ -19,8 +19,9 @@
 # include <ctime>
 # include <unistd.h> //usleep
 
-# define MAX_FPS     1000 //TODO: test how much we can handle
-# define DEFAULT_FPS 30
+# define MAX_FPS     30 //TODO: test how much we can handle
+
+# define DEFAULT_FPS 3
 # define INCREASE_FPS_SECONDS_INTERVAL 20
 
 # define FPS_TO_US(fps) (1e6 / static_cast<double>(fps))

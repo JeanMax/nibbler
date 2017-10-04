@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/27 13:43:17 by mc                #+#    #+#             //
-//   Updated: 2017/09/30 20:32:47 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 22:37:07 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,7 +25,7 @@
 # define CLR_WHITE   "\033[37;01m"
 # define CLR_RESET   "\033[0m"
 
-# ifdef VERBOSE
+# ifdef DEBUG_MODE
 #  define MSG(s)     std::cout << CLR_BLUE    "[MSG] "     CLR_RESET << s << std::endl
 #  define ERROR(s)   std::cerr << CLR_RED     "[ERROR] "   CLR_RESET << s << std::endl
 #  define WARNING(s) std::cerr << CLR_YELLOW  "[WARNING] " CLR_RESET << s << std::endl

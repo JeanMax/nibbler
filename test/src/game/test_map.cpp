@@ -34,18 +34,18 @@ void test_map()
     delete test_map;
 
 
-    test_map = new Map(42, 42);
+    test_map = new Map(32, 32);
 
     MU_ASSERT(
-        test_map->getWidth() == 42,
+        test_map->getWidth() == 32,
         "test (%d) and ctrl (%d) differ (input: %s)",
-        test_map->getWidth(), 42, "none"
+        test_map->getWidth(), 32, "none"
     );
 
     MU_ASSERT(
-        test_map->getHeight() == 42,
+        test_map->getHeight() == 32,
         "test (%d) and ctrl (%d) differ (input: %s)",
-        test_map->getHeight(), 42, "none"
+        test_map->getHeight(), 32, "none"
     );
 
     MU_ASSERT(test_map->getArea() != NULL, "test is null :/");

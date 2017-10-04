@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 14:37:01 by mc                #+#    #+#             //
-//   Updated: 2017/10/03 00:27:03 by mc               ###   ########.fr       //
+//   Updated: 2017/10/03 22:14:09 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,6 +15,7 @@
 
 # include "log.hpp"
 # include "Map.hpp"
+# include "IDl.class.hpp"
 # include <iostream>
 # include <cstring>
 
@@ -48,15 +49,30 @@ struct                      s_args
 };
 extern t_args g_parsed_args;
 
+typedef struct s_dl			t_dl;
+struct						s_dl
+{
+	IDl		*lib;
+	IDl		*(*dl_init)();
+	void	(*dl_close)(IDl*);
+};
+extern t_dl					g_dl;
 
 
 /*
 ** BASE
 ** game_loop.cpp
 */
-bool launch_game(const t_uint width,
+bool    launch_game(const t_uint width,
                  const t_uint height,
                  const char **players_names);
+
+/*
+** load_libs.cpp
+*/
+bool    load_dl(enum lib i);
+bool    close_dl(void);
+
 
 /*
 ** ARGV_PARSER

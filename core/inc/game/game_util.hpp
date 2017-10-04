@@ -64,6 +64,7 @@ enum key {
     KEY_LIB_A =    9,
     KEY_LIB_B =   10,
     KEY_LIB_C =   11,
+    KEY_NONE =    12
 };
 
 #endif // GAME_UTIL_HPP
