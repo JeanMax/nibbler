@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 21:30:53 by mc               ###   ########.fr        #
+#    Updated: 2017/10/04 16:59:31 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -193,9 +193,8 @@ $(O_DIR):
 
 # install allegro
 $(ALLEGRO):
-	test -d $(ALLEGRO_DIR) || $(CURL) $(ALLEGRO_URL)
-	test -d $(ALLEGRO_DIR) || $(UNTAR) $(ALLEGRO_ARCHIVE)
+	test -d $(ALLEGRO_DIR) || (test -f $(ALLEGRO_ARCHIVE) || $(CURL) $(ALLEGRO_URL) && $(UNTAR) $(ALLEGRO_ARCHIVE))
 	$(MKDIR) $(ALLEGRO_INSTALL_DIR)
-	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) .
+	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) -D WANT_DOCS=off -D WANT_DOCS_HTML=off -D WANT_DOCS_MAN=off -D WANT_FONT=off -D WANT_AUDIO=off -D WANT_IMAGE=off -D WANT_IMAGE_PNG=off -D WANT_TTF=off -D WANT_PHYSFS=off -D WANT_PRIMITIVES=off -D WANT_NATIVE_DIALOG=off -D WANT_VIDEO=off -D WANT_RELEASE_LOGGING=off -D WANT_DEMO=off -D WANT_EXAMPLES=off -D WANT_POPUP_EXAMPLES=off -D WANT_TESTS=off .
 	$(MAKE) -C $(ALLEGRO_DIR)
 	$(MAKE) -C $(ALLEGRO_DIR) install

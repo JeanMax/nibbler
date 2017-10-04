@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/03 21:30:43 by mc               ###   ########.fr        #
+#    Updated: 2017/10/04 16:58:49 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -193,8 +193,7 @@ $(O_DIR):
 
 # install sdl
 $(SDL):
-	test -d $(SDL_DIR) || $(CURL) $(SDL_URL)
-	test -d $(SDL_DIR) || $(UNTAR) $(SDL_ARCHIVE)
-	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR)
+	test -d $(SDL_DIR) || (test -f $(SDL_ARCHIVE) || $(CURL) $(SDL_URL) && $(UNTAR) $(SDL_ARCHIVE))
+	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR) --disable-audio --disable-joystick --disable-haptic
 	$(MAKE) -C $(SDL_DIR)
 	$(MAKE) -C $(SDL_DIR) install
