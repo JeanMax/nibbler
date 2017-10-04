@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:38:00 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 20:23:20 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 17:40:52 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -23,6 +23,8 @@
 
 # define FOOD_SCORE 3
 # define BONUS_SCORE 7 //TODO: this is supposed to be a timer
+
+# define COLOR_NAME(p)  (p == PLAYER_A ? CLR_RED : (p == PLAYER_B ? CLR_GREEN : (p == PLAYER_C ? CLR_BLUE : CLR_YELLOW)))
 
 class Player {
     public:
@@ -54,6 +56,7 @@ class Player {
         std::list<game_entity *> _body;
         t_uint                   _score;
         enum direction           _direction;
+        enum direction           _next_direction;
         enum player              _player;
         t_uint                   _x;
         t_uint                   _y;

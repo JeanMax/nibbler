@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 21:09:09 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 17:48:44 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -80,13 +80,14 @@ enum direction     Player::getDirection() const
 
 void               Player::turn(enum direction direction)
 {
+    DEBUG(direction);
     if (direction == RIGHT) {
-        this->_direction = static_cast<enum direction>(
+        this->_next_direction = static_cast<enum direction>(
             (this->_direction + 1) % NONE
         );
     } else if (direction == LEFT) {
-        this->_direction = static_cast<enum direction>(
-            ABS(this->_direction - 1) % NONE
+        this->_next_direction = static_cast<enum direction>(
+            ABS(this->_direction + NONE - 1) % NONE
         );
     }
 }
@@ -97,6 +98,7 @@ void               Player::moveForward()
         return;
     }
 
+    this->_direction = this->_next_direction;
     this->_move(this->_direction);
     if (!this->isAlive()) {
         return;
@@ -116,6 +118,7 @@ void               Player::init(t_uint number_of_players)
     this->_x = this->_map->getWidth() / (number_of_players + 1)
         * static_cast<t_uint>(this->_player + 1);
     this->_direction = DOWN;
+    this->_next_direction = this->_direction;
 
     for (int i = INITIAL_BODY_LENGTH; i >= 0; i--) {
         this->_move(this->_direction);
@@ -123,6 +126,8 @@ void               Player::init(t_uint number_of_players)
     }
 
     this->_score = 0;
+
+    MSG("Welcome " << COLOR_NAME(this->_player) << this->_name << CLR_RESET);
 }
 
 
@@ -157,9 +162,17 @@ bool               Player::_eat(game_entity *entity)
         this->_score += FOOD_SCORE;
         ate = true;
         this->_map->growFood(FOOD);
+        MSG(
+            COLOR_NAME(this->_player) << this->_name << CLR_RESET << " eat some food!"
+            << " (score: " << this->_score << ")"
+        );
     } else if (*entity == BONUS) {
         this->_score += BONUS_SCORE;
         ate = true;
+        MSG(
+            COLOR_NAME(this->_player) << this->_name << CLR_RESET << " eat a BONUS!!!"
+            << " (score: " << this->_score << ")"
+        );
     } else if (*entity != EMPTY) {
         this->_die();
         return false;
@@ -182,7 +195,10 @@ void               Player::_poop()
 
 void               Player::_die()
 {
-    DEBUG("RIP " << this->_name);
+    MSG(
+        "RIP " << COLOR_NAME(this->_player) << this->_name << CLR_RESET
+        << " (score: " << this->_score << ")"
+    );
 
     while (!this->_body.empty()) {
         *this->_body.front() = EMPTY;
