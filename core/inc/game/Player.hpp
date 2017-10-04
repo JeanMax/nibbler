@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:38:00 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 17:40:52 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 18:40:14 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -22,7 +22,7 @@
 # define INITIAL_BODY_LENGTH 4
 
 # define FOOD_SCORE 3
-# define BONUS_SCORE 7 //TODO: this is supposed to be a timer
+# define BONUS_SCORE 10
 
 # define COLOR_NAME(p)  (p == PLAYER_A ? CLR_RED : (p == PLAYER_B ? CLR_GREEN : (p == PLAYER_C ? CLR_BLUE : CLR_YELLOW)))
 

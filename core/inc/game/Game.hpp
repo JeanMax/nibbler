@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:59 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 18:09:12 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 18:41:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -19,10 +19,10 @@
 # include <ctime>
 # include <unistd.h> //usleep
 
-# define MAX_FPS     300. //TODO: test how much we can handle
+# define MAX_FPS     100.
 
 # define DEFAULT_FPS 5.
-# define INCREASE_FPS_SECONDS_INTERVAL 10
+# define INCREASE_FPS_SECONDS_INTERVAL 30
 # define FPS_INCREASE 0.2
 
 # define FPS_TO_US(fps) (1e6 / fps)
@@ -61,6 +61,7 @@ class Game {
         double         _fps;
         time_t         _tick;
         const time_t   _start_time;
+        game_entity    *_bonus;
 };
 
 #endif // GAME_HPP
