@@ -35,25 +35,38 @@ static void	setRect(SDL_Rect *r, int x, int y, int w, int h)
 	r->h = h;
 }
 
-void		DlSdl::print(enum game_entity **map, const unsigned int width, const unsigned int height)
+static void		setDrawColor(SDL_Renderer *ren, t_color col)
+{
+	SDL_SetRenderDrawColor(ren, col.r, col.g, col.b, col.a);
+}
+
+void		DlSdl::print(enum game_entity **map,
+							const unsigned int width,
+							const unsigned int height)
 {
 	SDL_Rect		r;
+	t_color			col;
+	bool			fill;
 
+	col = g_col_black;
 	if (!this->area)
 	{
-		if (!(this->area = SDL_CreateTexture(this->ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width * UNIT, height * UNIT)))
+		if (!(this->area = SDL_CreateTexture(this->ren,
+												SDL_PIXELFORMAT_RGBA8888,
+												SDL_TEXTUREACCESS_TARGET,
+												width * UNIT, height * UNIT)))
 		{
 			std::cout << "Error : texture area set to null" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 	}
 	//clear background
-	SDL_SetRenderDrawColor(this->ren, 0, 0, 0, 255);
+	setDrawColor(this->ren, g_col_black);
 	SDL_RenderClear(this->ren);
 
 	//set map area
 	SDL_SetRenderTarget(this->ren, this->area);
-	SDL_SetRenderDrawColor(this->ren, 255, 0, 0, 255);
+	setDrawColor(this->ren, g_col_white);
 	SDL_RenderClear(this->ren);
 
 	//display map area
@@ -61,18 +74,48 @@ void		DlSdl::print(enum game_entity **map, const unsigned int width, const unsig
 	{
 		for (int j = 0; map[i][j]; j++)
 		{
+			fill = true;
+			setRect(&r, j * UNIT, i  * UNIT, (UNIT - 1), (UNIT - 1));
 			if (map[i][j] != EMPTY)
 			{
-				setRect(&r, j * UNIT, i  * UNIT, (UNIT - 1), (UNIT - 1));
-
-				//set color according to m[i][j] value
-				SDL_SetRenderDrawColor(this->ren, 0, 0, 0, 255);
-
-				//fill rect
-				SDL_RenderFillRect(this->ren, &r);
-
-				//reset color
-				SDL_SetRenderDrawColor(this->ren, 0, 0, 0, 255);
+				if (map[i][j] == FOOD)
+				{
+					col = g_col_black;
+					fill = false;
+				}
+				else if (map[i][j] == BONUS)
+				{
+					col = g_col_black;
+				}
+				else if (map[i][j] == INNER_WALL)
+				{
+					col = g_col_black;
+				}
+				else
+				{
+					if (map[i][j] == SNAKE_A
+						|| map[i][j] == HEAD_A)
+						col = g_col_pa;
+					else if (map[i][j] == SNAKE_B
+						|| map[i][j] == HEAD_B)
+						col = g_col_pb;
+					else if (map[i][j] == SNAKE_C
+						|| map[i][j] == HEAD_C)
+						col = g_col_pc;
+					else if (map[i][j] == SNAKE_D
+						|| map[i][j] == HEAD_D)
+						col = g_col_pd;
+					if (map[i][j] < 'a')
+					{
+						setRect(&r, j * UNIT, i  * UNIT, (UNIT), (UNIT));
+						fill = false;
+					}
+				}
+				setDrawColor(this->ren, col);
+				if (fill)
+					SDL_RenderFillRect(this->ren, &r);
+				else
+					SDL_RenderDrawRect(this->ren, &r);
 			}
 		}
 	}
@@ -80,7 +123,8 @@ void		DlSdl::print(enum game_entity **map, const unsigned int width, const unsig
 	SDL_SetRenderTarget(this->ren, NULL);
 
 	//place map texture to window
-	setRect(&r, (MAX_WIDTH / 2 - width / 2)  * UNIT, (MAX_HEIGHT / 2 - height / 2)  * UNIT, 0, 0);
+	setRect(&r, (MAX_WIDTH / 2 - width / 2) * UNIT,
+				(MAX_HEIGHT / 2 - height / 2)  * UNIT, 0, 0);
 	SDL_QueryTexture(this->area, NULL, NULL, &r.w, &r.h);
 	SDL_RenderCopy(this->ren, this->area, NULL, &r);
 	SDL_RenderPresent(this->ren);
@@ -162,7 +206,11 @@ IDl				*dl_init(void)
 		std::cout << "Error SDL_Init() : " << SDL_GetError() << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	dl->win = SDL_CreateWindow("zboob SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, MAX_WIDTH * UNIT, MAX_HEIGHT * UNIT, SDL_WINDOW_SHOWN);
+	dl->win = SDL_CreateWindow("zboob SDL", SDL_WINDOWPOS_CENTERED,
+											SDL_WINDOWPOS_CENTERED,
+											MAX_WIDTH * UNIT,
+											MAX_HEIGHT * UNIT,
+											SDL_WINDOW_SHOWN);
 	if (!dl->win)
 	{
 		std::cout << "Error dl->win set to null" << std::endl;
