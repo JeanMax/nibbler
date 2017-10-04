@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:16 by mc                #+#    #+#             //
-//   Updated: 2017/10/03 22:38:00 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 18:44:01 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -47,7 +47,7 @@ class Map {
         game_entity **getArea() const;
         t_uint        getWidth() const;
         t_uint        getHeight() const;
-        bool          growFood(game_entity food);
+        game_entity  *growFood(game_entity food);
 
     private:
         bool          _allocArea();

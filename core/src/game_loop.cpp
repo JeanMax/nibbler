@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/02 19:04:44 by mc                #+#    #+#             //
-//   Updated: 2017/10/03 00:27:16 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 17:24:52 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -19,25 +19,22 @@ static bool        game_loop(Game &game)
 
     DEBUG_MAP(game.getMap());
 
-    if (game.isOver()) {
-        return true;
-    }
-
-	g_dl.lib->print(game.getMap().getArea(),
-					game.getMap().getWidth(),
-					game.getMap().getHeight());
-
 	while ((key = g_dl.lib->keyEvent()) != KEY_NONE)
 	{
 		if (key == KEY_EXIT)
 			return true;
     	game.handleEvent(key);
 	}
-	
+
     game.nextFrame();
+
+    g_dl.lib->print(game.getMap().getArea(),
+					game.getMap().getWidth(),
+					game.getMap().getHeight());
+
     game.sleepFrame();
 
-    return game_loop(game);
+    return game.isOver() ? true : game_loop(game);
 }
 
 bool launch_game(const t_uint width,

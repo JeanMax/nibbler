@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 21:47:33 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 18:47:24 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -19,7 +19,8 @@ Game::Game(const t_uint width, const t_uint height, const char **players_names) 
     _map(Map(width, height)),
     _fps(DEFAULT_FPS),
     _tick(0),
-    _start_time(time(NULL))
+    _start_time(time(NULL)),
+    _bonus(NULL)
 {
     DEBUG("Game constructor");
 
@@ -70,8 +71,17 @@ void            Game::nextFrame()
     }
 
     // assuming this function would be called at least once per second
-    if (!(this->getEllapsedSeconds() % INCREASE_FPS_SECONDS_INTERVAL)) {
+    if (this->getEllapsedSeconds()
+        && !(this->getEllapsedSeconds() % BONUS_SCORE)
+        && this->_bonus && *this->_bonus == BONUS) {
+        *this->_bonus = EMPTY;
+    }
+
+    // assuming this function would be called at least once per second
+    if (this->getEllapsedSeconds()
+        && !(this->getEllapsedSeconds() % INCREASE_FPS_SECONDS_INTERVAL)) {
         this->_increaseFps();
+        this->_bonus = this->_map.growFood(BONUS);
     }
 }
 
@@ -101,7 +111,8 @@ void            Game::handleEvent(enum key key)
     enum player player = static_cast<enum player>(key / MAX_PLAYERS);
 
     if (key >= KEY_EXIT) {
-        return; //TODO: handle other events
+        WARNING("Game: handleEvent: no idea what to do with key: " << key);
+        return;
     }
 
     if (player > this->_number_of_players - 1) {
@@ -204,7 +215,7 @@ void            Game::_freePlayers()
 t_uint          Game::_increaseFps()
 {
     if (this->_fps < MAX_FPS) {
-        this->_fps++; //TODO: percent increase instead?
+        this->_fps += FPS_INCREASE; //TODO: percent increase instead?
     }
 
     return this->_fps;
