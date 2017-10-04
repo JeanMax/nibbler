@@ -15,6 +15,77 @@
 
 # include <SDL.h>
 # include "IDl.class.hpp"
+# include <stdint.h>
+
+typedef struct	s_color
+{
+	int			r;
+	int			g;
+	int			b;
+	int			a;
+}				t_color;
+
+//black
+t_color					g_col_black = {
+					0,
+					0,
+					0,
+					255
+};
+extern t_color			g_col_black;
+
+//white
+t_color					g_col_white = {
+					255,
+					255,
+					255,
+					255
+};
+extern t_color			g_col_white;
+
+//red
+t_color					g_col_pa = {
+					255,
+					0,
+					0,
+					255
+};
+extern t_color			g_col_pa;
+
+//green
+t_color					g_col_pb = {
+					0,
+					255,
+					0,
+					255
+};
+extern t_color			g_col_pb;
+
+//blue
+t_color					g_col_pc = {
+					0,
+					0,
+					255,
+					255
+};
+extern t_color			g_col_pc;
+
+//yellow
+t_color					g_col_pd = {
+					255,
+					255,
+					0,
+					255
+};
+extern t_color			g_col_pd;
+
+t_color					g_col_bonus = {
+					255,
+					0,
+					255,
+					255
+};
+extern t_color			g_col_bonus;
 
 class		DlSdl : public IDl
 {
