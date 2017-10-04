@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-/*   Updated: 2017/10/03 11:46:08 by bmbarga          ###   ########.fr       */
+//   Updated: 2017/10/04 18:45:19 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,7 +28,6 @@ Map::Map(const t_uint width, const t_uint height) :
     }
 
     this->growFood(FOOD);
-    //TODO: add bonus
 }
 
 Map::Map(Map const &copy) :
@@ -92,22 +91,22 @@ t_uint          Map::getHeight() const
     return this->_height;
 }
 
-bool            Map::growFood(game_entity food)
+game_entity    *Map::growFood(game_entity food)
 {
     game_entity *empty_spot;
 
     if (food != FOOD && food != BONUS) {
-        return false;
+        return NULL;
     }
 
     empty_spot = this->_findEmptySpot();
     if (!empty_spot) {
-        return false;
+        return NULL;
     }
 
     *empty_spot = food;
 
-    return true;
+    return empty_spot;
 }
 
 void            Map::print() const
