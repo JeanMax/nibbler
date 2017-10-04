@@ -85,7 +85,7 @@ void		DlSdl::print(enum game_entity **map,
 				}
 				else if (map[i][j] == BONUS)
 				{
-					col = g_col_black;
+					col = g_col_bonus;
 				}
 				else if (map[i][j] == INNER_WALL)
 				{

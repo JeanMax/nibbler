@@ -79,6 +79,14 @@ t_color					g_col_pd = {
 };
 extern t_color			g_col_pd;
 
+t_color					g_col_bonus = {
+					255,
+					0,
+					255,
+					255
+};
+extern t_color			g_col_bonus;
+
 class		DlSdl : public IDl
 {
 
