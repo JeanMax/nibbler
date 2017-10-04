@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 17:15:36 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 17:54:00 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -205,7 +205,7 @@ void            Game::_freePlayers()
 t_uint          Game::_increaseFps()
 {
     if (this->_fps < MAX_FPS) {
-        this->_fps++; //TODO: percent increase instead?
+        this->_fps += FPS_INCREASE; //TODO: percent increase instead?
     }
 
     return this->_fps;
