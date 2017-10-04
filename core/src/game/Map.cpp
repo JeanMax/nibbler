@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 15:00:18 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 18:45:19 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 19:45:20 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -143,6 +143,11 @@ bool            Map::_allocArea()
         memset(this->_area[y], EMPTY, this->_width);
         this->_area[y][this->_width] = OUTER_WALL;
     }
+
+    this->_area[0][this->_width / 2] = INNER_WALL;
+    this->_area[this->_height - 1][this->_width / 2] = INNER_WALL;
+    this->_area[this->_height / 2][0] = INNER_WALL;
+    this->_area[this->_height / 2][this->_width - 1] = INNER_WALL;
 
     return true;
 }

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 18:47:24 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 19:24:06 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -108,7 +108,7 @@ void            Game::sleepFrame()
 
 void            Game::handleEvent(enum key key)
 {
-    enum player player = static_cast<enum player>(key / MAX_PLAYERS);
+    enum player player = static_cast<enum player>(key / 2);
 
     if (key >= KEY_EXIT) {
         WARNING("Game: handleEvent: no idea what to do with key: " << key);

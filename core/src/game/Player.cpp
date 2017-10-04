@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/30 22:39:03 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 17:48:44 by mc               ###   ########.fr       //
+//   Updated: 2017/10/04 19:36:47 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -174,6 +174,7 @@ bool               Player::_eat(game_entity *entity)
             << " (score: " << this->_score << ")"
         );
     } else if (*entity != EMPTY) {
+        //TODO: don't die if this is a snake tail
         this->_die();
         return false;
     }
