@@ -80,5 +80,4 @@ bool    close_dl(void);
 */
 bool     parse_argv(const char **av);
 
-
 #endif // NIBBLER_HPP

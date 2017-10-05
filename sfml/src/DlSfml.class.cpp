@@ -51,9 +51,6 @@ static void	setRect(t_rect *r, int x, int y, int w, int h)
 		}
 		this->area->create(width * UNIT, height * UNIT, false);
 	}
-// 	rect.setFillColor(sf::Color(10, 20, 30));
-// 	rect.setPosition(20, 20);
-// 	this->win->draw(rect);
 	//clear background
 	this->win->clear(sf::Color::White);
 
