@@ -31,8 +31,8 @@ ALLEGRO_DIR =	allegro-5.2.2.0
 ALLEGRO_INSTALL_DIR = $(shell pwd)/$(ALLEGRO_DIR)/install
 ALLEGRO_ARCHIVE = allegro-5.2.2.tar.gz
 ALLEGRO_URL =	 https://github.com/liballeg/allegro5/releases/download/5.2.2.0/$(ALLEGRO_ARCHIVE)
-ALLEGRO_I_DIR =	-I$(ALLEGRO_INSTALL_DIR)/include/allegro5
-ALLEGRO_LIB =	-rpath $(ALLEGRO_INSTALL_DIR)/lib -L$(ALLEGRO_INSTALL_DIR)/lib -lallegro -lallegro_main
+ALLEGRO_I_DIR =	-I$(ALLEGRO_INSTALL_DIR)/include
+ALLEGRO_LIB =	-rpath $(ALLEGRO_INSTALL_DIR)/lib -L$(ALLEGRO_INSTALL_DIR)/lib -lallegro -lallegro_main -lallegro_primitives
 ALLEGRO =		$(ALLEGRO_INSTALL_DIR)/lib/liballegro.so
 
 # folder-names containing headers files (prefix them with "-I")
@@ -195,6 +195,6 @@ $(O_DIR):
 $(ALLEGRO):
 	test -d $(ALLEGRO_DIR) || (test -f $(ALLEGRO_ARCHIVE) || $(CURL) $(ALLEGRO_URL) && $(UNTAR) $(ALLEGRO_ARCHIVE))
 	$(MKDIR) $(ALLEGRO_INSTALL_DIR)
-	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) -D WANT_DOCS=off -D WANT_DOCS_HTML=off -D WANT_DOCS_MAN=off -D WANT_FONT=off -D WANT_AUDIO=off -D WANT_IMAGE=off -D WANT_IMAGE_PNG=off -D WANT_TTF=off -D WANT_PHYSFS=off -D WANT_PRIMITIVES=off -D WANT_NATIVE_DIALOG=off -D WANT_VIDEO=off -D WANT_RELEASE_LOGGING=off -D WANT_DEMO=off -D WANT_EXAMPLES=off -D WANT_POPUP_EXAMPLES=off -D WANT_TESTS=off .
+	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) -D WANT_DOCS=off -D WANT_DOCS_HTML=off -D WANT_DOCS_MAN=off -D WANT_FONT=off -D WANT_AUDIO=off -D WANT_IMAGE=off -D WANT_IMAGE_PNG=off -D WANT_TTF=off -D WANT_PHYSFS=off -D WANT_PRIMITIVES=on -D WANT_NATIVE_DIALOG=off -D WANT_VIDEO=off -D WANT_RELEASE_LOGGING=off -D WANT_DEMO=off -D WANT_EXAMPLES=off -D WANT_POPUP_EXAMPLES=off -D WANT_TESTS=off .
 	$(MAKE) -C $(ALLEGRO_DIR)
 	$(MAKE) -C $(ALLEGRO_DIR) install

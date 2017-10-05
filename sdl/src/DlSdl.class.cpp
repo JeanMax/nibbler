@@ -136,7 +136,8 @@ key			DlSdl::keyEvent(void)
 		return (KEY_NONE);
 	if (this->event->type == SDL_QUIT)
 		return (KEY_EXIT);
-	else if (this->event->type == SDL_KEYDOWN)
+	else if (this->event->type == SDL_KEYDOWN
+				&& !this->event->key.repeat)
 	{
 		switch (this->event->key.keysym.sym)
 		{
@@ -224,5 +225,6 @@ IDl				*dl_init(void)
 		std::cout << "Error dl->event set to null" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	//disable key repeat
 	return (dynamic_cast<IDl*>(dl));
 }
