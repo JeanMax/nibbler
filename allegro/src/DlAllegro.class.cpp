@@ -22,7 +22,7 @@ DlAllegro::~DlAllegro(void)
 {
 	std::cout << "DlAllegro destructor called" << std::endl;//_DEBUG_//
 }
-void		print(enum game_entity **map, const unsigned int width, const unsigned int height)
+void		DlAllegro::print(enum game_entity **map, const unsigned int width, const unsigned int height)
 {
 	(void)map;
 	(void)width;
@@ -46,13 +46,13 @@ void			dl_close(IDl *dl)
 
 IDl				*dl_init(void)
 {
-	IDl			*dl;
+	DlAllegro			*dl;
 
-	dl = dynamic_cast<IDl*>(new DlAllegro());
+	dl = new DlAllegro();
 	if (!dl)
 	{
 		std::cout << "Error : dl" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	return (dl);
+	return (dynamic_cast<IDl*>(dl));
 }
