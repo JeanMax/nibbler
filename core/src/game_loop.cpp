@@ -13,6 +13,28 @@
 #include "nibbler.hpp"
 #include "Game.hpp"
 
+static void			switch_lib(enum key key)
+{
+	if (key == KEY_LIB_A
+			&& g_parsed_args.lib != LIB_A)
+	{
+		close_dl();
+		load_dl((g_parsed_args.lib = LIB_A));
+	}
+	else if (key == KEY_LIB_B
+				&& g_parsed_args.lib != LIB_B)
+	{
+		close_dl();
+		load_dl((g_parsed_args.lib = LIB_B));
+	}
+	else if (key == KEY_LIB_C
+				&& g_parsed_args.lib != LIB_C)
+	{
+		close_dl();
+		load_dl((g_parsed_args.lib = LIB_C));
+	}
+}
+
 static bool        game_loop(Game &game)
 {
     enum key	key;
@@ -21,6 +43,7 @@ static bool        game_loop(Game &game)
 
 	while ((key = g_dl.lib->keyEvent()) != KEY_NONE)
 	{
+		switch_lib(key);
 		if (key == KEY_EXIT)
 			return true;
     	game.handleEvent(key);
