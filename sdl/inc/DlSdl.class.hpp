@@ -15,7 +15,6 @@
 
 # include <SDL.h>
 # include "IDl.class.hpp"
-# include <stdint.h>
 
 typedef struct	s_color
 {
@@ -24,6 +23,14 @@ typedef struct	s_color
 	int			b;
 	int			a;
 }				t_color;
+
+typedef	struct	s_rect
+{
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+}				t_rect;
 
 //black
 t_color					g_col_black = {

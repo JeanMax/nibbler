@@ -31,7 +31,7 @@ SFML_DIR =	SFML-2.4.2
 SFML_INSTALL_DIR = $(shell pwd)/$(SFML_DIR)
 SFML_ARCHIVE = SFML-2.4.2-sources.zip
 SFML_URL =	 https://www.sfml-dev.org/files/$(SFML_ARCHIVE)
-SFML_I_DIR = -I$(SFML_INSTALL_DIR)/include/SFML
+SFML_I_DIR = -I$(SFML_INSTALL_DIR)/include
 SFML_LIB =	-rpath $(SFML_INSTALL_DIR)/lib -L$(SFML_INSTALL_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
 SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
 
@@ -194,6 +194,7 @@ $(O_DIR):
 # install sfml
 $(SFML):
 	test -d $(SFML_DIR) || (test -f $(SFML_ARCHIVE) || $(CURL) $(SFML_URL) && $(UNZIP) $(SFML_ARCHIVE))
+	grep -q lgcc_s $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt || sed -i 's/\(# define the sfml-graphics target.*\)/if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS)\n    list(APPEND GRAPHICS_EXT_LIBS "-lgcc_s -lgcc")\nendif()\n\n\1/' $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt
 	cd $(SFML_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(SFML_INSTALL_DIR) -D SFML_BUILD_EXAMPLES=off -D SFML_BUILD_DOC=off .
 	$(MAKE) -C $(SFML_DIR) sfml-system
 	$(MAKE) -C $(SFML_DIR) sfml-window

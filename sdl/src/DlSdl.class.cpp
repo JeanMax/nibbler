@@ -17,12 +17,10 @@
 DlSdl::DlSdl(void) : IDl(), win(NULL), ren(NULL),
 						event(NULL), area(NULL)
 {
-	std::cout << "DlSdl constructor called" << std::endl;//_DEBUG_//
 }
 
 DlSdl::~DlSdl(void)
 {
-	std::cout << "DlSdl destructor called" << std::endl;//_DEBUG_//
 }
 
 static void	setRect(SDL_Rect *r, int x, int y, int w, int h)
@@ -61,12 +59,12 @@ void		DlSdl::print(enum game_entity **map,
 		}
 	}
 	//clear background
-	setDrawColor(this->ren, g_col_black);
+	setDrawColor(this->ren, g_col_white);
 	SDL_RenderClear(this->ren);
 
 	//set map area
 	SDL_SetRenderTarget(this->ren, this->area);
-	setDrawColor(this->ren, g_col_white);
+	setDrawColor(this->ren, g_col_black);
 	SDL_RenderClear(this->ren);
 
 	//display map area
@@ -80,7 +78,7 @@ void		DlSdl::print(enum game_entity **map,
 			{
 				if (map[i][j] == FOOD)
 				{
-					col = g_col_black;
+					col = g_col_white;
 					fill = false;
 				}
 				else if (map[i][j] == BONUS)
@@ -89,7 +87,7 @@ void		DlSdl::print(enum game_entity **map,
 				}
 				else if (map[i][j] == INNER_WALL)
 				{
-					col = g_col_black;
+					col = g_col_white;
 				}
 				else
 				{
@@ -184,7 +182,6 @@ void			dl_close(IDl *dl)
 		std::cout << "Error : dl is set to null !"<< std::endl;
 		exit(EXIT_FAILURE);
 	}
-	std::cout << "I close DlSdl" << std::endl;//_DEBUG_//
 	delete (tmp->event);
 	SDL_DestroyWindow(tmp->win);
 	SDL_Quit();
@@ -206,7 +203,7 @@ IDl				*dl_init(void)
 		std::cout << "Error SDL_Init() : " << SDL_GetError() << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	dl->win = SDL_CreateWindow("zboob SDL", SDL_WINDOWPOS_CENTERED,
+	dl->win = SDL_CreateWindow("SDL", SDL_WINDOWPOS_CENTERED,
 											SDL_WINDOWPOS_CENTERED,
 											MAX_WIDTH * UNIT,
 											MAX_HEIGHT * UNIT,
@@ -227,5 +224,5 @@ IDl				*dl_init(void)
 		std::cout << "Error dl->event set to null" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	return (dl);
+	return (dynamic_cast<IDl*>(dl));
 }
