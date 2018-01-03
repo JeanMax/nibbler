@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 15:31:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/03 00:37:34 by mc               ###   ########.fr       //
+//   Updated: 2018/01/03 21:36:41 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -76,14 +76,14 @@ void test_parse_argv()
         {"./test4", "-w=", NULL},
         {"./test5", "-h=", NULL},
         {"./test6", "-l=", NULL},
-        {"./test7", "-w=42", NULL},
-        {"./test8", "-h=42", NULL},
+        {"./test7", "-w=22", NULL},
+        {"./test8", "-h=22", NULL},
         {"./test9", "-l=sdl", NULL},
-        {"./test10", "--width=42", "--height=42", "-l=sdl", NULL},
+        {"./test10", "--width=22", "--height=22", "-l=sdl", NULL},
     };
     const bool results[NUMBER_OF_INPUTS] = {
         true,
-        true,
+        false,
         false,
         false,
         false,
@@ -100,10 +100,10 @@ void test_parse_argv()
         {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
         {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
         {DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
-        {42, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
-        {DEFAULT_WIDTH, 42, DEFAULT_LIB, NULL, {0}},
+        {22, DEFAULT_HEIGHT, DEFAULT_LIB, NULL, {0}},
+        {DEFAULT_WIDTH, 22, DEFAULT_LIB, NULL, {0}},
         {DEFAULT_WIDTH, DEFAULT_HEIGHT, LIB_A, NULL, {0}},
-        {42, 42, LIB_A, NULL, {0}},
+        {22, 22, LIB_A, NULL, {0}},
     };
     bool test;
 
