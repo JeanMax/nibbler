@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:24:25 by mc                #+#    #+#             //
-//   Updated: 2017/10/03 00:34:03 by mc               ###   ########.fr       //
+//   Updated: 2018/01/03 21:25:48 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -49,7 +49,7 @@ static bool usage_msg(bool verbose)
         << "                       repeat to indicate mutiples players "
            "(max: " << MAX_PLAYERS << " - default: 1)"
     );
-    return true;
+    return false;
 }
 
 static bool parse_flag(const char *s)
