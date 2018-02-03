@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/10/01 00:36:46 by mc                #+#    #+#             //
-//   Updated: 2017/10/04 19:24:06 by mc               ###   ########.fr       //
+//   Updated: 2018/02/04 00:24:45 by mcanal           ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -92,7 +92,7 @@ void            Game::sleepFrame()
     double tosleep_useconds = FPS_TO_US(this->_fps) - frame_useconds;
 
     if (tosleep_useconds > 0) {
-        usleep(static_cast<__useconds_t>(tosleep_useconds));
+        usleep(static_cast<useconds_t>(tosleep_useconds));
     } else if (this->_tick) {
         WARNING(
             "Game: frame took too long to sleep (extra time: "
