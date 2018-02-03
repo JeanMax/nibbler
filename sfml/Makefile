@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/04 15:45:45 by mc               ###   ########.fr        #
+#    Updated: 2018/02/04 00:16:26 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -79,9 +79,11 @@ else
   UNAME_S = $(shell uname -s)
   ifeq ($(UNAME_S), Linux)
     ECHO = echo -e
+	SED = sed
     CPPFLAGS += -D LINUX
   else ifeq ($(UNAME_S), Darwin)
     ECHO = echo
+	SED = gsed
     CPPFLAGS += -D OSX
   endif
   UNAME_P = $(shell uname -p)
@@ -194,7 +196,7 @@ $(O_DIR):
 # install sfml
 $(SFML):
 	test -d $(SFML_DIR) || (test -f $(SFML_ARCHIVE) || $(CURL) $(SFML_URL) && $(UNZIP) $(SFML_ARCHIVE))
-	grep -q lgcc_s $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt || sed -i 's/\(# define the sfml-graphics target.*\)/if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS)\n    list(APPEND GRAPHICS_EXT_LIBS "-lgcc_s -lgcc")\nendif()\n\n\1/' $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt
+	grep -q lgcc_s $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt || $(SED) -i 's/\(# define the sfml-graphics target.*\)/if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS)\n    list(APPEND GRAPHICS_EXT_LIBS "-lgcc_s -lgcc")\nendif()\n\n\1/' $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt
 	cd $(SFML_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(SFML_INSTALL_DIR) -D SFML_BUILD_EXAMPLES=off -D SFML_BUILD_DOC=off .
 	$(MAKE) -C $(SFML_DIR) sfml-system
 	$(MAKE) -C $(SFML_DIR) sfml-window
