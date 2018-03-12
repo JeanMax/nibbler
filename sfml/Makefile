@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/02/04 00:16:26 by mcanal           ###   ########.fr        #
+#    Updated: 2018/03/12 17:56:51 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,13 +27,21 @@ VPATH =		src
 TEST_DIR =	test
 
 # sfml
+UNAME_S = $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+BREW_DIR = $(HOME)/.brew
+SFML_I_DIR = -I$(BREW_DIR)/include
+SFML_LIB =	-rpath $(BREW_DIR)/lib -L$(BREW_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
+SFML =		$(BREW_DIR)/lib/libsfml-graphics.dylib
+else
 SFML_DIR =	SFML-2.4.2
 SFML_INSTALL_DIR = $(shell pwd)/$(SFML_DIR)
 SFML_ARCHIVE = SFML-2.4.2-sources.zip
 SFML_URL =	 https://www.sfml-dev.org/files/$(SFML_ARCHIVE)
-SFML_I_DIR = -I$(SFML_INSTALL_DIR)/include
+SFML_I_DIR = -I$(SFML_INSTALL_DIR)/include -I$(SFML_INSTALL_DIR)
 SFML_LIB =	-rpath $(SFML_INSTALL_DIR)/lib -L$(SFML_INSTALL_DIR)/lib -lsfml-graphics -lsfml-window -lsfml-system # -lsfml-audio -lsfml-network
 SFML =		$(SFML_INSTALL_DIR)/lib/libsfml-graphics.so
+endif
 
 # folder-names containing headers files (prefix them with "-I")
 I_DIR =		-Iinc -I../core/inc -I../core/inc/game $(SFML_I_DIR)
@@ -59,6 +67,7 @@ MKDIR =		mkdir -p
 CURL =		curl -LO
 UNZIP =		unzip
 MAKE =		make
+CMAKE =		/Users/mcanal/.brew/bin/cmake
 MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 LD =		$(CXX)
@@ -195,9 +204,13 @@ $(O_DIR):
 
 # install sfml
 $(SFML):
+ifeq ($(UNAME_S), Darwin)
+	brew install sfml
+else
 	test -d $(SFML_DIR) || (test -f $(SFML_ARCHIVE) || $(CURL) $(SFML_URL) && $(UNZIP) $(SFML_ARCHIVE))
 	grep -q lgcc_s $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt || $(SED) -i 's/\(# define the sfml-graphics target.*\)/if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS)\n    list(APPEND GRAPHICS_EXT_LIBS "-lgcc_s -lgcc")\nendif()\n\n\1/' $(SFML_DIR)/src/SFML/Graphics/CMakeLists.txt
-	cd $(SFML_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(SFML_INSTALL_DIR) -D SFML_BUILD_EXAMPLES=off -D SFML_BUILD_DOC=off .
+	cd $(SFML_DIR) && $(CMAKE) -D CMAKE_INSTALL_PREFIX=$(SFML_INSTALL_DIR) -D SFML_BUILD_EXAMPLES=off -D SFML_BUILD_DOC=off .
 	$(MAKE) -C $(SFML_DIR) sfml-system
 	$(MAKE) -C $(SFML_DIR) sfml-window
 	$(MAKE) -C $(SFML_DIR) sfml-graphics
+endif

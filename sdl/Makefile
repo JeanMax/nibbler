@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/04 16:58:49 by mc               ###   ########.fr        #
+#    Updated: 2018/03/12 17:56:08 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,6 +27,13 @@ VPATH =		src
 TEST_DIR =	test
 
 # sdl
+UNAME_S = $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+BREW_DIR = $(HOME)/.brew
+SDL_I_DIR =	-I/Library/Frameworks/SDL2.framework/Headers
+SDL_LIB =	-framework SDL2 -framework Cocoa
+SDL =		$(BREW_DIR)/lib/libSDL.dylib
+else
 SDL_DIR =	SDL2-2.0.6
 SDL_INSTALL_DIR = $(shell pwd)/$(SDL_DIR)/install
 SDL_ARCHIVE = SDL2-2.0.6.tar.gz
@@ -34,6 +41,7 @@ SDL_URL =	https://www.libsdl.org/release/$(SDL_ARCHIVE)
 SDL_I_DIR =	$(shell ./$(SDL_DIR)/sdl2-config --cflags)
 SDL_LIB =	$(shell ./$(SDL_DIR)/sdl2-config --libs)
 SDL =		$(SDL_INSTALL_DIR)/lib/libSDL2.la
+endif
 
 # folder-names containing headers files (prefix them with "-I")
 I_DIR =		-Iinc -I../core/inc -I../core/inc/game $(SDL_I_DIR)
@@ -193,7 +201,11 @@ $(O_DIR):
 
 # install sdl
 $(SDL):
+ifeq ($(UNAME_S), Darwin)
+	brew install sdl
+else
 	test -d $(SDL_DIR) || (test -f $(SDL_ARCHIVE) || $(CURL) $(SDL_URL) && $(UNTAR) $(SDL_ARCHIVE))
 	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR) --disable-audio --disable-joystick --disable-haptic
 	$(MAKE) -C $(SDL_DIR)
 	$(MAKE) -C $(SDL_DIR) install
+endif

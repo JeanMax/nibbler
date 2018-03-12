@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/04 16:59:31 by mc               ###   ########.fr        #
+#    Updated: 2018/03/12 17:37:58 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -27,6 +27,13 @@ VPATH =		src
 TEST_DIR =	test
 
 # allegro
+UNAME_S = $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+BREW_DIR = $(HOME)/.brew
+ALLEGRO_I_DIR =	-I$(BREW_DIR)/include
+ALLEGRO_LIB =	-rpath $(BREW_DIR)/lib -L$(BREW_DIR)/lib -lallegro -lallegro_main -lallegro_primitives
+ALLEGRO =		$(BREW_DIR)/lib/liballegro.dylib
+else
 ALLEGRO_DIR =	allegro-5.2.2.0
 ALLEGRO_INSTALL_DIR = $(shell pwd)/$(ALLEGRO_DIR)/install
 ALLEGRO_ARCHIVE = allegro-5.2.2.tar.gz
@@ -34,6 +41,7 @@ ALLEGRO_URL =	 https://github.com/liballeg/allegro5/releases/download/5.2.2.0/$(
 ALLEGRO_I_DIR =	-I$(ALLEGRO_INSTALL_DIR)/include
 ALLEGRO_LIB =	-rpath $(ALLEGRO_INSTALL_DIR)/lib -L$(ALLEGRO_INSTALL_DIR)/lib -lallegro -lallegro_main -lallegro_primitives
 ALLEGRO =		$(ALLEGRO_INSTALL_DIR)/lib/liballegro.so
+endif
 
 # folder-names containing headers files (prefix them with "-I")
 I_DIR =		-Iinc -I../core/inc -I../core/inc/game $(ALLEGRO_I_DIR)
@@ -193,8 +201,12 @@ $(O_DIR):
 
 # install allegro
 $(ALLEGRO):
+ifeq ($(UNAME_S), Darwin)
+	brew install allegro
+else
 	test -d $(ALLEGRO_DIR) || (test -f $(ALLEGRO_ARCHIVE) || $(CURL) $(ALLEGRO_URL) && $(UNTAR) $(ALLEGRO_ARCHIVE))
 	$(MKDIR) $(ALLEGRO_INSTALL_DIR)
 	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) -D WANT_DOCS=off -D WANT_DOCS_HTML=off -D WANT_DOCS_MAN=off -D WANT_FONT=off -D WANT_AUDIO=off -D WANT_IMAGE=off -D WANT_IMAGE_PNG=off -D WANT_TTF=off -D WANT_PHYSFS=off -D WANT_PRIMITIVES=on -D WANT_NATIVE_DIALOG=off -D WANT_VIDEO=off -D WANT_RELEASE_LOGGING=off -D WANT_DEMO=off -D WANT_EXAMPLES=off -D WANT_POPUP_EXAMPLES=off -D WANT_TESTS=off .
 	$(MAKE) -C $(ALLEGRO_DIR)
 	$(MAKE) -C $(ALLEGRO_DIR) install
+endif
