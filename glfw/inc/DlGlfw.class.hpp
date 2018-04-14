@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DlAllegro.class.hpp                                :+:      :+:    :+:   */
+/*   DlGlfw.class.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:06:27 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 19:57:14 by bmbarga          ###   ########.fr       */
+//   Updated: 2018/04/14 21:21:15 by mcanal           ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DLALLEGRO_CLASS_HPP
-# define DLALLEGRO_CLASS_HPP
+#ifndef DLGLFW_CLASS_HPP
+# define DLGLFW_CLASS_HPP
 
 #include "IDl.class.hpp"
-#include "allegro5/allegro.h"
-#include "allegro5/allegro_primitives.h"
+#include <GLFW/glfw3.h>
 
 typedef struct	s_color
 {
@@ -95,23 +94,20 @@ t_color					g_col_bonus = {
 };
 extern t_color			g_col_bonus;
 
-class		DlAllegro : public IDl
+class		DlGlfw : public IDl
 {
 	public:
-	ALLEGRO_DISPLAY			*win;
-	ALLEGRO_EVENT_QUEUE		*e_queue;
-	ALLEGRO_EVENT			*event;
-	ALLEGRO_BITMAP			*area;
+	GLFWwindow			*win;
 
 //constructors
-	DlAllegro(void);
-	DlAllegro(DlAllegro const &rhs);
+	DlGlfw(void);
+	DlGlfw(DlGlfw const &rhs);
 
 //destructor
-	virtual			~DlAllegro(void);
+	virtual			~DlGlfw(void);
 
 //operator overload
-	DlAllegro	&operator=(DlAllegro const &rhs);
+	DlGlfw	&operator=(DlGlfw const &rhs);
 
 //actions
  	virtual void	print(enum game_entity **map, const unsigned int width, const unsigned int height);

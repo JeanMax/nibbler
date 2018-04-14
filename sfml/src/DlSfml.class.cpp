@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:03:03 by bmbarga           #+#    #+#             */
-/*   Updated: 2017/10/03 19:18:17 by bmbarga          ###   ########.fr       */
+//   Updated: 2018/04/14 21:17:41 by mcanal           ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	setRect(t_rect *r, int x, int y, int w, int h)
 	t_rect			r;
 	t_color			col;
 	bool			fill;
-	
+
 	(void)map;
 	(void)width;
 	(void)height;
@@ -209,7 +209,6 @@ IDl				*dl_init(void)
 
 	//center window
 	dl->win->setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width / 2) - MAX_WIDTH * UNIT / 2,
-
  	 						(sf::VideoMode::getDesktopMode().height / 2) - MAX_HEIGHT * UNIT / 2));
 
 	if (!(dl->event = new sf::Event))

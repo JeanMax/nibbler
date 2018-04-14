@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/03/12 17:37:58 by mcanal           ###   ########.fr        #
+#    Updated: 2018/04/14 19:11:19 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,10 +15,10 @@
 ##
 
 # name of the lib to make
-NAME =		libdlallegro.so
+NAME =		libdlglfw.so
 
 # file-names of the sources
-SRCS =		DlAllegro.class.cpp
+SRCS =		DlGlfw.class.cpp
 
 # folder-names of the sources (':' separated list)
 VPATH =		src
@@ -26,28 +26,28 @@ VPATH =		src
 # where are your tests?
 TEST_DIR =	test
 
-# allegro
+# glfw
 UNAME_S = $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 BREW_DIR = $(HOME)/.brew
-ALLEGRO_I_DIR =	-I$(BREW_DIR)/include
-ALLEGRO_LIB =	-rpath $(BREW_DIR)/lib -L$(BREW_DIR)/lib -lallegro -lallegro_main -lallegro_primitives
-ALLEGRO =		$(BREW_DIR)/lib/liballegro.dylib
+GLFW_I_DIR =	-I$(BREW_DIR)/include
+GLFW_LIB =	-rpath -L/Users/mcanal/.brew/Cellar/glfw/3.2.1/lib -lglfw
+GLFW =		$(BREW_DIR)/lib/libglfw.dylib
 else
-ALLEGRO_DIR =	allegro-5.2.2.0
-ALLEGRO_INSTALL_DIR = $(shell pwd)/$(ALLEGRO_DIR)/install
-ALLEGRO_ARCHIVE = allegro-5.2.2.tar.gz
-ALLEGRO_URL =	 https://github.com/liballeg/allegro5/releases/download/5.2.2.0/$(ALLEGRO_ARCHIVE)
-ALLEGRO_I_DIR =	-I$(ALLEGRO_INSTALL_DIR)/include
-ALLEGRO_LIB =	-rpath $(ALLEGRO_INSTALL_DIR)/lib -L$(ALLEGRO_INSTALL_DIR)/lib -lallegro -lallegro_main -lallegro_primitives
-ALLEGRO =		$(ALLEGRO_INSTALL_DIR)/lib/liballegro.so
+GLFW_DIR =	glfw-5.2.2.0
+GLFW_INSTALL_DIR = $(shell pwd)/$(GLFW_DIR)/install
+GLFW_ARCHIVE = glfw-5.2.2.tar.gz
+GLFW_URL =	 https://github.com/liballeg/glfw5/releases/download/3.2.1/$(GLFW_ARCHIVE)
+GLFW_I_DIR =	-I$(GLFW_INSTALL_DIR)/include
+GLFW_LIB =	-rpath $(GLFW_INSTALL_DIR)/lib -L$(GLFW_INSTALL_DIR)/lib -lglfw -lglfw_main -lglfw_primitives
+GLFW =		$(GLFW_INSTALL_DIR)/lib/libglfw.so
 endif
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Iinc -I../core/inc -I../core/inc/game $(ALLEGRO_I_DIR)
+I_DIR =		-Iinc -I../core/inc -I../core/inc/game $(GLFW_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		$(ALLEGRO_LIB)
+LIBS =		$(GLFW_LIB)
 
 
 
@@ -127,11 +127,11 @@ endif
 ##
 
 # just to avoid conflicts between rules and files/folders names
-.PHONY: all debug sanitize me_cry re clean fclean mrproper test allegro
+.PHONY: all debug sanitize me_cry re clean fclean mrproper test glfw
 
 # classic build
 all: $(O_DIR)
-	$(MAKE) allegro
+	$(MAKE) glfw
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
@@ -153,24 +153,24 @@ re: fclean all
 # run tests on project
 test: all
 
-# install allegro
-allegro: $(ALLEGRO)
+# install glfw
+glfw: $(GLFW)
 
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(DEPS)
-	$(RM) $(ALLEGRO_ARCHIVE)
+	$(RM) $(GLFW_ARCHIVE)
 
 # remove the generated binary, and all .o and .d
 fclean: clean
 	$(RM) $(NAME)
-#	test -e $(ALLEGRO_DIR) && $(MAKE) -C $(ALLEGRO_DIR) clean || true
+#	test -e $(GLFW_DIR) && $(MAKE) -C $(GLFW_DIR) clean || true
 
 # just clean everything this Makefile could have generated
 mrproper: fclean
 	test -d $(O_DIR) && $(RMDIR) $(O_DIR) || true
-	$(RM) -r $(ALLEGRO_DIR)
+	$(RM) -r $(GLFW_DIR)
 
 
 
@@ -199,14 +199,14 @@ $(O_DIR)/%.o: %.cpp
 $(O_DIR):
 	$(MKDIR) $(O_DIR)
 
-# install allegro
-$(ALLEGRO):
+# install glfw
+$(GLFW):
 ifeq ($(UNAME_S), Darwin)
-	brew install allegro
+	brew install glfw
 else
-	test -d $(ALLEGRO_DIR) || (test -f $(ALLEGRO_ARCHIVE) || $(CURL) $(ALLEGRO_URL) && $(UNTAR) $(ALLEGRO_ARCHIVE))
-	$(MKDIR) $(ALLEGRO_INSTALL_DIR)
-	cd $(ALLEGRO_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(ALLEGRO_INSTALL_DIR) -D WANT_DOCS=off -D WANT_DOCS_HTML=off -D WANT_DOCS_MAN=off -D WANT_FONT=off -D WANT_AUDIO=off -D WANT_IMAGE=off -D WANT_IMAGE_PNG=off -D WANT_TTF=off -D WANT_PHYSFS=off -D WANT_PRIMITIVES=on -D WANT_NATIVE_DIALOG=off -D WANT_VIDEO=off -D WANT_RELEASE_LOGGING=off -D WANT_DEMO=off -D WANT_EXAMPLES=off -D WANT_POPUP_EXAMPLES=off -D WANT_TESTS=off .
-	$(MAKE) -C $(ALLEGRO_DIR)
-	$(MAKE) -C $(ALLEGRO_DIR) install
+	test -d $(GLFW_DIR) || (test -f $(GLFW_ARCHIVE) || $(CURL) $(GLFW_URL) && $(UNTAR) $(GLFW_ARCHIVE))
+	$(MKDIR) $(GLFW_INSTALL_DIR)
+	cd $(GLFW_DIR) && cmake -D CMAKE_INSTALL_PREFIX=$(GLFW_INSTALL_DIR) -D WANT_DOCS=off -D WANT_DOCS_HTML=off -D WANT_DOCS_MAN=off -D WANT_FONT=off -D WANT_AUDIO=off -D WANT_IMAGE=off -D WANT_IMAGE_PNG=off -D WANT_TTF=off -D WANT_PHYSFS=off -D WANT_PRIMITIVES=on -D WANT_NATIVE_DIALOG=off -D WANT_VIDEO=off -D WANT_RELEASE_LOGGING=off -D WANT_DEMO=off -D WANT_EXAMPLES=off -D WANT_POPUP_EXAMPLES=off -D WANT_TESTS=off .
+	$(MAKE) -C $(GLFW_DIR)
+	$(MAKE) -C $(GLFW_DIR) install
 endif

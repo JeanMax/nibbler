@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/03/12 17:56:08 by mcanal           ###   ########.fr        #
+#    Updated: 2018/04/14 19:11:42 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -32,7 +32,7 @@ ifeq ($(UNAME_S), Darwin)
 BREW_DIR = $(HOME)/.brew
 SDL_I_DIR =	-I/Library/Frameworks/SDL2.framework/Headers
 SDL_LIB =	-framework SDL2 -framework Cocoa
-SDL =		$(BREW_DIR)/lib/libSDL.dylib
+SDL =		$(BREW_DIR)/lib/libSDL2.dylib
 else
 SDL_DIR =	SDL2-2.0.6
 SDL_INSTALL_DIR = $(shell pwd)/$(SDL_DIR)/install
@@ -202,7 +202,7 @@ $(O_DIR):
 # install sdl
 $(SDL):
 ifeq ($(UNAME_S), Darwin)
-	brew install sdl
+	brew install sdl2
 else
 	test -d $(SDL_DIR) || (test -f $(SDL_ARCHIVE) || $(CURL) $(SDL_URL) && $(UNTAR) $(SDL_ARCHIVE))
 	cd $(SDL_DIR) && ./configure --prefix=$(SDL_INSTALL_DIR) --disable-audio --disable-joystick --disable-haptic

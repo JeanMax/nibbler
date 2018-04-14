@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/10/04 16:28:13 by mc               ###   ########.fr        #
+#    Updated: 2018/04/14 19:02:59 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -53,17 +53,17 @@ SFML_I_DIR = -I$(SFML_DIR)/inc
 SFML =		libdlsfml.so
 SFML_LIB =	-rpath $(SFML_DIR) -L$(SFML_DIR) -ldlsfml
 
-# allegro
-ALLEGRO_DIR =	allegro
-ALLEGRO_I_DIR = -I$(ALLEGRO_DIR)/inc
-ALLEGRO =		libdlallegro.so
-ALLEGRO_LIB =	-rpath $(ALLEGRO_DIR) -L$(ALLEGRO_DIR) -ldlallegro
+# glfw
+GLFW_DIR =	glfw
+GLFW_I_DIR = -I$(GLFW_DIR)/inc
+GLFW =		libdlglfw.so
+GLFW_LIB =	-rpath $(GLFW_DIR) -L$(GLFW_DIR) -ldlglfw
 
 # folder-names containing headers files (prefix them with "-I")
-I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR) $(ALLEGRO_I_DIR)# $(LFT_I_DIR)
+I_DIR =		-Icore/inc	-Icore/inc/argv_parser	-Icore/inc/game	#$(SDL_I_DIR)	$(SFML_I_DIR) $(GLFW_I_DIR)# $(LFT_I_DIR)
 
 # extra libraries needed for linking
-LIBS =		-ldl #$(SDL_LIB)	$(SFML_LIB)	$(ALLEGRO_LIB)	#$(LFT_LIB)		-lm
+LIBS =		-ldl #$(SDL_LIB)	$(SFML_LIB)	$(GLFW_LIB)	#$(LFT_LIB)		-lm
 
 
 
@@ -150,10 +150,10 @@ all: $(O_DIR)
 #	$(MAKE) -C $(LFT_DIR) $(FLAGS)
 	$(MAKE) -C $(SDL_DIR) $(FLAGS)
 	$(MAKE) -C $(SFML_DIR) $(FLAGS)
-	$(MAKE) -C $(ALLEGRO_DIR) $(FLAGS)
+	$(MAKE) -C $(GLFW_DIR) $(FLAGS)
 	test -L $(SDL) || $(LN) $(SDL_DIR)/$(SDL) $(SDL)
 	test -L $(SFML) || $(LN) $(SFML_DIR)/$(SFML) $(SFML)
-	test -L $(ALLEGRO) || $(LN) $(ALLEGRO_DIR)/$(ALLEGRO) $(ALLEGRO)
+	test -L $(GLFW) || $(LN) $(GLFW_DIR)/$(GLFW) $(GLFW)
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging
@@ -186,10 +186,10 @@ fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(SDL_DIR) fclean
 	$(MAKE) -C $(SFML_DIR) fclean
-	$(MAKE) -C $(ALLEGRO_DIR) fclean
+	$(MAKE) -C $(GLFW_DIR) fclean
 	test -L $(SDL) && $(UNLINK) $(SDL) || true
 	test -L $(SFML) && $(UNLINK) $(SFML) || true
-	test -L $(ALLEGRO) && $(UNLINK) $(ALLEGRO) || true
+	test -L $(GLFW) && $(UNLINK) $(GLFW) || true
 
 # just clean everything this Makefile could have generated
 mrproper: fclean
@@ -197,7 +197,7 @@ mrproper: fclean
 	$(MAKE) -C $(TEST_DIR) mrproper
 	$(MAKE) -C $(SDL_DIR) mrproper
 	$(MAKE) -C $(SFML_DIR) mrproper
-	$(MAKE) -C $(ALLEGRO_DIR) mrproper
+	$(MAKE) -C $(GLFW_DIR) mrproper
 #	$(MAKE) -C $(LFT_DIR) fclean
 
 
