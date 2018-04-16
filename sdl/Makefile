@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/04/14 19:11:42 by mcanal           ###   ########.fr        #
+#    Updated: 2018/04/16 17:41:34 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -30,8 +30,8 @@ TEST_DIR =	test
 UNAME_S = $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 BREW_DIR = $(HOME)/.brew
-SDL_I_DIR =	-I/Library/Frameworks/SDL2.framework/Headers
-SDL_LIB =	-framework SDL2 -framework Cocoa
+SDL_I_DIR =	$(shell sdl2-config --cflags)
+SDL_LIB =	$(shell sdl2-config --libs)
 SDL =		$(BREW_DIR)/lib/libSDL2.dylib
 else
 SDL_DIR =	SDL2-2.0.6
