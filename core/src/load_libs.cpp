@@ -6,7 +6,7 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 17:20:20 by bmbarga           #+#    #+#             */
-//   Updated: 2017/10/03 22:22:09 by mc               ###   ########.fr       //
+//   Updated: 2018/04/16 17:48:04 by mcanal           ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 
 #define PATH_SDL		"./libdlsdl.so"
 #define PATH_SFML		"./libdlsfml.so"
-#define PATH_ALLEGRO	"./libdlallegro.so"
+#define PATH_GLFW		"./libdlglfw.so"
 
 t_dl				g_dl = {NULL, NULL, NULL};
 
 static std::string	paths[3] = {
 								PATH_SDL,\
 								PATH_SFML,\
-								PATH_ALLEGRO,\
+								PATH_GLFW,\
 								};
 
 static void		load_symbols(IDl *(**dl_init)(void), void (**dl_close)(IDl*), int index)

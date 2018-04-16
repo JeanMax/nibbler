@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/04/14 19:11:19 by mcanal           ###   ########.fr        #
+#    Updated: 2018/04/16 17:45:00 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -30,8 +30,8 @@ TEST_DIR =	test
 UNAME_S = $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 BREW_DIR = $(HOME)/.brew
-GLFW_I_DIR =	-I$(BREW_DIR)/include
-GLFW_LIB =	-rpath -L/Users/mcanal/.brew/Cellar/glfw/3.2.1/lib -lglfw
+GLFW_I_DIR = $(shell pkg-config --cflags glfw3)
+GLFW_LIB =	$(shell pkg-config --libs glfw3)
 GLFW =		$(BREW_DIR)/lib/libglfw.dylib
 else
 GLFW_DIR =	glfw-5.2.2.0

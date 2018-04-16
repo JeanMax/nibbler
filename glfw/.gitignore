@@ -1,4 +1,4 @@
-libdlallegro.so
+libdlglfw.so
 obj
-allegro-5.2.2.tar.gz
-allegro-5.2.2.0
+glfw-5.2.2.tar.gz
+glfw-5.2.2.0

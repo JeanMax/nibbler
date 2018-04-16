@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/29 16:27:44 by mc                #+#    #+#             //
-//   Updated: 2017/10/02 23:14:06 by mc               ###   ########.fr       //
+//   Updated: 2018/04/16 17:47:25 by mcanal           ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -18,7 +18,7 @@
 
 # define LIB_NAME_A "sdl"
 # define LIB_NAME_B "sfml"
-# define LIB_NAME_C "allegro"
+# define LIB_NAME_C "glfw"
 # define AVAILABLE_LIB_NAMES LIB_NAME_A "/" LIB_NAME_B "/" LIB_NAME_C
 
 # define DEFAULT_LIB      LIB_A
