@@ -6,15 +6,16 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:06:27 by bmbarga           #+#    #+#             */
-//   Updated: 2018/04/14 21:21:15 by mcanal           ###   ########.fr       //
+//   Updated: 2018/04/19 15:34:41 by mcanal           ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DLGLFW_CLASS_HPP
 # define DLGLFW_CLASS_HPP
 
-#include "IDl.class.hpp"
-#include <GLFW/glfw3.h>
+# include "IDl.class.hpp"
+# include <GL/glew.h>
+# include <GLFW/glfw3.h>
 
 typedef struct	s_color
 {

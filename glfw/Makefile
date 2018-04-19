@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/04/16 17:45:00 by mcanal           ###   ########.fr        #
+#    Updated: 2018/04/19 15:37:05 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -30,8 +30,8 @@ TEST_DIR =	test
 UNAME_S = $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
 BREW_DIR = $(HOME)/.brew
-GLFW_I_DIR = $(shell pkg-config --cflags glfw3)
-GLFW_LIB =	$(shell pkg-config --libs glfw3)
+GLFW_I_DIR = $(shell pkg-config --cflags glfw3 glew)
+GLFW_LIB =	$(shell pkg-config --libs glfw3 glew) -framework OpenGL
 GLFW =		$(BREW_DIR)/lib/libglfw.dylib
 else
 GLFW_DIR =	glfw-5.2.2.0
@@ -39,7 +39,7 @@ GLFW_INSTALL_DIR = $(shell pwd)/$(GLFW_DIR)/install
 GLFW_ARCHIVE = glfw-5.2.2.tar.gz
 GLFW_URL =	 https://github.com/liballeg/glfw5/releases/download/3.2.1/$(GLFW_ARCHIVE)
 GLFW_I_DIR =	-I$(GLFW_INSTALL_DIR)/include
-GLFW_LIB =	-rpath $(GLFW_INSTALL_DIR)/lib -L$(GLFW_INSTALL_DIR)/lib -lglfw -lglfw_main -lglfw_primitives
+GLFW_LIB =	 -rpath $(GLFW_INSTALL_DIR)/lib -L$(GLFW_INSTALL_DIR)/lib -lglfw -lglfw_main -lglfw_primitives
 GLFW =		$(GLFW_INSTALL_DIR)/lib/libglfw.so
 endif
 
@@ -202,7 +202,7 @@ $(O_DIR):
 # install glfw
 $(GLFW):
 ifeq ($(UNAME_S), Darwin)
-	brew install glfw
+	brew install glfw glew
 else
 	test -d $(GLFW_DIR) || (test -f $(GLFW_ARCHIVE) || $(CURL) $(GLFW_URL) && $(UNTAR) $(GLFW_ARCHIVE))
 	$(MKDIR) $(GLFW_INSTALL_DIR)

@@ -6,19 +6,29 @@
 /*   By: bmbarga <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 20:06:39 by bmbarga           #+#    #+#             */
-//   Updated: 2018/04/14 21:19:13 by mcanal           ###   ########.fr       //
+//   Updated: 2018/04/19 15:35:03 by mcanal           ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "DlGlfw.class.hpp"
 #include <iostream>
 
-DlGlfw::DlGlfw(void):IDl(), win(NULL), area(NULL)
+DlGlfw::DlGlfw(void):IDl(), win(NULL)
 {
 }
 
 DlGlfw::~DlGlfw(void)
 {
+}
+
+static void drawRect(t_rect *r)
+{
+	glBegin(GL_POLYGON);
+	glVertex2i(r->x, r->y);
+	glVertex2i(r->x + r->w, r->y);
+	glVertex2i(r->x + r->w, r->y + r->h);
+	glVertex2i(r->x, r->y + r->h);
+	glEnd();
 }
 
 static void	setRect(t_rect *r, int x, int y, int w, int h)
@@ -37,23 +47,27 @@ void		DlGlfw::print(enum game_entity **map, const unsigned int width, const unsi
 	t_rect		r;
 	bool		fill;
 
-	if (!this->area)
-	{
-		if (!(this->area = glfw_create_bitmap(width * UNIT, height * UNIT)))
-		{
-			std::cout << "Error : texture area set to null" << std::endl;
-			exit(EXIT_FAILURE);
-		}
-	}
+	(void)width;				// DEBUG
+	(void)height;				// DEBUG
+
+	// if (!this->area)
+	// {
+	// 	if (!(this->area = glfw_create_bitmap(width * UNIT, height * UNIT)))
+	// 	{
+	// 		std::cout << "Error : texture area set to null" << std::endl;
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// }
+
 	//clear background
-	glfw_set_target_bitmap(glfw_get_backbuffer(this->win));
-	col = g_col_white;
-	glfw_clear_to_color(glfw_map_rgb(col.r, col.g, col.b));
+	// glfw_set_target_bitmap(glfw_get_backbuffer(this->win));
+	// col = g_col_white;
+	// glfw_clear_to_color(glfw_map_rgb(col.r, col.g, col.b));
 
 	//set map area
-	glfw_set_target_bitmap(this->area);
-	col = g_col_black;
-	glfw_clear_to_color(glfw_map_rgb(col.r, col.g, col.b));
+	// glfw_set_target_bitmap(this->area);
+	// col = g_col_black;
+	// glfw_clear_to_color(glfw_map_rgb(col.r, col.g, col.b));
 
 	//display map area
 	for (int i = 0; map[i]; i++)
@@ -97,63 +111,63 @@ void		DlGlfw::print(enum game_entity **map, const unsigned int width, const unsi
 						fill = false;
 					}
 				}
-				if (fill)
-					glfw_draw_filled_rectangle(r.x, r.y, r.w, r.h, glfw_map_rgb(col.r, col.g, col.b));
-				else
-					glfw_draw_rectangle(r.x, r.y, r.w, r.h, glfw_map_rgb(col.r, col.g, col.b), 1);
+				// if (fill)
+				// 	glfw_draw_filled_rectangle(r.x, r.y, r.w, r.h, glfw_map_rgb(col.r, col.g, col.b));
+				// else
+				// 	glfw_draw_rectangle(r.x, r.y, r.w, r.h, glfw_map_rgb(col.r, col.g, col.b), 1);
 			}
 		}
 	}
 
 	//
-	glfw_set_target_bitmap(glfw_get_backbuffer(this->win));
-	glfw_draw_bitmap(this->area, (MAX_WIDTH / 2 - width / 2) * UNIT, (MAX_HEIGHT / 2 - height / 2) * UNIT, 0);
-	glfw_flip_display();
+	// glfw_set_target_bitmap(glfw_get_backbuffer(this->win));
+	// glfw_draw_bitmap(this->area, (MAX_WIDTH / 2 - width / 2) * UNIT, (MAX_HEIGHT / 2 - height / 2) * UNIT, 0);
+	// glfw_flip_display();
 }
 
 key			DlGlfw::keyEvent(void)
 {
 	key		e = KEY_NONE;
 
-	if (glfw_is_event_queue_empty(this->e_queue))
-		return (KEY_NONE);
-	glfw_wait_for_event(this->e_queue, this->event);
-	if (this->event->type == GLFW_EVENT_DISPLAY_CLOSE)
-		return (KEY_EXIT);
-	else if (this->event->type == GLFW_EVENT_KEY_DOWN)
-	{
-		switch (this->event->keyboard.keycode)
-		{
-			case GLFW_KEY_A:
-				return (KEY_LEFT_A);
-			case GLFW_KEY_S:
-				return (KEY_RIGHT_A);
-			case GLFW_KEY_G:
-				return (KEY_LEFT_B);
-			case GLFW_KEY_H:
-				return (KEY_RIGHT_B);
-			case GLFW_KEY_K:
-				return (KEY_LEFT_C);
-			case GLFW_KEY_L:
-				return (KEY_RIGHT_C);
-			case GLFW_KEY_LEFT:
-				return (KEY_LEFT_D);
-			case GLFW_KEY_RIGHT:
-				return (KEY_RIGHT_D);
+	// if (glfw_is_event_queue_empty(this->e_queue))
+	// 	return (KEY_NONE);
+	// glfw_wait_for_event(this->e_queue, this->event);
+	// if (this->event->type == GLFW_EVENT_DISPLAY_CLOSE)
+	// 	return (KEY_EXIT);
+	// else if (this->event->type == GLFW_EVENT_KEY_DOWN)
+	// {
+	// 	switch (this->event->keyboard.keycode)
+	// 	{
+	// 		case GLFW_KEY_A:
+	// 			return (KEY_LEFT_A);
+	// 		case GLFW_KEY_S:
+	// 			return (KEY_RIGHT_A);
+	// 		case GLFW_KEY_G:
+	// 			return (KEY_LEFT_B);
+	// 		case GLFW_KEY_H:
+	// 			return (KEY_RIGHT_B);
+	// 		case GLFW_KEY_K:
+	// 			return (KEY_LEFT_C);
+	// 		case GLFW_KEY_L:
+	// 			return (KEY_RIGHT_C);
+	// 		case GLFW_KEY_LEFT:
+	// 			return (KEY_LEFT_D);
+	// 		case GLFW_KEY_RIGHT:
+	// 			return (KEY_RIGHT_D);
 
-			case GLFW_KEY_1:
-				return (KEY_LIB_A);
-			case GLFW_KEY_2:
-				return (KEY_LIB_B);
-			case GLFW_KEY_3:
-				return (KEY_LIB_C);
+	// 		case GLFW_KEY_1:
+	// 			return (KEY_LIB_A);
+	// 		case GLFW_KEY_2:
+	// 			return (KEY_LIB_B);
+	// 		case GLFW_KEY_3:
+	// 			return (KEY_LIB_C);
 
-			case GLFW_KEY_ESCAPE:
-				return (KEY_EXIT);
-			default:
-				break ;
-		}
-	}
+	// 		case GLFW_KEY_ESCAPE:
+	// 			return (KEY_EXIT);
+	// 		default:
+	// 			break ;
+	// 	}
+	// }
 	return e;
 }
 
@@ -194,10 +208,14 @@ IDl				*dl_init(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	glfwSetWindowTitle("GLFW");
 	//TODO: center window?
 
-	glfwMakeContextCurrent(window);
+	glClearColor(0,0,0,0);
+	glfwMakeContextCurrent(dl->win);
+
+	glewExperimental = GL_TRUE;
+	glewInit();
+
 
 	return (dynamic_cast<IDl*>(dl));
 }

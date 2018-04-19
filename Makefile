@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/04/16 17:45:42 by mcanal           ###   ########.fr        #
+#    Updated: 2018/04/16 18:00:08 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -150,10 +150,10 @@ all: $(O_DIR)
 #	$(MAKE) -C $(LFT_DIR) $(FLAGS)
 	$(MAKE) -C $(SDL_DIR) $(FLAGS)
 	$(MAKE) -C $(SFML_DIR) $(FLAGS)
-	# $(MAKE) -C $(GLFW_DIR) $(FLAGS)
+	$(MAKE) -C $(GLFW_DIR) $(FLAGS)
 	test -L $(SDL) || $(LN) $(SDL_DIR)/$(SDL) $(SDL)
 	test -L $(SFML) || $(LN) $(SFML_DIR)/$(SFML) $(SFML)
-	# test -L $(GLFW) || $(LN) $(GLFW_DIR)/$(GLFW) $(GLFW)
+	test -L $(GLFW) || $(LN) $(GLFW_DIR)/$(GLFW) $(GLFW)
 	$(MAKE) $(NAME) $(FLAGS)
 
 # build for gdb/valgrind debugging

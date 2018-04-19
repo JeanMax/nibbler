@@ -1,6 +1,6 @@
 nibbler
 libdlsdl.so
 libdlsfml.so
-libdlallegro.so
+libdlglfw.so
 obj
 *.sw*
